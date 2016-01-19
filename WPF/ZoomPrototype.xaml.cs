@@ -10,11 +10,14 @@ namespace WPF
     /// </summary>
     public partial class ZoomPrototype : Window
     {
-        
+
+        private Location centerLocation;
+           
         public ZoomPrototype(Tracker tracker)
         {
             InitializeComponent();
             map.Mode = new AerialMode(true);
+            this.centerLocation = map.Center;
         }
     }
 }

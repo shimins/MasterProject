@@ -19,8 +19,12 @@ namespace WPF
 
         private Point3D _leftPos;
         private Point3D _rightPos;
-        private Point3D _leftGaze;
-        private Point3D _rightGaze;
+        private Point2D _leftGaze;
+        private Point2D _rightGaze;
+
+        private Point _point;
+        //private Point3D _leftGaze;
+        //private Point3D _rightGaze;
 
 
         public Tracker()
@@ -131,14 +135,21 @@ namespace WPF
             _rightPos.Y = e.GazeDataItem.RightEyePosition3D.Y / D;
             _rightPos.Z = e.GazeDataItem.RightEyePosition3D.Z / D;
 
-            _leftGaze.X = e.GazeDataItem.LeftGazePoint3D.X / D;
-            _leftGaze.Y = e.GazeDataItem.LeftGazePoint3D.Y / D;
-            _leftGaze.Z = e.GazeDataItem.LeftGazePoint3D.Z / D;
+            _leftGaze.Y = e.GazeDataItem.LeftGazePoint2D.Y;
+            _leftGaze.X = e.GazeDataItem.LeftGazePoint2D.X;
 
-            _rightGaze.X = e.GazeDataItem.RightGazePoint3D.X / D;
-            _rightGaze.Y = e.GazeDataItem.RightGazePoint3D.Y / D;
-            _rightGaze.Z = e.GazeDataItem.RightGazePoint3D.Z / D;
-            
+            _point = new Point((int)(_leftGaze.X * Width), (int)(_leftGaze.Y * Height));
+
+            //Write the position change here
+
+            //_leftGaze.X = e.GazeDataItem.LeftGazePoint3D.X / D;
+            //_leftGaze.Y = e.GazeDataItem.LeftGazePoint3D.Y / D;
+            //_leftGaze.Z = e.GazeDataItem.LeftGazePoint3D.Z / D;
+
+            //_rightGaze.X = e.GazeDataItem.RightGazePoint3D.X / D;
+            //_rightGaze.Y = e.GazeDataItem.RightGazePoint3D.Y / D;
+            //_rightGaze.Z = e.GazeDataItem.RightGazePoint3D.Z / D;
+
 
 
             // Set which eyes to show
