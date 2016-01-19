@@ -71,6 +71,9 @@
     <Reference Include="ImageBlur">
       <HintPath>..\ImageBlur\bin\Debug\ImageBlur.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Maps.MapControl.WPF">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Bing Maps WPF Control\V1\Libraries\Microsoft.Maps.MapControl.WPF.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -100,8 +103,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ConnectToTracker.xaml.cs">
-      <DependentUpon>ConnectToTracker.xaml</DependentUpon>
+    <Compile Include="Tracker.xaml.cs">
+      <DependentUpon>Tracker.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -109,7 +112,7 @@
     <Compile Include="ZoomPrototype.xaml.cs">
       <DependentUpon>ZoomPrototype.xaml</DependentUpon>
     </Compile>
-    <Page Include="ConnectToTracker.xaml">
+    <Page Include="Tracker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

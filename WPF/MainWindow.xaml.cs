@@ -21,25 +21,25 @@ namespace WPF
     public partial class MainWindow : Window
     {
         private ZoomPrototype zoom;
-        private ConnectToTracker connect;
+        private Tracker tracker;
         
         public MainWindow()
         {
             Library.Init();
             InitializeComponent();
-            connect = new ConnectToTracker();
+            tracker = new Tracker();
         }
 
         private void ZoomPrototypeButton_OnClick(object sender, RoutedEventArgs e)
         {
-            zoom = new ZoomPrototype();
+            zoom = new ZoomPrototype(tracker);
             this.Hide();
             zoom.Show();
         }
 
         private void EyeTracker_onClick(object sender, RoutedEventArgs e)
         {
-            connect.Show();
+            tracker.Show();
         }
     }
 }

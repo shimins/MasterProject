@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Microsoft.Maps.MapControl.WPF;
 using Tobii.EyeTracking.IO;
 
 namespace WPF
@@ -10,11 +11,10 @@ namespace WPF
     public partial class ZoomPrototype : Window
     {
         
-        public ZoomPrototype()
+        public ZoomPrototype(Tracker tracker)
         {
             InitializeComponent();
+            map.Mode = new AerialMode(true);
         }
-
-
     }
 }

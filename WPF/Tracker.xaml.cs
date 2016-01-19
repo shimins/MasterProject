@@ -9,7 +9,7 @@ namespace WPF
     /// <summary>
     /// Interaction logic for ConnectToTracker.xaml
     /// </summary>
-    public partial class ConnectToTracker : Window
+    public partial class Tracker : Window
     {
         private readonly EyeTrackerBrowser _browser;
 
@@ -23,7 +23,7 @@ namespace WPF
         private Point3D _rightGaze;
 
 
-        public ConnectToTracker()
+        public Tracker()
         {
             _browser = new EyeTrackerBrowser();
             StartBrowsing();

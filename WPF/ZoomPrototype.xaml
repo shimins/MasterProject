@@ -1,12 +1,16 @@
 ﻿<Window x:Class="WPF.ZoomPrototype"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPF"
-        mc:Ignorable="d"
-        Title="ZoomPrototype" Height="300" Width="300">
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+
+    xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF" 
+
+    Title="MainWindow" Height="350" Width="525">
+
     <Grid>
-        
+
+        <m:Map CredentialsProvider="AgVT-7nGSG6-YvaaAV0pRmw7H2vwU26h7OMe9xBiTOsJflgcU56_uRxN8xYg3wkY" x:Name="map"/>
+
     </Grid>
+
 </Window>
