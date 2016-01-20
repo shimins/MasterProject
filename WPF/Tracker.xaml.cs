@@ -195,7 +195,7 @@ namespace WPF
 
         public void gazeMovement(Point point)
         {
-            if (GlobalValue.MapTracking && (point.X - _previousPoint.X > 20 || point.Y - _previousPoint.Y > 20))
+            if (GlobalValue.MapTracking && (Math.Abs(point.X - _previousPoint.X) > 200 || Math.Abs(point.Y - _previousPoint.Y) > 200))
             {
                 _previousPoint = point;
                 GlobalValue.Point = _previousPoint;

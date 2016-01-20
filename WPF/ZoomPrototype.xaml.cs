@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using Microsoft.Maps.MapControl.WPF;
 using Tobii.EyeTracking.IO;
@@ -11,15 +12,16 @@ namespace WPF
     public partial class ZoomPrototype : Window
     {
         
-        private Tracker tracker;
-
+        private Tracker _tracker;
+        private Location _currentLocation;
 
         public ZoomPrototype(Tracker tracker)
         {
             InitializeComponent();
             map.Mode = new AerialMode(true);
+            _currentLocation = map.Center;
 
-            this.tracker = tracker;
+            this._tracker = tracker;
             tracker.EyeGazeMovement += tracker_eyeGazeMovement;
 
         }
@@ -27,14 +29,16 @@ namespace WPF
         private void tracker_eyeGazeMovement(object sender, EventArgs e)
         {
             Console.WriteLine("we need to move");
-            Location location = map.ViewportPointToLocation(GlobalValue.Point);
+            Location direction = map.ViewportPointToLocation(GlobalValue.Point);
 
-            map.Center = location;
+
+            map.Center = new Location((_currentLocation.Latitude + (direction.Latitude/ map.ZoomLevel/map.ZoomLevel)), 
+                (_currentLocation.Longitude + (direction.Longitude / (map.ZoomLevel * map.ZoomLevel))));
+
+            _currentLocation = map.Center;
+
+
             Console.WriteLine(map.Center);
-            //BingMapsAPIProjection();
-            //var point = FromPixelToCoordinates(GlobalValue.Point);
-            //map.Center = new Location(point.X, point.Y);
-
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -80,17 +84,17 @@ namespace WPF
 
         private void EyeTracker_onClick(object sender, RoutedEventArgs e)
         {
-            if (tracker.Visibility == Visibility.Hidden)
+            if (_tracker.Visibility == Visibility.Hidden)
             {
-                tracker.Show();
+                _tracker.Show();
             }
-            else if (tracker.Visibility == Visibility.Visible)
+            else if (_tracker.Visibility == Visibility.Visible)
             {
             }
             else
             {
-                tracker = new Tracker();
-                tracker.Show();
+                _tracker = new Tracker();
+                _tracker.Show();
             }
         }
     }
