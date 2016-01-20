@@ -20,26 +20,27 @@ namespace WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ZoomPrototype zoom;
-        private Tracker tracker;
+        private ZoomPrototype _zoom;
+        private readonly Tracker _tracker;
         
         public MainWindow()
         {
             Library.Init();
             InitializeComponent();
-            tracker = new Tracker();
+            _tracker = new Tracker();
         }
 
         private void ZoomPrototypeButton_OnClick(object sender, RoutedEventArgs e)
         {
-            zoom = new ZoomPrototype(tracker);
+            _zoom = new ZoomPrototype(_tracker);
             this.Hide();
-            zoom.Show();
+            _zoom.Show();
+            GlobalValue.MapTracking = true;
         }
 
         private void EyeTracker_onClick(object sender, RoutedEventArgs e)
         {
-            tracker.Show();
+            _tracker.Show();
         }
     }
 }

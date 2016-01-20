@@ -15,7 +15,7 @@ namespace WPF
 
         private IEyeTracker EyeTracker { get; set; }
 
-        public Boolean IsTracking { get; set; }
+        
 
         private Point3D _leftPos;
         private Point3D _rightPos;
@@ -23,6 +23,9 @@ namespace WPF
         private Point2D _rightGaze;
 
         private Point _point;
+        private Point _previousPoint;
+
+        public event EventHandler EyeGazeMovement;
         //private Point3D _leftGaze;
         //private Point3D _rightGaze;
 
@@ -45,7 +48,7 @@ namespace WPF
 
         private void TrackButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (IsTracking == false)
+            if (GlobalValue.IsTracking == false)
             {
                 try
                 {
@@ -53,7 +56,7 @@ namespace WPF
                     if (etInfo != null)
                     {
                         StartTracking(etInfo);
-                        IsTracking = true;
+                        GlobalValue.IsTracking = true;
                     }
                 }
                 catch (NullReferenceException)
@@ -62,7 +65,7 @@ namespace WPF
                     dialog.PrintVisual(this, "No eyetracker were found");
                 }
             }
-           else if (IsTracking == true)
+           else if (GlobalValue.IsTracking == true)
             {
                 StopTracking();
             }
@@ -138,9 +141,9 @@ namespace WPF
             _leftGaze.Y = e.GazeDataItem.LeftGazePoint2D.Y;
             _leftGaze.X = e.GazeDataItem.LeftGazePoint2D.X;
 
-            _point = new Point((int)(_leftGaze.X * Width), (int)(_leftGaze.Y * Height));
+            _point = new Point((int)(_leftGaze.X * 1920), (int)(_leftGaze.Y * 1200));
 
-            //Write the position change here
+            gazeMovement(_point);
 
             //_leftGaze.X = e.GazeDataItem.LeftGazePoint3D.X / D;
             //_leftGaze.Y = e.GazeDataItem.LeftGazePoint3D.Y / D;
@@ -190,6 +193,16 @@ namespace WPF
             //Dispatcher.BeginInvoke(update);
         }
 
+        public void gazeMovement(Point point)
+        {
+            if (GlobalValue.MapTracking && (point.X - _previousPoint.X > 20 || point.Y - _previousPoint.Y > 20))
+            {
+                _previousPoint = point;
+                GlobalValue.Point = _previousPoint;
+                EyeGazeMovement?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
         public void StartTracking(EyeTrackerInfo eyeTrackerInfo)
         {
             try
@@ -197,7 +210,7 @@ namespace WPF
                 EyeTracker = eyeTrackerInfo.Factory.CreateEyeTracker();
                 EyeTracker.StartTracking();
                 EyeTracker.GazeDataReceived += _tracker_GazeDataReceived;
-                IsTracking = true;
+                GlobalValue.IsTracking = true;
                 this.Hide();
                 TrackButton.Content = "Stop";
             }
@@ -214,7 +227,7 @@ namespace WPF
             EyeTracker.StopTracking();
 
             EyeTracker.Dispose();
-            IsTracking = false;
+            GlobalValue.IsTracking = false;
             this.Hide();
             TrackButton.Content = "Track";
         }
