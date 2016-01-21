@@ -197,10 +197,10 @@ namespace WPF
 
         public void gazeMovement(Point point)
         {
-            if (GlobalValue.MapTracking && (Math.Abs(point.X - _previousPoint.X) > 200 || Math.Abs(point.Y - _previousPoint.Y) > 200))
+            if (GlobalValue.MapTracking && (Math.Abs(point.X - _previousPoint.X) > 50 || Math.Abs(point.Y - _previousPoint.Y) > 50))
             {
                 _previousPoint = point;
-                _zoom.newGazeDirection(_previousPoint);
+                _zoom.setNewGazePoint(_previousPoint);
             }
         }
 

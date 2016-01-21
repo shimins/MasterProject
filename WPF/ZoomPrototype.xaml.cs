@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using WindowsInput;
 using Microsoft.Maps.MapControl.WPF;
 
@@ -11,6 +14,8 @@ namespace WPF
     public partial class ZoomPrototype : Window
     {
         private Location _currentLocation;
+
+        private Point point;
         
         public ZoomPrototype()
         {
@@ -19,28 +24,33 @@ namespace WPF
             _currentLocation = map.Center;
             
 
-
         }
 
-        public void newGazeDirection(Point point)
+        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern void mouse_event(long dwFlags, double dx, double dy, long cButtons, long dwExtraInfo);
+
+        private const int MOUSEEVENTF_LEFTDOWN = 0x02;
+        private const int MOUSEEVENTF_LEFTUP = 0x04;
+        private const int MOUSEEVENTF_RIGHTDOWN = 0x08;
+        private const int MOUSEEVENTF_RIGHTUP = 0x10;
+
+
+
+
+        public void setNewGazePoint(Point point)
         {
-            tracker_eyeGazeMovement(point);
-        }
-
-        private void tracker_eyeGazeMovement(Point point)
-        {
-            //Console.WriteLine("we need to move");
-            Location direction = map.ViewportPointToLocation(point);
-
-
-
-            //map.Center = new Location((_currentLocation.Latitude + (direction.Latitude / map.ZoomLevel / map.ZoomLevel)),
-            //    (_currentLocation.Longitude + (direction.Longitude / (map.ZoomLevel * map.ZoomLevel))));
-
-            //_currentLocation = map.Center;
-
 
         }
+
+        //private void tracker_eyeGazeMovement(Point point)
+        //{
+        //    Console.WriteLine("we need to move");
+        //    Location direction = map.ViewportPointToLocation(point);
+        //    map.Center = new Location((_currentLocation.Latitude + (direction.Latitude / map.ZoomLevel / map.ZoomLevel)),
+        //        (_currentLocation.Longitude + (direction.Longitude / (map.ZoomLevel * map.ZoomLevel))));
+
+        //    _currentLocation = map.Center;
+        //}
 
         private void Window_Closed(object sender, EventArgs e)
         {
