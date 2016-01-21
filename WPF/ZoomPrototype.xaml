@@ -5,8 +5,8 @@
         Title="MainWindow" Height="350" Width="525" Closed="Window_Closed" WindowState="Maximized">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_Eye Tracker" Click="EyeTracker_onClick">
-            </MenuItem>
+            <!--<MenuItem Header="_Eye Tracker" Click="EyeTracker_onClick">-->
+            <!--</MenuItem>-->
         </Menu>
         <Grid>
             <m:Map CredentialsProvider="AgVT-7nGSG6-YvaaAV0pRmw7H2vwU26h7OMe9xBiTOsJflgcU56_uRxN8xYg3wkY" x:Name="map"/>

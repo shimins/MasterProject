@@ -25,13 +25,15 @@ namespace WPF
         private Point _point;
         private Point _previousPoint;
 
-        public event EventHandler EyeGazeMovement;
+        private ZoomPrototype _zoom;
+        
         //private Point3D _leftGaze;
         //private Point3D _rightGaze;
 
 
-        public Tracker()
+        public Tracker(ZoomPrototype zoom)
         {
+            this._zoom = zoom;
             _browser = new EyeTrackerBrowser();
             StartBrowsing();
             _browser.EyeTrackerFound += _browser_EyetrackerFound;
@@ -198,8 +200,7 @@ namespace WPF
             if (GlobalValue.MapTracking && (Math.Abs(point.X - _previousPoint.X) > 200 || Math.Abs(point.Y - _previousPoint.Y) > 200))
             {
                 _previousPoint = point;
-                GlobalValue.Point = _previousPoint;
-                EyeGazeMovement?.Invoke(this, EventArgs.Empty);
+                _zoom.newGazeDirection(_previousPoint);
             }
         }
 

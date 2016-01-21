@@ -27,12 +27,12 @@ namespace WPF
         {
             Library.Init();
             InitializeComponent();
-            _tracker = new Tracker();
+            _zoom = new ZoomPrototype();
+            _tracker = new Tracker(_zoom);
         }
 
         private void ZoomPrototypeButton_OnClick(object sender, RoutedEventArgs e)
         {
-            _zoom = new ZoomPrototype(_tracker);
             this.Hide();
             _zoom.Show();
             GlobalValue.MapTracking = true;

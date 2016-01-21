@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
+using WindowsInput;
 using Microsoft.Maps.MapControl.WPF;
-using Tobii.EyeTracking.IO;
 
 namespace WPF
 {
@@ -11,34 +10,36 @@ namespace WPF
     /// </summary>
     public partial class ZoomPrototype : Window
     {
-        
-        private Tracker _tracker;
         private Location _currentLocation;
-
-        public ZoomPrototype(Tracker tracker)
+        
+        public ZoomPrototype()
         {
             InitializeComponent();
             map.Mode = new AerialMode(true);
             _currentLocation = map.Center;
+            
 
-            this._tracker = tracker;
-            tracker.EyeGazeMovement += tracker_eyeGazeMovement;
 
         }
 
-        private void tracker_eyeGazeMovement(object sender, EventArgs e)
+        public void newGazeDirection(Point point)
         {
-            Console.WriteLine("we need to move");
-            Location direction = map.ViewportPointToLocation(GlobalValue.Point);
+            tracker_eyeGazeMovement(point);
+        }
+
+        private void tracker_eyeGazeMovement(Point point)
+        {
+            //Console.WriteLine("we need to move");
+            Location direction = map.ViewportPointToLocation(point);
 
 
-            map.Center = new Location((_currentLocation.Latitude + (direction.Latitude/ map.ZoomLevel/map.ZoomLevel)), 
-                (_currentLocation.Longitude + (direction.Longitude / (map.ZoomLevel * map.ZoomLevel))));
 
-            _currentLocation = map.Center;
+            //map.Center = new Location((_currentLocation.Latitude + (direction.Latitude / map.ZoomLevel / map.ZoomLevel)),
+            //    (_currentLocation.Longitude + (direction.Longitude / (map.ZoomLevel * map.ZoomLevel))));
+
+            //_currentLocation = map.Center;
 
 
-            Console.WriteLine(map.Center);
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -82,20 +83,20 @@ namespace WPF
         //        Convert.ToSingle(longitude));
         //}
 
-        private void EyeTracker_onClick(object sender, RoutedEventArgs e)
-        {
-            if (_tracker.Visibility == Visibility.Hidden)
-            {
-                _tracker.Show();
-            }
-            else if (_tracker.Visibility == Visibility.Visible)
-            {
-            }
-            else
-            {
-                _tracker = new Tracker();
-                _tracker.Show();
-            }
-        }
+        //private void EyeTracker_onClick(object sender, RoutedEventArgs e)
+        //{
+        //    if (_tracker.Visibility == Visibility.Hidden)
+        //    {
+        //        _tracker.Show();
+        //    }
+        //    else if (_tracker.Visibility == Visibility.Visible)
+        //    {
+        //    }
+        //    else
+        //    {
+        //        _tracker = new Tracker();
+        //        _tracker.Show();
+        //    }
+        //}
     }
 }

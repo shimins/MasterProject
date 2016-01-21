@@ -11,6 +11,5 @@ namespace WPF
     {
         public static Boolean IsTracking { get; set; }
         public static Boolean MapTracking { get; set; }
-        public static Point Point { get; set; }
     }
 }
