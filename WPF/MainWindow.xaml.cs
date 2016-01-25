@@ -42,5 +42,10 @@ namespace WPF
         {
             _tracker.Show();
         }
+
+        private void checkBox_Checked(object sender, RoutedEventArgs e)
+        {
+            GlobalValue.MouseMode = true;
+        }
     }
 }
