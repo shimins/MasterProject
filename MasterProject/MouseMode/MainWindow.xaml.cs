@@ -112,16 +112,11 @@ namespace MouseMode
         {
             if (Image != null)
             {
-                Console.WriteLine();
-                if (Border.ActualWidth * 0.25 < eventArgs.GetPosition(Border).X)
-                {
-                    var tt = getTransform(Image);
-                    start = eventArgs.GetPosition(Border);
-                    origin = new Point(tt.X, tt.Y);
-                    Image.CaptureMouse();
-                    Border.Cursor = Cursors.Hand;
-                }
-                
+                var tt = getTransform(Image);
+                start = eventArgs.GetPosition(Border);
+                origin = new Point(tt.X, tt.Y);
+                Image.CaptureMouse();
+                Border.Cursor = Cursors.Hand;
             }
         }
 
@@ -140,41 +135,5 @@ namespace MouseMode
         {
             reset();
         }
-
-
-        
-
-        //public override UIElement child
-        //{
-        //    get { return base.Child; }
-        //    set
-        //    {
-        //        if (value != null && value != this.Child)
-        //            this.Initialize(value);
-        //        base.Child = value;
-        //    }
-        //}
-
-        //private void zoom_Action(object sender, MouseWheelEventArgs eventArgs)
-        //{
-        //    var st = (ScaleTransform)((TransformGroup)image.RenderTransform)
-        //        .Children.First( tr => tr is ScaleTransform);
-        //    double zoom = eventArgs.Delta;
-        //    if (zoom > 0)
-        //    {
-        //        st.ScaleX += zoom;
-        //        st.ScaleY += zoom;
-        //    }
-        //}
-
-        //private void pan_ActionInitiate(object sender, MouseButtonEventArgs e)
-        //{
-        //    image.CaptureMouse();
-        //    var tt = (TranslateTransform)((TransformGroup)image.RenderTransform)
-        //        .Children.First(tr => tr is TranslateTransform);
-        //    start = e.GetPosition(border);
-        //    origin = new Point(tt.X, tt.Y);
-        //}
-
     }
 }
