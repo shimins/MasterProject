@@ -3,8 +3,8 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
-using WindowsInput;
-using Microsoft.Maps.MapControl.WPF;
+//using WindowsInput;
+//using Microsoft.Maps.MapControl.WPF;
 
 namespace WPF
 {
@@ -13,16 +13,16 @@ namespace WPF
     /// </summary>
     public partial class ZoomPrototype : Window
     {
-        private Location _currentLocation;
+        //private Location _currentLocation;
 
         private Point point;
         
         public ZoomPrototype()
         {
-            InitializeComponent();
-            map.Mode = new AerialMode(true);
-            _currentLocation = map.Center;
-            
+            //InitializeComponent();
+            //map.Mode = new AerialMode(true);
+            //_currentLocation = map.Center;
+
 
         }
 

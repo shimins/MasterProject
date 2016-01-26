@@ -1,0 +1,25 @@
+﻿<Window x:Class="MouseMode.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MouseMode"
+        mc:Ignorable="d"
+        Title="MousePrototype" Height="540" Width="960">
+    <Viewbox x:Name="Border" MouseLeftButtonDown="actionButtonDown" MouseLeftButtonUp="actionButtonUp"
+            MouseMove="eyeMoveDuringAction" MouseRightButtonDown="reset" MouseWheel="zoom_event"
+            Stretch="None" >
+        <Image x:Name="Image" ClipToBounds="True" HorizontalAlignment="Center"
+               VerticalAlignment="Center" Source="res/Test.jpg" Stretch="None">
+        </Image>
+    </Viewbox>
+    <!--<Border x:Name="border" MouseLeftButtonDown="actionButtonDown" MouseMove="eyeMoveDuringAction"
+            MouseLeftButtonUp="actionButtonUp" MouseRightButtonDown="reset">
+        <Image x:Name="image" Source="/res/Test.jpg" ClipToBounds="True">
+            <Image.RenderTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2">
+                </ScaleTransform>
+            </Image.RenderTransform>
+        </Image>
+    </Border>-->
+</Window>

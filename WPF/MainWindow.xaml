@@ -15,7 +15,7 @@
             <Button  x:Name="ZoomPrototypeButton" Content="Zoom Test Module" HorizontalAlignment="Center" Margin="0,0,0,0" 
                  VerticalAlignment="Center" Width="215" Click="ZoomPrototypeButton_OnClick" Height="74" FontSize="18.667" IsEnabled="True"/>
             <Label x:Name="label" Content="In order to start the test please select an eye tracker" HorizontalAlignment="Center" Margin="0,46,0,0" VerticalAlignment="Top"/>
-            <CheckBox x:Name="checkBox" Content="Mouse Mode" HorizontalAlignment="Center" Margin="0,187,0,0" VerticalAlignment="Top"/>
+            <CheckBox x:Name="checkBox" Content="Mouse Mode" HorizontalAlignment="Center" Margin="0,187,0,0" VerticalAlignment="Top" Checked="checkBox_Checked"/>
         </Grid>
     </DockPanel>
 </Window>
