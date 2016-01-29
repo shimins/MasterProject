@@ -28,7 +28,7 @@ namespace MouseMode
         public MainWindow()
         {
             InitializeComponent();
-            this.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+            this.SizeToContent = SizeToContent.WidthAndHeight;
 
 
             this.child = Image;

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MouseMode"
         mc:Ignorable="d"
-        Title="MousePrototype" Height="540" Width="960" >
+        Title="MousePrototype" Height="540" Width="960" WindowState="Maximized">
     <Border x:Name="Border">
         <Viewbox x:Name="ViewBox" MouseLeftButtonDown="actionButtonDown" MouseLeftButtonUp="actionButtonUp"
             MouseMove="eyeMoveDuringAction" MouseRightButtonDown="reset" MouseWheel="zoom_event"
