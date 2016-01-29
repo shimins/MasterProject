@@ -84,8 +84,9 @@ namespace MouseMode
                 var abosuluteY = relative.Y * st.ScaleY + tt.Y;
 
 
-                st.ScaleX += zoom;
-                st.ScaleY += zoom;
+                double factor = 0.5;
+                st.ScaleX += zoom * factor;
+                st.ScaleY += zoom * factor;
                 
                 tt.X = abosuluteX - relative.X * st.ScaleX;
                 tt.Y = abosuluteY - relative.Y * st.ScaleY;
