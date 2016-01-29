@@ -5,14 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MouseMode"
         mc:Ignorable="d"
-        Title="MousePrototype" Height="540" Width="960">
-    <Viewbox x:Name="Border" MouseLeftButtonDown="actionButtonDown" MouseLeftButtonUp="actionButtonUp"
+        Title="MousePrototype" Height="540" Width="960" >
+    <Border x:Name="Border">
+        <Viewbox x:Name="ViewBox" MouseLeftButtonDown="actionButtonDown" MouseLeftButtonUp="actionButtonUp"
             MouseMove="eyeMoveDuringAction" MouseRightButtonDown="reset" MouseWheel="zoom_event"
-            Stretch="None" >
-        <Image x:Name="Image" ClipToBounds="True" HorizontalAlignment="Center"
+            Stretch="None">
+            <Image x:Name="Image" ClipToBounds="True" HorizontalAlignment="Center"
                VerticalAlignment="Center" Source="res/Test.jpg" Stretch="None">
-        </Image>
-    </Viewbox>
+            </Image>
+        </Viewbox>
+    </Border>
     <!--<Border x:Name="border" MouseLeftButtonDown="actionButtonDown" MouseMove="eyeMoveDuringAction"
             MouseLeftButtonUp="actionButtonUp" MouseRightButtonDown="reset">
         <Image x:Name="image" Source="/res/Test.jpg" ClipToBounds="True">

@@ -28,6 +28,9 @@ namespace MouseMode
         public MainWindow()
         {
             InitializeComponent();
+            this.SizeToContent = System.Windows.SizeToContent.WidthAndHeight;
+
+
             this.child = Image;
             TransformGroup group = new TransformGroup();
             ScaleTransform st = new ScaleTransform();
@@ -80,12 +83,12 @@ namespace MouseMode
                 var abosuluteX = relative.X * st.ScaleX + tt.X;
                 var abosuluteY = relative.Y * st.ScaleY + tt.Y;
 
+
                 st.ScaleX += zoom;
                 st.ScaleY += zoom;
-
+                
                 tt.X = abosuluteX - relative.X * st.ScaleX;
                 tt.Y = abosuluteY - relative.Y * st.ScaleY;
-
             }
         }
 
@@ -99,7 +102,7 @@ namespace MouseMode
                 if (Image.IsMouseCaptured)
                 {
                     var tt = getTransform(Image);
-                    Vector vector = start - eventArgs.GetPosition(Border);
+                    Vector vector = start - eventArgs.GetPosition(ViewBox);
                     tt.X = origin.X - vector.X;
                     tt.Y = origin.Y - vector.Y;
                 }
@@ -113,10 +116,10 @@ namespace MouseMode
             if (Image != null)
             {
                 var tt = getTransform(Image);
-                start = eventArgs.GetPosition(Border);
+                start = eventArgs.GetPosition(ViewBox);
                 origin = new Point(tt.X, tt.Y);
                 Image.CaptureMouse();
-                Border.Cursor = Cursors.Hand;
+                ViewBox.Cursor = Cursors.Hand;
             }
         }
 
@@ -127,7 +130,7 @@ namespace MouseMode
             if (Image != null)
             {
                 Image.ReleaseMouseCapture();
-                Border.Cursor = Cursors.Arrow;
+                ViewBox.Cursor = Cursors.Arrow;
             }
         }
 
