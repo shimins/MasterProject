@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF", "..\WPF\WPF.csproj", "{2FA67AC8-4A78-42F0-9ABB-74A8DE53A0E9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF", "WPF\WPF.csproj", "{2FA67AC8-4A78-42F0-9ABB-74A8DE53A0E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TobiiData", "..\TobiiData\TobiiData.csproj", "{A50CA363-72EC-4310-B15B-95E44CEAA07F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basic Eyetracking Sample", "..\..\..\Eyetracking\EyeTracking\Basic Eyetracking Sample\Basic Eyetracking Sample.csproj", "{09EA5D83-F650-4D5F-9FE0-46D92B444E56}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TobiiData", "TobiiData\TobiiData.csproj", "{A50CA363-72EC-4310-B15B-95E44CEAA07F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseMode", "MouseMode\MouseMode.csproj", "{13D61B39-29A4-453D-8CB1-FC2F74A8367F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Swipe", "Swipe\Swipe.csproj", "{DD0368EF-A63D-4B92-90A0-139D47BDB6F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,18 +45,6 @@ Global
 		{A50CA363-72EC-4310-B15B-95E44CEAA07F}.Release|x64.Build.0 = Release|Any CPU
 		{A50CA363-72EC-4310-B15B-95E44CEAA07F}.Release|x86.ActiveCfg = Release|Any CPU
 		{A50CA363-72EC-4310-B15B-95E44CEAA07F}.Release|x86.Build.0 = Release|Any CPU
-		{09EA5D83-F650-4D5F-9FE0-46D92B444E56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{09EA5D83-F650-4D5F-9FE0-46D92B444E56}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{09EA5D83-F650-4D5F-9FE0-46D92B444E56}.Debug|x64.ActiveCfg = Debug|x64
-		{09EA5D83-F650-4D5F-9FE0-46D92B444E56}.Debug|x64.Build.0 = Debug|x64
-		{09EA5D83-F650-4D5F-9FE0-46D92B444E56}.Debug|x86.ActiveCfg = Debug|x86
-		{09EA5D83-F650-4D5F-9FE0-46D92B444E56}.Debug|x86.Build.0 = Debug|x86
-		{09EA5D83-F650-4D5F-9FE0-46D92B444E56}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{09EA5D83-F650-4D5F-9FE0-46D92B444E56}.Release|Any CPU.Build.0 = Release|Any CPU
-		{09EA5D83-F650-4D5F-9FE0-46D92B444E56}.Release|x64.ActiveCfg = Release|x64
-		{09EA5D83-F650-4D5F-9FE0-46D92B444E56}.Release|x64.Build.0 = Release|x64
-		{09EA5D83-F650-4D5F-9FE0-46D92B444E56}.Release|x86.ActiveCfg = Release|x86
-		{09EA5D83-F650-4D5F-9FE0-46D92B444E56}.Release|x86.Build.0 = Release|x86
 		{13D61B39-29A4-453D-8CB1-FC2F74A8367F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13D61B39-29A4-453D-8CB1-FC2F74A8367F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13D61B39-29A4-453D-8CB1-FC2F74A8367F}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -69,6 +57,18 @@ Global
 		{13D61B39-29A4-453D-8CB1-FC2F74A8367F}.Release|x64.Build.0 = Release|Any CPU
 		{13D61B39-29A4-453D-8CB1-FC2F74A8367F}.Release|x86.ActiveCfg = Release|Any CPU
 		{13D61B39-29A4-453D-8CB1-FC2F74A8367F}.Release|x86.Build.0 = Release|Any CPU
+		{DD0368EF-A63D-4B92-90A0-139D47BDB6F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD0368EF-A63D-4B92-90A0-139D47BDB6F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD0368EF-A63D-4B92-90A0-139D47BDB6F1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DD0368EF-A63D-4B92-90A0-139D47BDB6F1}.Debug|x64.Build.0 = Debug|Any CPU
+		{DD0368EF-A63D-4B92-90A0-139D47BDB6F1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DD0368EF-A63D-4B92-90A0-139D47BDB6F1}.Debug|x86.Build.0 = Debug|Any CPU
+		{DD0368EF-A63D-4B92-90A0-139D47BDB6F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD0368EF-A63D-4B92-90A0-139D47BDB6F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD0368EF-A63D-4B92-90A0-139D47BDB6F1}.Release|x64.ActiveCfg = Release|Any CPU
+		{DD0368EF-A63D-4B92-90A0-139D47BDB6F1}.Release|x64.Build.0 = Release|Any CPU
+		{DD0368EF-A63D-4B92-90A0-139D47BDB6F1}.Release|x86.ActiveCfg = Release|Any CPU
+		{DD0368EF-A63D-4B92-90A0-139D47BDB6F1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

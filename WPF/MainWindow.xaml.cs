@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Tobii.EyeTracking.IO;
+
 //using Tobii.EyeTracking.IO;
 
 namespace WPF
@@ -25,7 +27,7 @@ namespace WPF
         
         public MainWindow()
         {
-            //Library.Init();
+            Library.Init();
             InitializeComponent();
             _zoom = new ZoomPrototype();
             _tracker = new Tracker(_zoom);

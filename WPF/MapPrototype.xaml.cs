@@ -15,6 +15,7 @@ namespace WPF
     {
         //private Location _currentLocation;
 
+
         private Point point;
         
         public ZoomPrototype()

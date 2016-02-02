@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using BasicEyetrackingSample;
 using Tobii.EyeTracking.IO;
 
 namespace WPF
@@ -75,30 +74,31 @@ namespace WPF
 
         private void CaliberationButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var runner = new CalibrationRunner();
+            // TODO Implement calibration
+            //var runner = new CalibrationRunner();
 
-            try
-            {
-                // Start a new calibration procedure
-                var etInfo = TrackerCombo.SelectedItem as EyeTrackerInfo;
-                var result = runner.RunCalibration(etInfo.Factory.CreateEyeTracker());
+            //try
+            //{
+            //    // Start a new calibration procedure
+            //    var etInfo = TrackerCombo.SelectedItem as EyeTrackerInfo;
+            //    var result = runner.RunCalibration(etInfo.Factory.CreateEyeTracker());
 
-                // Show a calibration plot if everything went OK
-                if (result != null)
-                {
-                    var resultForm = new CalibrationResultForm();
-                    resultForm.SetPlotData(result);
-                    resultForm.ShowDialog();
-                }
-                else
-                {
-                    MessageBox.Show("Not enough data to create a calibration (or calibration aborted).");
-                }
-            }
-            catch (EyeTrackerException)
-            {
+            //    // Show a calibration plot if everything went OK
+            //    if (result != null)
+            //    {
+            //        var resultForm = new CalibrationResultForm();
+            //        resultForm.SetPlotData(result);
+            //        resultForm.ShowDialog();
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show("Not enough data to create a calibration (or calibration aborted).");
+            //    }
+            //}
+            //catch (EyeTrackerException)
+            //{
 
-            }
+            //}
         }
 
 
