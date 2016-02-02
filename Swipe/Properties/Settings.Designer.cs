@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MasterProject.Properties
+namespace Swipe.Properties
 {
 
 
