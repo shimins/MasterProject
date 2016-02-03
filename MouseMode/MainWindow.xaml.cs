@@ -121,8 +121,8 @@ namespace MouseMode
             {
                 var tt = getTransform(Image);
                 Vector vector = start - new Point(_previous.X,_previous.Y);
-                tt.X = origin.X - vector.X;
-                tt.Y = origin.Y - vector.Y;
+                tt.X = vector.X - origin.X;
+                tt.Y = vector.Y - origin.Y;
             }
         }
 
@@ -131,10 +131,11 @@ namespace MouseMode
         {
             if (Image != null)
             {
+                actionButtonDown = !actionButtonDown;
+
                 var tt = getTransform(Image);
                 start = new Point(_previous.X,_previous.Y);
                 origin = new Point(tt.X, tt.Y);
-                actionButtonDown = true;
                 //Image.CaptureMouse();
                 //ViewBox.Cursor = Cursors.Hand;
             }
