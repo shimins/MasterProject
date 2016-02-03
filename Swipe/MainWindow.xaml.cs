@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -104,7 +105,10 @@ namespace Swipe
             }
         }
 
-        private int counter = 0;
+        private int leftCount = 0;
+        private int rightCount = 0;
+
+        private double temp = 0;
 
         private void _tracker_GazeDataReceived(object sender, GazeDataEventArgs e)
         {
@@ -133,20 +137,36 @@ namespace Swipe
 
             if (GazeHaveMoved(_current))
             {
-                Debug.WriteLine(_current);
-                Debug.WriteLine(++counter);
 
-                if (_current.X > _previous.Y)
+                if (_current.X > _previous.X)
                 {
                     // SWIPE RIGHT ~>>~>>~>> (PREV)
                     Debug.WriteLine("Prev");
-                    this.Test.RunSlideAnimation(_previous.Y, _current.X);
+                    if (rightCount++ > 3)
+                    {
+                        rightCount = 0;
+                        leftCount = 0;
+
+                        if(Test.SelectedIndex > 0)
+                            this.Test.SelectedIndex--;
+                    }
+                    temp = _current.X;
+                    this.Test.RunSlideAnimation(_previous.X, _current.X);
                 }
                 else
                 {
                     // SWIPE LEFT <<~<<~<<~ (NEXT)
                     Debug.WriteLine("Next");
-                    this.Test.RunSlideAnimation(_current.Y, _previous.X);
+                    if (leftCount++ > 3)
+                    {
+                        rightCount = 0;
+                        leftCount = 0;
+
+                        if (Test.SelectedIndex < Test.Items.Count-1)
+                            this.Test.SelectedIndex++;
+                    }
+                    this.Test.RunSlideAnimation(_current.X, _previous.X);
+                    leftCount++;
                 }
 
                 _previous = _current;
@@ -156,7 +176,7 @@ namespace Swipe
 
         private bool GazeHaveMoved(Point2D currentPoint)
         {
-            if (Math.Abs(_previous.X - currentPoint.X) > 100 || Math.Abs(_previous.Y - currentPoint.Y) > 100)
+            if (Math.Abs(_previous.X - currentPoint.X) > 40 || Math.Abs(_previous.Y - currentPoint.Y) > 40)
             {
 
                 return true;

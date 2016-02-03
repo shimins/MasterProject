@@ -13,7 +13,7 @@ namespace Swipe
         private ContentControl PART_CurrentItem;
         private ContentControl PART_PreviousItem;
         private ContentControl PART_NextItem;
-        public FrameworkElement PART_Root;
+        private FrameworkElement PART_Root;
         private FrameworkElement PART_Container;
         private double fromValue = 0.0;
         private double elasticFactor = 1.0;
@@ -113,9 +113,11 @@ namespace Swipe
                 return;
             }
 
+
             if ((int)e.NewValue >= 0 && (int)e.NewValue < this.Items.Count)
             {
                 double toValue = (int)e.OldValue < (int)e.NewValue ? -this.ActualWidth : this.ActualWidth;
+                Debug.WriteLine(toValue + " - vs - " + fromValue);
                 this.RunSlideAnimation(toValue, fromValue);
             }
         }
