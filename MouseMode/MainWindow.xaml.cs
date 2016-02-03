@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tobii.EyeTracking.IO;
 
 namespace MouseMode
 {
@@ -24,12 +25,30 @@ namespace MouseMode
         private Point start;
         private Point origin;
         private UIElement child = null;
-        
+        private bool actionButtonDown;
+
+        private readonly EyeTrackerBrowser _browser;
+
+        private bool _tracking;
+        private IEyeTracker _tracker;
+
+        private Point2D _leftGaze;
+        private Point2D _rightGaze;
+
+        private Point2D _current;
+        private Point2D _previous;
+
         public MainWindow()
         {
             InitializeComponent();
             this.SizeToContent = SizeToContent.WidthAndHeight;
 
+            Library.Init();
+
+            _browser = new EyeTrackerBrowser();
+            _browser.EyeTrackerFound += _browser_EyetrackerFound;
+            _browser.EyeTrackerRemoved += _browser_EyetrackerRemoved;
+            _browser.EyeTrackerUpdated += _browser_EyetrackerUpdated;
 
             this.child = Image;
             TransformGroup group = new TransformGroup();
@@ -40,6 +59,7 @@ namespace MouseMode
             child.RenderTransform = group;
             child.RenderTransformOrigin = new Point(0.0, 0.0);
         }
+
 
         private TranslateTransform getTransform(UIElement element)
         {
@@ -66,7 +86,9 @@ namespace MouseMode
                 tt.Y = 0.0;
             }
         }
+        
 
+        //this will need point3D object from the eyetracker
         private void zoom_event(object sender, MouseWheelEventArgs e)
         {
             if (Image != null)
@@ -93,45 +115,38 @@ namespace MouseMode
             }
         }
 
-        //calculate movement during action button down, calculate vectors and everything.
-        //if we want to use eye tracker points instead maybe we can put it in here. on vector calculation
-        //and the applie the new vector on transformation 
-        private void eyeMoveDuringAction(object sender, MouseEventArgs eventArgs)
-        {
-            if (Image != null)
-            {
-                if (Image.IsMouseCaptured)
-                {
-                    var tt = getTransform(Image);
-                    Vector vector = start - eventArgs.GetPosition(ViewBox);
-                    tt.X = origin.X - vector.X;
-                    tt.Y = origin.Y - vector.Y;
-                }
-            }
-        }
-
-
-        //start recording of mouse cursor position and capture the mouse cursor on the image
-        private void actionButtonDown(object sender, MouseButtonEventArgs eventArgs)
+        private void EyeMoveDuringAction()
         {
             if (Image != null)
             {
                 var tt = getTransform(Image);
-                start = eventArgs.GetPosition(ViewBox);
-                origin = new Point(tt.X, tt.Y);
-                Image.CaptureMouse();
-                ViewBox.Cursor = Cursors.Hand;
+                Vector vector = start - new Point(_previous.X,_previous.Y);
+                tt.X = origin.X - vector.X;
+                tt.Y = origin.Y - vector.Y;
             }
         }
 
-
-        //stop recording of mouse cursor and end movement.
-        private void actionButtonUp(object sender, MouseButtonEventArgs eventArgs)
+        
+        private void ActionButtonDown(object sender, MouseButtonEventArgs eventArgs)
         {
             if (Image != null)
             {
-                Image.ReleaseMouseCapture();
-                ViewBox.Cursor = Cursors.Arrow;
+                var tt = getTransform(Image);
+                start = new Point(_previous.X,_previous.Y);
+                origin = new Point(tt.X, tt.Y);
+                actionButtonDown = true;
+                //Image.CaptureMouse();
+                //ViewBox.Cursor = Cursors.Hand;
+            }
+        }
+
+        //does nothing right now
+        private void ActionButtonUp(object sender, MouseButtonEventArgs eventArgs)
+        {
+            if (Image != null)
+            {
+                //Image.ReleaseMouseCapture();
+                //ViewBox.Cursor = Cursors.Arrow;
             }
         }
 
@@ -139,5 +154,118 @@ namespace MouseMode
         {
             reset();
         }
+
+        void _browser_EyetrackerUpdated(object sender, EyeTrackerInfoEventArgs e)
+        {
+            int index = _trackerCombo.Items.IndexOf(e);
+
+            if (index >= 0)
+            {
+                _trackerCombo.Items[index] = e.EyeTrackerInfo;
+            }
+        }
+
+        void _browser_EyetrackerRemoved(object sender, EyeTrackerInfoEventArgs e)
+        {
+            _trackerCombo.Items.Remove(e.EyeTrackerInfo);
+        }
+
+        private void _browser_EyetrackerFound(object sender, EyeTrackerInfoEventArgs e)
+        {
+            _trackerCombo.Items.Add(e.EyeTrackerInfo);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            _browser.StartBrowsing();
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            _browser.StopBrowsing();
+
+            if (_tracker != null)
+            {
+                _tracker.Dispose();
+            }
+        }
+
+        private void _trackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_tracking)
+            {
+                _tracker.GazeDataReceived -= _tracker_GazeDataReceived;
+                _tracker.StopTracking();
+
+                _tracker.Dispose();
+                _trackButton.Content = "Track";
+                _tracking = false;
+            }
+            else
+            {
+                EyeTrackerInfo etInfo = _trackerCombo.SelectedItem as EyeTrackerInfo;
+                if (etInfo != null)
+                {
+                    _tracker = etInfo.Factory.CreateEyeTracker();
+
+                    //UpdateTrackBox();
+                    //UpdateScreen();
+
+                    _tracker.StartTracking();
+
+                    _tracker.GazeDataReceived += _tracker_GazeDataReceived;
+                    //_tracker.TrackBoxChanged += _tracker_TrackBoxChanged;             
+
+                    _trackButton.Content = "Stop";
+                    _tracking = true;
+                }
+
+            }
+        }
+
+        private void _tracker_GazeDataReceived(object sender, GazeDataEventArgs e)
+        {
+            // Convert to centimeters
+            var gd = e.GazeDataItem;
+
+            _leftGaze.X = gd.LeftGazePoint2D.X * Width;
+            _leftGaze.Y = gd.LeftGazePoint2D.Y * Height;
+
+            _rightGaze.X = gd.RightGazePoint2D.X * Width;
+            _rightGaze.Y = gd.RightGazePoint2D.Y * Height;
+
+            if (_leftGaze.X < 0 && _rightGaze.X < 0) return;
+            if (_leftGaze.X > 0 && _rightGaze.X > 0)
+            {
+                _current = new Point2D((_leftGaze.X + _rightGaze.X) / 2, (_leftGaze.Y + _rightGaze.Y) / 2);
+            }
+            else if (_rightGaze.X > 0)
+            {
+                _current = new Point2D(_rightGaze.X, _rightGaze.Y);
+            }
+            else if (_leftGaze.X > 0)
+            {
+                _current = new Point2D(_leftGaze.X, _leftGaze.Y);
+            }
+            if (GazeHaveMoved(_current))
+            {
+                _previous = _current;
+            }
+            InvalidateVisual();
+        }
+
+        private bool GazeHaveMoved(Point2D currentPoint)
+        {
+            if (Math.Abs(_previous.X - currentPoint.X) > 30 || Math.Abs(_previous.Y - currentPoint.Y) > 30)
+            {
+                if (actionButtonDown)
+                {
+                    EyeMoveDuringAction();
+                }
+                return true;
+            }
+            return false;
+        }
+
     }
 }

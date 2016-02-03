@@ -5,16 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MouseMode"
         mc:Ignorable="d"
-        Title="MousePrototype" Height="540" Width="960" WindowState="Maximized">
-    <Border x:Name="Border">
-        <Viewbox x:Name="ViewBox" MouseLeftButtonDown="actionButtonDown" MouseLeftButtonUp="actionButtonUp"
-            MouseMove="eyeMoveDuringAction" MouseRightButtonDown="reset" MouseWheel="zoom_event"
+        Title="MousePrototype" Height="540" Width="960" WindowState="Maximized" Loaded="Window_Loaded" Closed="Window_Closed">
+    <Grid x:Name="Border">
+        <Viewbox x:Name="ViewBox" MouseLeftButtonDown="ActionButtonDown" MouseLeftButtonUp="ActionButtonUp"
+                 MouseRightButtonDown="reset" MouseWheel="zoom_event"
             Stretch="None">
             <Image x:Name="Image" ClipToBounds="True" HorizontalAlignment="Center"
                VerticalAlignment="Center" Source="res/Test.jpg" Stretch="None">
             </Image>
         </Viewbox>
-    </Border>
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="12,12,0,0" Name="_trackerCombo" VerticalAlignment="Top" Width="206" />
+        <Button Height="23" Margin="234,12,0,0" Name="_trackButton" VerticalAlignment="Top" HorizontalAlignment="Left" Width="99" Click="_trackButton_Click">Track</Button>
+
+    </Grid>
     <!--<Border x:Name="border" MouseLeftButtonDown="actionButtonDown" MouseMove="eyeMoveDuringAction"
             MouseLeftButtonUp="actionButtonUp" MouseRightButtonDown="reset">
         <Image x:Name="image" Source="/res/Test.jpg" ClipToBounds="True">
