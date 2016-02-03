@@ -9,7 +9,7 @@
     <Grid x:Name="Border">
         <Viewbox x:Name="ViewBox" MouseLeftButtonDown="ActionButtonDown" MouseLeftButtonUp="ActionButtonUp"
                  MouseRightButtonDown="reset" MouseWheel="zoom_event"
-            Stretch="None">
+            Stretch="None" Margin="0,0,-1411,-792">
             <Image x:Name="Image" ClipToBounds="True" HorizontalAlignment="Center"
                VerticalAlignment="Center" Source="res/Test.jpg" Stretch="None">
             </Image>
