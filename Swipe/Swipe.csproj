@@ -64,7 +64,7 @@
     </Reference>
     <Reference Include="Tobii.EyeTracking.IO, Version=3.0.83.0, Culture=neutral, PublicKeyToken=8f83ae3e0f6e46ef, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Tobii.EyeTracking.IO.dll</HintPath>
+      <HintPath>..\Tobii.EyeTracking.IO.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
