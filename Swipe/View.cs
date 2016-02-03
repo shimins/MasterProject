@@ -7,13 +7,13 @@ using System.Windows.Media;
 
 namespace Swipe
 {
-    class View : Selector
+    public class View : Selector
     {
         #region Private Fields
         private ContentControl PART_CurrentItem;
         private ContentControl PART_PreviousItem;
         private ContentControl PART_NextItem;
-        private FrameworkElement PART_Root;
+        public FrameworkElement PART_Root;
         private FrameworkElement PART_Container;
         private double fromValue = 0.0;
         private double elasticFactor = 1.0;
@@ -41,7 +41,6 @@ namespace Swipe
             {
                 if (this.SelectedIndex > 0)
                 {
-                    Debug.WriteLine("prev");
                     this.SelectedIndex -= 1;
                 }
             }
@@ -49,7 +48,6 @@ namespace Swipe
             {
                 if (this.SelectedIndex < this.Items.Count - 1)
                 {
-                    Debug.WriteLine("next");
                     this.SelectedIndex += 1;
                 }
             }
@@ -149,15 +147,12 @@ namespace Swipe
                 this.PART_Root.RenderTransform = new TranslateTransform();
             }
 
-            if (fromValue > toValue)
-                Debug.WriteLine("Next");
-            else
-                Debug.WriteLine("Prev");
-
+            Debug.WriteLine(toValue + " - " + fromValue);
 
             var story = AnimationFactory.Instance.GetAnimation(this.PART_Root, toValue, fromValue);
             story.Completed += (s, e) =>
             {
+                Debug.WriteLine(toValue + " -|- " + fromValue);
                 this.RefreshViewPort(this.SelectedIndex);
             };
             story.Begin();

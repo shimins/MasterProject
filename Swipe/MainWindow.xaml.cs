@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using Tobii.EyeTracking.IO;
 
 namespace Swipe
@@ -101,6 +104,8 @@ namespace Swipe
             }
         }
 
+        private int counter = 0;
+
         private void _tracker_GazeDataReceived(object sender, GazeDataEventArgs e)
         {
             // Convert to centimeters
@@ -125,17 +130,35 @@ namespace Swipe
             {
                 _current = new Point2D(_leftGaze.X, _leftGaze.Y);
             }
+
             if (GazeHaveMoved(_current))
             {
+                Debug.WriteLine(_current);
+                Debug.WriteLine(++counter);
+
+                if (_current.X > _previous.Y)
+                {
+                    // SWIPE RIGHT ~>>~>>~>> (PREV)
+                    Debug.WriteLine("Prev");
+                    this.Test.RunSlideAnimation(_previous.Y, _current.X);
+                }
+                else
+                {
+                    // SWIPE LEFT <<~<<~<<~ (NEXT)
+                    Debug.WriteLine("Next");
+                    this.Test.RunSlideAnimation(_current.Y, _previous.X);
+                }
+
                 _previous = _current;
             }
-            InvalidateVisual();
+            //InvalidateVisual();
         }
 
         private bool GazeHaveMoved(Point2D currentPoint)
         {
-            if (Math.Abs(_previous.X - currentPoint.X) > 30 || Math.Abs(_previous.Y - currentPoint.Y) > 30)
+            if (Math.Abs(_previous.X - currentPoint.X) > 100 || Math.Abs(_previous.Y - currentPoint.Y) > 100)
             {
+
                 return true;
             }
             return false;

@@ -8,7 +8,7 @@
     </Window.DataContext>
     <Grid>
 
-        <local:View ItemsSource="{Binding ViewItems}"
+        <local:View x:Name="Test" ItemsSource="{Binding ViewItems}"
                            SelectedIndex="1">
             <local:View.ItemTemplate>
                 <DataTemplate>
@@ -17,7 +17,6 @@
                 </DataTemplate>
             </local:View.ItemTemplate>
         </local:View>
-
 
         <ComboBox Height="23" HorizontalAlignment="Left" Margin="12,12,0,0" Name="_trackerCombo" VerticalAlignment="Top" Width="206" />
         <Button Height="23" Margin="234,12,0,0" Name="_trackButton" VerticalAlignment="Top" HorizontalAlignment="Left" Width="99" Click="_trackButton_Click">Track</Button>
