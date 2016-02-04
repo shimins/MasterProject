@@ -112,7 +112,7 @@ namespace MouseMode
                 var abosuluteY = relative.Y * st.ScaleY + tt.Y;
 
 
-                double factor = 0.1; //forrandre denne til å endre zoom skala det kan godt være
+                double factor = 0.1; //TODO CHANGE HERE forrandre denne til å endre zoom skala det kan godt være
                 //at zoomfactor er for høy siden zoomfactor er akkurat nå antall cm mellom initialHeadPos
                 //og new
                 st.ScaleX += zoomFactor * factor;
@@ -246,8 +246,8 @@ namespace MouseMode
             _rightGaze.Y = gd.RightGazePoint2D.Y * Height;
 
 
-            //denne line under er mulig feil, men takengang er å sette initialHeadPos til 3D.Z
-            //og bruker dette videre. akkurat nå bruker jeg 3DRelative men det funker kanskje ikke
+            //TODO denne line under er mulig feil, men takengang er å sette initialHeadPos til 3D.Z
+            //og bruker dette videre. akkurat nå bruker jeg men det funker kanskje ikke
             _headPos.Z = gd.LeftEyePosition3D.Z/10;
 
             if (_leftGaze.X < 0 && _rightGaze.X < 0 && _headPos.Z < 0) return;
@@ -265,8 +265,7 @@ namespace MouseMode
             }
             if (actionButtonDown)
             {
-                //denne line under er mulig feil, men takengang er å sette initialHeadPos til 3D.Z
-                //og bruker dette videre. akkurat nå bruker jeg 3D men det funker kanskje ikke
+                
                 if (GazeHaveMoved(_current))
                 {
                     _previous = _current;
@@ -283,7 +282,7 @@ namespace MouseMode
 
         private bool HeadHaveMoved(double initialPosition)
         {
-            //forrandre 3cm til hva enn du mener er komfortabel nok til å telle som head movement
+            //TODO forrandre 3cm til hva enn du mener er komfortabel nok til å telle som head movement
             if (Math.Abs(initialPosition - _headPos.Z) > 3)
             {
                 return true;
