@@ -125,9 +125,12 @@ namespace MouseMode
 
         private void EyeMoveDuringAction()
         {
-            if (Image != null && (start.X != _previous.X || start.Y != _previous.Y))
+            if (Image != null )
             {
+
                 var tt = getTransform(Image);
+                start = new Point(_previous.X, _previous.Y);
+                origin = new Point(tt.X, tt.Y);
                 Vector vector = start - new Point(_previous.X, _previous.Y);
                 tt.X = vector.X - origin.X;
                 tt.Y = vector.Y - origin.Y;
@@ -142,10 +145,7 @@ namespace MouseMode
             {
                 actionButtonDown = !actionButtonDown; //TODO tror ikke den her trengs lenger
 
-                var tt = getTransform(Image);
-                start = new Point(_previous.X,_previous.Y);
-                origin = new Point(tt.X, tt.Y);
-
+   
                 _initialHeadPos.Z = _headPos.Z;
                 //Image.CaptureMouse();
                 //ViewBox.Cursor = Cursors.Hand;
