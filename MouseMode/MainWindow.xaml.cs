@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -120,6 +121,7 @@ namespace MouseMode
                 
                 tt.X = abosuluteX - relative.X * st.ScaleX;
                 tt.Y = abosuluteY - relative.Y * st.ScaleY;
+                Debug.WriteLine("Zoomed");
             }
         }
 
@@ -135,6 +137,9 @@ namespace MouseMode
                 tt.X = vector.X - origin.X;
                 tt.Y = vector.Y - origin.Y;
                 start = new Point(_previous.X, _previous.Y);
+
+                Debug.WriteLine("New eye movement");
+                Debug.WriteLine(tt.X + " - " + tt.Y);
             }
         }
 

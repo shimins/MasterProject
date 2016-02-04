@@ -137,36 +137,56 @@ namespace Swipe
 
             if (GazeHaveMoved(_current))
             {
-
                 if (_current.X > _previous.X)
                 {
+                    if(ImageContainer.SelectedIndex == 0)
+                        return;
+
                     // SWIPE RIGHT ~>>~>>~>> (PREV)
                     Debug.WriteLine("Prev");
-                    if (rightCount++ > 3)
+                    if (rightCount++ > 0)
                     {
                         rightCount = 0;
                         leftCount = 0;
 
-                        if(Test.SelectedIndex > 0)
-                            this.Test.SelectedIndex--;
+                        if (ImageContainer.SelectedIndex > 0)
+                        {
+                            ImageContainer.SelectedIndex--;
+                            //ImageContainer.RunSlideAnimation(-ActualWidth, _current.X);
+                            ImageContainer.RunSlideAnimation(ActualWidth);
+                        }
                     }
-                    temp = _current.X;
-                    this.Test.RunSlideAnimation(_previous.X, _current.X);
+                    else
+                    {
+                        temp = _current.X;
+                        ImageContainer.RunSlideAnimation(_previous.X, _current.X);
+                        rightCount++;
+                    }
                 }
                 else
                 {
+                    if (ImageContainer.SelectedIndex == ImageContainer.Items.Count - 1)
+                        return;
+
                     // SWIPE LEFT <<~<<~<<~ (NEXT)
                     Debug.WriteLine("Next");
-                    if (leftCount++ > 3)
+                    if (leftCount++ > 0)
                     {
                         rightCount = 0;
                         leftCount = 0;
 
-                        if (Test.SelectedIndex < Test.Items.Count-1)
-                            this.Test.SelectedIndex++;
+                        if (ImageContainer.SelectedIndex <= ImageContainer.Items.Count - 1)
+                        {
+                            ImageContainer.SelectedIndex++;
+                            //ImageContainer.RunSlideAnimation(ActualWidth, _previous.X);
+                            ImageContainer.RunSlideAnimation(-ActualWidth);
+                        }
                     }
-                    this.Test.RunSlideAnimation(_current.X, _previous.X);
-                    leftCount++;
+                    else
+                    {
+                         ImageContainer.RunSlideAnimation(_current.X, _previous.X);
+                        leftCount++;
+                    }
                 }
 
                 _previous = _current;
@@ -176,9 +196,8 @@ namespace Swipe
 
         private bool GazeHaveMoved(Point2D currentPoint)
         {
-            if (Math.Abs(_previous.X - currentPoint.X) > 40 || Math.Abs(_previous.Y - currentPoint.Y) > 40)
+            if (Math.Abs(_previous.X - currentPoint.X) > 200 /*|| Math.Abs(_previous.Y - currentPoint.Y) > 75 */)
             {
-
                 return true;
             }
             return false;
