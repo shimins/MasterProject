@@ -22,8 +22,9 @@ namespace MouseMode
     public partial class MainWindow : Window
     {
 
-        private Point start;
-        private Point origin;
+        //private Point start;
+        //private Point origin;
+        private Point center;
         private UIElement child = null;
         private bool actionButtonDown;
 
@@ -56,6 +57,7 @@ namespace MouseMode
 
             _initialHeadPos = new Point3D(0,0,0);
             _headPos = new Point3D(0, 0, 0);
+            center = new Point(Border.Width/2, Border.Height/2);
 
             this.child = Image;
             TransformGroup group = new TransformGroup();
@@ -127,14 +129,16 @@ namespace MouseMode
         {
             if (Image != null )
             {
-
                 var tt = getTransform(Image);
-                start = new Point(_previous.X, _previous.Y);
-                origin = new Point(tt.X, tt.Y);
-                Vector vector = start - new Point(_previous.X, _previous.Y);
-                tt.X = vector.X - origin.X;
-                tt.Y = vector.Y - origin.Y;
-                start = new Point(_previous.X, _previous.Y);
+                Vector vector = center - new Point(_previous.X, _previous.Y);
+                tt.X = vector.X - center.X;
+                tt.Y = vector.Y - center.Y;
+                //start = new Point(_previous.X, _previous.Y);
+                //origin = new Point(tt.X, tt.Y);
+                //Vector vector = start - new Point(_previous.X, _previous.Y);
+                //tt.X = vector.X - origin.X;
+                //tt.Y = vector.Y - origin.Y;
+                //start = new Point(_previous.X, _previous.Y);
             }
         }
 
