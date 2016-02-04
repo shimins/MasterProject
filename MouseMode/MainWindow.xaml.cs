@@ -34,9 +34,13 @@ namespace MouseMode
 
         private Point2D _leftGaze;
         private Point2D _rightGaze;
+        private Point3D _headPos;
 
         private Point2D _current;
         private Point2D _previous;
+
+        private Point3D _initialHeadPos;
+
 
         public MainWindow()
         {
@@ -49,6 +53,8 @@ namespace MouseMode
             _browser.EyeTrackerFound += _browser_EyetrackerFound;
             _browser.EyeTrackerRemoved += _browser_EyetrackerRemoved;
             _browser.EyeTrackerUpdated += _browser_EyetrackerUpdated;
+
+            _headPos.Z = 0.0;
 
             this.child = Image;
             TransformGroup group = new TransformGroup();
@@ -88,27 +94,26 @@ namespace MouseMode
         }
         
 
-        //this will need point3D object from the eyetracker
-        private void zoom_event(object sender, MouseWheelEventArgs e)
+        
+        private void zoom_event(double zoomFactor)
         {
             if (Image != null)
             {
                 var st = getScaleTransform(Image);
                 var tt = getTransform(Image);
 
-                double zoom = e.Delta > 0 ? .2 : -.2;
-                if (!(e.Delta > 0) && (st.ScaleX < .4 || st.ScaleY < .4))
+                if (st.ScaleX < .4 || st.ScaleY < .4)
                     return;
 
-                Point relative = e.GetPosition(child);
+                Point relative = new Point(_previous.X,_previous.Y);
 
                 var abosuluteX = relative.X * st.ScaleX + tt.X;
                 var abosuluteY = relative.Y * st.ScaleY + tt.Y;
 
 
-                double factor = 0.5;
-                st.ScaleX += zoom * factor;
-                st.ScaleY += zoom * factor;
+                double factor = 0.5; //forrandre denne til å endre zoom skala
+                st.ScaleX += zoomFactor * factor;
+                st.ScaleY += zoomFactor * factor;
                 
                 tt.X = abosuluteX - relative.X * st.ScaleX;
                 tt.Y = abosuluteY - relative.Y * st.ScaleY;
@@ -120,7 +125,7 @@ namespace MouseMode
             if (Image != null)
             {
                 var tt = getTransform(Image);
-                Vector vector = start - new Point(_previous.X,_previous.Y);
+                Vector vector = start - new Point(_previous.X, _previous.Y);
                 tt.X = vector.X - origin.X;
                 tt.Y = vector.Y - origin.Y;
             }
@@ -235,7 +240,11 @@ namespace MouseMode
             _rightGaze.X = gd.RightGazePoint2D.X * Width;
             _rightGaze.Y = gd.RightGazePoint2D.Y * Height;
 
-            if (_leftGaze.X < 0 && _rightGaze.X < 0) return;
+            //denne line under er mulig feil, men takengang er å sette initialHeadPos til 3D.Z
+            //og bruker dette videre. akkurat nå bruker jeg 3DRelative men det funker kanskje ikke
+            _headPos.Z = gd.LeftEyePosition3DRelative.Z;
+
+            if (_leftGaze.X < 0 && _rightGaze.X < 0 && _headPos.Z < 0) return;
             if (_leftGaze.X > 0 && _rightGaze.X > 0)
             {
                 _current = new Point2D((_leftGaze.X + _rightGaze.X) / 2, (_leftGaze.Y + _rightGaze.Y) / 2);
@@ -248,21 +257,39 @@ namespace MouseMode
             {
                 _current = new Point2D(_leftGaze.X, _leftGaze.Y);
             }
-            if (GazeHaveMoved(_current))
+            if (actionButtonDown)
             {
-                _previous = _current;
+                //denne line under er mulig feil, men takengang er å sette initialHeadPos til 3D.Z
+                //og bruker dette videre. akkurat nå bruker jeg 3DRelative men det funker kanskje ikke
+                _initialHeadPos.Z = gd.LeftEyePosition3DRelative.Z; 
+                if (GazeHaveMoved(_current))
+                {
+                    _previous = _current;
+                    EyeMoveDuringAction();
+                }
+                if (HeadHaveMoved(_initialHeadPos.Z))
+                {
+                    var zoomFactor = _initialHeadPos.Z - _headPos.Z;
+                    zoom_event(zoomFactor);
+                }
+                InvalidateVisual();
             }
-            InvalidateVisual();
+        }
+
+        private bool HeadHaveMoved(double initialPosition)
+        {
+            //forrandre 0.1 til hva enn du mener er komfortabel nok til å telle som head movement
+            if (Math.Abs(initialPosition - _headPos.Z) > 0.1)
+            {
+                return true;
+            }
+            return false;
         }
 
         private bool GazeHaveMoved(Point2D currentPoint)
         {
             if (Math.Abs(_previous.X - currentPoint.X) > 30 || Math.Abs(_previous.Y - currentPoint.Y) > 30)
             {
-                if (actionButtonDown)
-                {
-                    EyeMoveDuringAction();
-                }
                 return true;
             }
             return false;
