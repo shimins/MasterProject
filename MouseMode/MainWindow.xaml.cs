@@ -54,7 +54,8 @@ namespace MouseMode
             _browser.EyeTrackerRemoved += _browser_EyetrackerRemoved;
             _browser.EyeTrackerUpdated += _browser_EyetrackerUpdated;
 
-            _headPos.Z = 0.0;
+            _initialHeadPos = new Point3D(0,0,0);
+            _headPos = new Point3D(0, 0, 0);
 
             this.child = Image;
             TransformGroup group = new TransformGroup();
@@ -103,7 +104,7 @@ namespace MouseMode
                 var tt = getTransform(Image);
 
                 if (st.ScaleX < .4 || st.ScaleY < .4)
-                    return;
+                    return; 
 
                 Point relative = new Point(_previous.X,_previous.Y);
 
@@ -111,7 +112,9 @@ namespace MouseMode
                 var abosuluteY = relative.Y * st.ScaleY + tt.Y;
 
 
-                double factor = 0.5; //forrandre denne til å endre zoom skala
+                double factor = 0.1; //forrandre denne til å endre zoom skala det kan godt være
+                //at zoomfactor er for høy siden zoomfactor er akkurat nå antall cm mellom initialHeadPos
+                //og new
                 st.ScaleX += zoomFactor * factor;
                 st.ScaleY += zoomFactor * factor;
                 
@@ -141,6 +144,8 @@ namespace MouseMode
                 var tt = getTransform(Image);
                 start = new Point(_previous.X,_previous.Y);
                 origin = new Point(tt.X, tt.Y);
+
+                _initialHeadPos.Z = _headPos.Z;
                 //Image.CaptureMouse();
                 //ViewBox.Cursor = Cursors.Hand;
             }
@@ -240,9 +245,10 @@ namespace MouseMode
             _rightGaze.X = gd.RightGazePoint2D.X * Width;
             _rightGaze.Y = gd.RightGazePoint2D.Y * Height;
 
+
             //denne line under er mulig feil, men takengang er å sette initialHeadPos til 3D.Z
             //og bruker dette videre. akkurat nå bruker jeg 3DRelative men det funker kanskje ikke
-            _headPos.Z = gd.LeftEyePosition3DRelative.Z;
+            _headPos.Z = gd.LeftEyePosition3D.Z/10;
 
             if (_leftGaze.X < 0 && _rightGaze.X < 0 && _headPos.Z < 0) return;
             if (_leftGaze.X > 0 && _rightGaze.X > 0)
@@ -260,8 +266,7 @@ namespace MouseMode
             if (actionButtonDown)
             {
                 //denne line under er mulig feil, men takengang er å sette initialHeadPos til 3D.Z
-                //og bruker dette videre. akkurat nå bruker jeg 3DRelative men det funker kanskje ikke
-                _initialHeadPos.Z = gd.LeftEyePosition3DRelative.Z; 
+                //og bruker dette videre. akkurat nå bruker jeg 3D men det funker kanskje ikke
                 if (GazeHaveMoved(_current))
                 {
                     _previous = _current;
@@ -278,8 +283,8 @@ namespace MouseMode
 
         private bool HeadHaveMoved(double initialPosition)
         {
-            //forrandre 0.1 til hva enn du mener er komfortabel nok til å telle som head movement
-            if (Math.Abs(initialPosition - _headPos.Z) > 0.1)
+            //forrandre 3cm til hva enn du mener er komfortabel nok til å telle som head movement
+            if (Math.Abs(initialPosition - _headPos.Z) > 3)
             {
                 return true;
             }
