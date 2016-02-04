@@ -57,7 +57,7 @@ namespace MouseMode
 
             _initialHeadPos = new Point3D(0,0,0);
             _headPos = new Point3D(0, 0, 0);
-            center = new Point(Border.Width/2, Border.Height/2);
+            center = new Point(Width/2, Height/2);
 
             this.child = Image;
             TransformGroup group = new TransformGroup();
