@@ -8,7 +8,7 @@
     </Window.DataContext>
     <Grid>
 
-        <local:View x:Name="Test" ItemsSource="{Binding ViewItems}"
+        <local:View x:Name="ImageContainer" ItemsSource="{Binding ViewItems}"
                            SelectedIndex="1">
             <local:View.ItemTemplate>
                 <DataTemplate>
