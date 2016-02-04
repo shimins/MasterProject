@@ -127,7 +127,8 @@ namespace MouseMode
 
         private void EyeMoveDuringAction()
         {
-            if (Image != null )
+            if (Image != null && (Math.Abs(_previous.X - center.X) > 5 
+                || Math.Abs(_previous.Y - center.Y) > 5))
             {
                 var tt = getTransform(Image);
                 Vector vector = center - new Point(_previous.X, _previous.Y);
@@ -152,6 +153,7 @@ namespace MouseMode
    
                 _initialHeadPos.Z = _headPos.Z;
                 var tt = getTransform(Image);
+
                 center = new Point(tt.X / 2, tt.Y / 2);
                 //Image.CaptureMouse();
                 //ViewBox.Cursor = Cursors.Hand;
@@ -271,17 +273,16 @@ namespace MouseMode
             }
             if (actionButtonDown)
             {
-                
                 if (GazeHaveMoved(_current))
                 {
                     _previous = _current;
-                    EyeMoveDuringAction();
                 }
                 if (HeadHaveMoved(_initialHeadPos.Z))
                 {
                     var zoomFactor = _initialHeadPos.Z - _headPos.Z;
                     zoom_event(zoomFactor);
                 }
+                EyeMoveDuringAction();
                 InvalidateVisual();
             }
         }
