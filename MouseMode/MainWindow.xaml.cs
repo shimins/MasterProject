@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,7 +58,8 @@ namespace MouseMode
 
             _initialHeadPos = new Point3D(0,0,0);
             _headPos = new Point3D(0, 0, 0);
-            center = new Point(Border.Width/2, Border.Height/2);
+            center = new Point(Width/2, Height/2);
+            Debug.WriteLine(center);
 
             this.child = Image;
             TransformGroup group = new TransformGroup();
@@ -139,6 +141,8 @@ namespace MouseMode
                 //tt.X = vector.X - origin.X;
                 //tt.Y = vector.Y - origin.Y;
                 //start = new Point(_previous.X, _previous.Y);
+
+            Debug.WriteLine(tt.X + " - " + tt.Y);
             }
         }
 
