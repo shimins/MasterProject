@@ -117,7 +117,7 @@ namespace Swipe
             if ((int)e.NewValue >= 0 && (int)e.NewValue < this.Items.Count)
             {
                 double toValue = (int)e.OldValue < (int)e.NewValue ? -this.ActualWidth : this.ActualWidth;
-                Debug.WriteLine(toValue + " - vs - " + fromValue);
+                //Debug.WriteLine(toValue + " - vs - " + fromValue);
                 this.RunSlideAnimation(toValue, fromValue);
             }
         }
@@ -149,12 +149,10 @@ namespace Swipe
                 this.PART_Root.RenderTransform = new TranslateTransform();
             }
 
-            Debug.WriteLine(toValue + " - " + fromValue);
-
             var story = AnimationFactory.Instance.GetAnimation(this.PART_Root, toValue, fromValue);
             story.Completed += (s, e) =>
             {
-                Debug.WriteLine(toValue + " -|- " + fromValue);
+                //Debug.WriteLine(toValue + " -|- " + fromValue);
                 this.RefreshViewPort(this.SelectedIndex);
             };
             story.Begin();

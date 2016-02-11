@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using Tobii.EyeTracking.IO;
 
@@ -66,10 +64,7 @@ namespace Swipe
         {
             _browser.StopBrowsing();
 
-            if (_tracker != null)
-            {
-                _tracker.Dispose();
-            }
+            _tracker?.Dispose();
         }
 
         private void _trackButton_Click(object sender, RoutedEventArgs e)
@@ -137,61 +132,76 @@ namespace Swipe
 
             if (GazeHaveMoved(_current))
             {
+                // if(GazeIsLeftSide(_current) {
+                // 
+                //  }
+
+
                 if (_current.X > _previous.X)
                 {
-                    if(ImageContainer.SelectedIndex == 0)
+                    if (ImageContainer.SelectedIndex == 0)
+                    {
+                        Debug.WriteLine("Returning 1");
+                        _previous = _current;
                         return;
+                    }
 
                     // SWIPE RIGHT ~>>~>>~>> (PREV)
                     Debug.WriteLine("Prev");
-                    if (rightCount++ > 0)
+                    if (rightCount++ > 2)
                     {
                         rightCount = 0;
                         leftCount = 0;
 
-                        if (ImageContainer.SelectedIndex > 0)
-                        {
-                            ImageContainer.SelectedIndex--;
-                            //ImageContainer.RunSlideAnimation(-ActualWidth, _current.X);
-                            ImageContainer.RunSlideAnimation(ActualWidth);
-                        }
+                        ImageContainer.SelectedIndex--;
+                        //ImageContainer.RunSlideAnimation(-ActualWidth, _current.X);
+                        ImageContainer.RunSlideAnimation(ActualWidth);
                     }
                     else
                     {
                         temp = _current.X;
-                        ImageContainer.RunSlideAnimation(_previous.X, _current.X);
+                        //ImageContainer.RunSlideAnimation(_previous.X, _current.X);
                         rightCount++;
                     }
                 }
                 else
                 {
                     if (ImageContainer.SelectedIndex == ImageContainer.Items.Count - 1)
+                    {
+                        Debug.WriteLine("Returning 22");
+                        _previous = _current;
                         return;
+                    }
 
                     // SWIPE LEFT <<~<<~<<~ (NEXT)
                     Debug.WriteLine("Next");
-                    if (leftCount++ > 0)
+                    if (leftCount++ > 2)
                     {
                         rightCount = 0;
                         leftCount = 0;
 
-                        if (ImageContainer.SelectedIndex <= ImageContainer.Items.Count - 1)
-                        {
-                            ImageContainer.SelectedIndex++;
-                            //ImageContainer.RunSlideAnimation(ActualWidth, _previous.X);
-                            ImageContainer.RunSlideAnimation(-ActualWidth);
-                        }
+                        ImageContainer.SelectedIndex++;
+                        //ImageContainer.RunSlideAnimation(ActualWidth, _previous.X);
+                        ImageContainer.RunSlideAnimation(-ActualWidth);
                     }
                     else
                     {
-                         ImageContainer.RunSlideAnimation(_current.X, _previous.X);
+                        //ImageContainer.RunSlideAnimation(_current.X, _previous.X);
                         leftCount++;
                     }
                 }
 
                 _previous = _current;
             }
-            //InvalidateVisual();
+            InvalidateVisual();
+        }
+
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+
+            var point = new Point(_current.X, _current.Y);
+            drawingContext.DrawEllipse(Brushes.Transparent, new Pen(Brushes.Red, 10), point, 10, 10);
         }
 
         private bool GazeHaveMoved(Point2D currentPoint)

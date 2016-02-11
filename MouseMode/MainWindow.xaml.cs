@@ -116,7 +116,7 @@ namespace MouseMode
                 var abosuluteY = relative.Y * st.ScaleY + tt.Y;
 
 
-                double factor = 0.1; //TODO CHANGE HERE forrandre denne til å endre zoom skala det kan godt være
+                double factor = 0.075; //TODO CHANGE HERE forrandre denne til å endre zoom skala det kan godt være
                 //at zoomfactor er for høy siden zoomfactor er akkurat nå antall cm mellom initialHeadPos
                 //og new
                 st.ScaleX += zoomFactor * factor;
@@ -129,8 +129,11 @@ namespace MouseMode
 
         private void EyeMoveDuringAction()
         {
-            if (Image != null && (Math.Abs(_previous.X - center.X) > 5 
-                || Math.Abs(_previous.Y - center.Y) > 5))
+            if (Image != null 
+                //&& 
+                //(Math.Abs(_previous.X - center.X) > 5 
+                //|| Math.Abs(_previous.Y - center.Y) > 5)
+                )
             {
                 var tt = getTransform(Image);
                 Vector vector = center - new Point(_previous.X, _previous.Y);
@@ -152,9 +155,8 @@ namespace MouseMode
         {
             if (Image != null)
             {
-                actionButtonDown = !actionButtonDown; //TODO tror ikke den her trengs lenger
+                actionButtonDown = true;
 
-   
                 _initialHeadPos.Z = _headPos.Z;
                 var tt = getTransform(Image);
 
@@ -283,7 +285,7 @@ namespace MouseMode
                 }
                 if (HeadHaveMoved(_initialHeadPos.Z))
                 {
-                    var zoomFactor = _initialHeadPos.Z - _headPos.Z;
+                    var zoomFactor = Math.Abs(_initialHeadPos.Z - _headPos.Z);
                     zoom_event(zoomFactor);
                 }
                 EyeMoveDuringAction();
