@@ -76,6 +76,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AnimationFactory.cs" />
+    <Compile Include="GazeHelper.cs" />
     <Compile Include="View.cs" />
     <Compile Include="ViewModel.cs" />
     <Compile Include="ViewPanel.cs" />

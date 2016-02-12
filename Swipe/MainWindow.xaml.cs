@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
 using Tobii.EyeTracking.IO;
@@ -105,103 +106,110 @@ namespace Swipe
 
         private double temp = 0;
 
+
         private void _tracker_GazeDataReceived(object sender, GazeDataEventArgs e)
         {
             // Convert to centimeters
             var gd = e.GazeDataItem;
 
-            _leftGaze.X = gd.LeftGazePoint2D.X * Width;
-            _leftGaze.Y = gd.LeftGazePoint2D.Y * Height;
+            var widthFactor = 1920/ActualWidth;
+            var heightFactor = 1200/ActualHeight;
 
-            _rightGaze.X = gd.RightGazePoint2D.X * Width;
-            _rightGaze.Y = gd.RightGazePoint2D.Y * Height;
+            _leftGaze.X = gd.LeftGazePoint2D.X * 1920;
+            _leftGaze.Y = gd.LeftGazePoint2D.Y * 1200;
 
-            if (_leftGaze.X < 0 && _rightGaze.X < 0) return;
-            if (_leftGaze.X > 0 && _rightGaze.X > 0)
-            {
-                _current = new Point2D((_leftGaze.X + _rightGaze.X) / 2, (_leftGaze.Y + _rightGaze.Y) / 2);
-            }
-            else if (_rightGaze.X > 0)
-            {
-                _current = new Point2D(_rightGaze.X, _rightGaze.Y);
-            }
-            else if (_leftGaze.X > 0)
-            {
-                _current = new Point2D(_leftGaze.X, _leftGaze.Y);
-            }
+            _rightGaze.X = gd.RightGazePoint2D.X * 1920;
+            _rightGaze.Y = gd.RightGazePoint2D.Y * 1200;
+
+            if (!GazeHelper.SetCurrentPoint(ref _current, _leftGaze, _rightGaze))
+                return;
 
             if (GazeHaveMoved(_current))
             {
-                // if(GazeIsLeftSide(_current) {
-                // 
-                //  }
+                //    // if(GazeIsLeftSide(_current) {
+                //    // 
+                //    //  }
 
 
-                if (_current.X > _previous.X)
-                {
-                    if (ImageContainer.SelectedIndex == 0)
-                    {
-                        Debug.WriteLine("Returning 1");
-                        _previous = _current;
-                        return;
-                    }
+                //    if (_current.X > _previous.X)
+                //    {
+                //        if (ImageContainer.SelectedIndex == 0)
+                //        {
+                //            Debug.WriteLine("Returning 1");
+                //            _previous = _current;
+                //            return;
+                //        }
 
-                    // SWIPE RIGHT ~>>~>>~>> (PREV)
-                    Debug.WriteLine("Prev");
-                    if (rightCount++ > 2)
-                    {
-                        rightCount = 0;
-                        leftCount = 0;
+                //        // SWIPE RIGHT ~>>~>>~>> (PREV)
+                //        Debug.WriteLine("Prev");
+                //        if (rightCount++ > 2)
+                //        {
+                //            rightCount = 0;
+                //            leftCount = 0;
 
-                        ImageContainer.SelectedIndex--;
-                        //ImageContainer.RunSlideAnimation(-ActualWidth, _current.X);
-                        ImageContainer.RunSlideAnimation(ActualWidth);
-                    }
-                    else
-                    {
-                        temp = _current.X;
-                        //ImageContainer.RunSlideAnimation(_previous.X, _current.X);
-                        rightCount++;
-                    }
-                }
-                else
-                {
-                    if (ImageContainer.SelectedIndex == ImageContainer.Items.Count - 1)
-                    {
-                        Debug.WriteLine("Returning 22");
-                        _previous = _current;
-                        return;
-                    }
+                //            ImageContainer.SelectedIndex--;
+                //            //ImageContainer.RunSlideAnimation(-ActualWidth, _current.X);
+                //            ImageContainer.RunSlideAnimation(ActualWidth);
+                //        }
+                //        else
+                //        {
+                //            temp = _current.X;
+                //            //ImageContainer.RunSlideAnimation(_previous.X, _current.X);
+                //            rightCount++;
+                //        }
+                //    }
+                //    else
+                //    {
+                //        if (ImageContainer.SelectedIndex == ImageContainer.Items.Count - 1)
+                //        {
+                //            Debug.WriteLine("Returning 22");
+                //            _previous = _current;
+                //            return;
+                //        }
 
-                    // SWIPE LEFT <<~<<~<<~ (NEXT)
-                    Debug.WriteLine("Next");
-                    if (leftCount++ > 2)
-                    {
-                        rightCount = 0;
-                        leftCount = 0;
+                //        // SWIPE LEFT <<~<<~<<~ (NEXT)
+                //        Debug.WriteLine("Next");
+                //        if (leftCount++ > 2)
+                //        {
+                //            rightCount = 0;
+                //            leftCount = 0;
 
-                        ImageContainer.SelectedIndex++;
-                        //ImageContainer.RunSlideAnimation(ActualWidth, _previous.X);
-                        ImageContainer.RunSlideAnimation(-ActualWidth);
-                    }
-                    else
-                    {
-                        //ImageContainer.RunSlideAnimation(_current.X, _previous.X);
-                        leftCount++;
-                    }
-                }
+                //            ImageContainer.SelectedIndex++;
+                //            //ImageContainer.RunSlideAnimation(ActualWidth, _previous.X);
+                //            ImageContainer.RunSlideAnimation(-ActualWidth);
+                //        }
+                //        else
+                //        {
+                //            //ImageContainer.RunSlideAnimation(_current.X, _previous.X);
+                //            leftCount++;
+                //        }
+                //    }
+
 
                 _previous = _current;
             }
             InvalidateVisual();
         }
 
+
+
         protected override void OnRender(DrawingContext drawingContext)
         {
+            const int length = 150;
+            Point leftPoint = new Point(0, 0);
+            Point rightPoint = new Point(ActualWidth-length, 0);
+
             base.OnRender(drawingContext);
 
-            var point = new Point(_current.X, _current.Y);
-            drawingContext.DrawEllipse(Brushes.Transparent, new Pen(Brushes.Red, 10), point, 10, 10);
+            drawingContext.DrawRectangle(Brushes.Coral, null,  new Rect(leftPoint, new Size(length, ActualHeight)));
+            drawingContext.DrawRectangle(Brushes.Coral, null,  new Rect(rightPoint, new Size(length, ActualHeight)));
+
+            var point = new Point((int)_current.X, (int)_current.Y);
+            drawingContext.DrawEllipse(Brushes.Transparent, new Pen(Brushes.Red, 5), point, 125, 125);
+            drawingContext.DrawEllipse(Brushes.WhiteSmoke, new Pen(Brushes.Transparent, 5), point, 3, 3);
+            drawingContext.DrawText(new FormattedText(PointFromScreen(point).ToString(), CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Calibri"), 15, Brushes.CornflowerBlue), new Point(point.X, point.Y-80));
+            drawingContext.DrawText(new FormattedText(PointToScreen(point).ToString(), CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Calibri"), 15, Brushes.CornflowerBlue), new Point(point.X, point.Y-60));
+            drawingContext.DrawText(new FormattedText(point.X + " - " + point.Y, CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Calibri"), 15, Brushes.DarkMagenta), point);
         }
 
         private bool GazeHaveMoved(Point2D currentPoint)
