@@ -57,7 +57,7 @@ namespace MouseMode
 
             _initialHeadPos = new Point3D(0,0,0);
             _headPos = new Point3D(0, 0, 0);
-            center = new Point(this.Width / 2, this.Height / 2);
+            center = new Point(960, 600);
 
             child = Image;
             TransformGroup group = new TransformGroup();
@@ -105,11 +105,14 @@ namespace MouseMode
                 var st = getScaleTransform(child);
                 var tt = getTransform(child);
 
+
+
                 double zoom = zoomFactor > 0 ? -.01 : .01;
                 if (st.ScaleX < .4 || st.ScaleY < .4)
-                    return; 
+                    return;
 
-                Point relative = new Point(_previous.X,_previous.Y);
+
+                Point relative = new Point();
 
                 var abosuluteX = relative.X * st.ScaleX + tt.X;
                 var abosuluteY = relative.Y * st.ScaleY + tt.Y;
@@ -126,10 +129,12 @@ namespace MouseMode
         {
             if (child != null)
             {
-                var tt = getTransform(child);
-                Vector vector = center - point;
-                tt.X = vector.X;
-                tt.Y = vector.Y;
+                //Console.WriteLine(point);
+                //var tt = getTransform(child);
+                //Vector vector = point - center;
+                //tt.X += vector.X;
+                //tt.Y += vector.Y;
+                //origin = new Point(tt.X, tt.Y);
             }
         }
 
@@ -142,6 +147,8 @@ namespace MouseMode
 
                 _initialHeadPos.Z = _headPos.Z;
 
+                //var tt = getTransform(child);
+                //origin = new Point(tt.X, tt.Y);
             }
         }
 
@@ -282,7 +289,7 @@ namespace MouseMode
 
         private bool GazeHaveMoved(Point2D currentPoint)
         {
-            if (Math.Abs(_previous.X - currentPoint.X) > 30 || Math.Abs(_previous.Y - currentPoint.Y) > 30)
+            if (Math.Abs(_previous.X - currentPoint.X) > 100 || Math.Abs(_previous.Y - currentPoint.Y) > 100)
             {
                 return true;
             }

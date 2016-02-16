@@ -5,9 +5,9 @@
         Title="Swipe" Height="400" Width="600"  Background="Transparent" Loaded="Window_Loaded" Closed="Window_Closed">
 
     <Grid>
-        <Grid.DataContext>
-            <local:ViewModel />
-        </Grid.DataContext>
+        <!--<Grid.DataContext>-->
+            <!--<local:ViewModel />
+        </Grid.DataContext>-->
         <local:View x:Name="ImageContainer" ItemsSource="{Binding ViewItems}"
                            SelectedIndex="1">
             <local:View.ItemTemplate>
