@@ -126,64 +126,64 @@ namespace Swipe
 
             if (GazeHaveMoved(_current))
             {
-                //    // if(GazeIsLeftSide(_current) {
-                //    // 
-                //    //  }
+                // if(GazeIsLeftSide(_current) {
+                // 
+                //  }
 
 
-                //    if (_current.X > _previous.X)
-                //    {
-                //        if (ImageContainer.SelectedIndex == 0)
-                //        {
-                //            Debug.WriteLine("Returning 1");
-                //            _previous = _current;
-                //            return;
-                //        }
+                if (_current.X > _previous.X)
+                {
+                    if (ImageContainer.SelectedIndex == 0)
+                    {
+                        Debug.WriteLine("Returning 1");
+                        _previous = _current;
+                        return;
+                    }
 
-                //        // SWIPE RIGHT ~>>~>>~>> (PREV)
-                //        Debug.WriteLine("Prev");
-                //        if (rightCount++ > 2)
-                //        {
-                //            rightCount = 0;
-                //            leftCount = 0;
+                    // SWIPE RIGHT ~>>~>>~>> (PREV)
+                    Debug.WriteLine("Prev");
+                    if (rightCount++ > 2)
+                    {
+                        rightCount = 0;
+                        leftCount = 0;
 
-                //            ImageContainer.SelectedIndex--;
-                //            //ImageContainer.RunSlideAnimation(-ActualWidth, _current.X);
-                //            ImageContainer.RunSlideAnimation(ActualWidth);
-                //        }
-                //        else
-                //        {
-                //            temp = _current.X;
-                //            //ImageContainer.RunSlideAnimation(_previous.X, _current.X);
-                //            rightCount++;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        if (ImageContainer.SelectedIndex == ImageContainer.Items.Count - 1)
-                //        {
-                //            Debug.WriteLine("Returning 22");
-                //            _previous = _current;
-                //            return;
-                //        }
+                        ImageContainer.SelectedIndex--;
+                        //ImageContainer.RunSlideAnimation(-ActualWidth, _current.X);
+                        ImageContainer.RunSlideAnimation(ActualWidth);
+                    }
+                    else
+                    {
+                        temp = _current.X;
+                        //ImageContainer.RunSlideAnimation(_previous.X, _current.X);
+                        rightCount++;
+                    }
+                }
+                else
+                {
+                    if (ImageContainer.SelectedIndex == ImageContainer.Items.Count - 1)
+                    {
+                        Debug.WriteLine("Returning 22");
+                        _previous = _current;
+                        return;
+                    }
 
-                //        // SWIPE LEFT <<~<<~<<~ (NEXT)
-                //        Debug.WriteLine("Next");
-                //        if (leftCount++ > 2)
-                //        {
-                //            rightCount = 0;
-                //            leftCount = 0;
+                    // SWIPE LEFT <<~<<~<<~ (NEXT)
+                    Debug.WriteLine("Next");
+                    if (leftCount++ > 2)
+                    {
+                        rightCount = 0;
+                        leftCount = 0;
 
-                //            ImageContainer.SelectedIndex++;
-                //            //ImageContainer.RunSlideAnimation(ActualWidth, _previous.X);
-                //            ImageContainer.RunSlideAnimation(-ActualWidth);
-                //        }
-                //        else
-                //        {
-                //            //ImageContainer.RunSlideAnimation(_current.X, _previous.X);
-                //            leftCount++;
-                //        }
-                //    }
+                        ImageContainer.SelectedIndex++;
+                        //ImageContainer.RunSlideAnimation(ActualWidth, _previous.X);
+                        ImageContainer.RunSlideAnimation(-ActualWidth);
+                    }
+                    else
+                    {
+                        //ImageContainer.RunSlideAnimation(_current.X, _previous.X);
+                        leftCount++;
+                    }
+                }
 
 
                 _previous = _current;

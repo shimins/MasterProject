@@ -23,8 +23,7 @@ namespace MouseMode
     public partial class MainWindow : Window
     {
 
-        //private Point start;
-        //private Point origin;
+        private Point origin;
         private Point center;
         private UIElement child = null;
         private bool actionButtonDown;
@@ -58,17 +57,16 @@ namespace MouseMode
 
             _initialHeadPos = new Point3D(0,0,0);
             _headPos = new Point3D(0, 0, 0);
-            center = new Point(Width/2, Height/2);
-            Debug.WriteLine(center);
+            center = new Point(this.Width / 2, this.Height / 2);
 
-            this.child = Image;
+            child = Image;
             TransformGroup group = new TransformGroup();
             ScaleTransform st = new ScaleTransform();
             group.Children.Add(st);
             TranslateTransform tt = new TranslateTransform();
             group.Children.Add(tt);
             child.RenderTransform = group;
-            child.RenderTransformOrigin = new Point(0.0, 0.0);
+            child.RenderTransformOrigin = new Point(0.5, 0.5);
         }
 
 
@@ -93,8 +91,8 @@ namespace MouseMode
                 st.ScaleY = 1.0;
 
                 var tt = getTransform(Image);
-                tt.X = 0.0;
-                tt.Y = 0.0;
+                tt.X = 0.5;
+                tt.Y = 0.5;
             }
         }
         
@@ -102,11 +100,12 @@ namespace MouseMode
         
         private void zoom_event(double zoomFactor)
         {
-            if (Image != null)
+            if (child != null)
             {
-                var st = getScaleTransform(Image);
-                var tt = getTransform(Image);
+                var st = getScaleTransform(child);
+                var tt = getTransform(child);
 
+                double zoom = zoomFactor > 0 ? -.01 : .01;
                 if (st.ScaleX < .4 || st.ScaleY < .4)
                     return; 
 
@@ -115,61 +114,41 @@ namespace MouseMode
                 var abosuluteX = relative.X * st.ScaleX + tt.X;
                 var abosuluteY = relative.Y * st.ScaleY + tt.Y;
 
+                st.ScaleX += st.ScaleX*zoom;
+                st.ScaleY += st.ScaleY*zoom;
 
-                double factor = 0.075; //TODO CHANGE HERE forrandre denne til å endre zoom skala det kan godt være
-                //at zoomfactor er for høy siden zoomfactor er akkurat nå antall cm mellom initialHeadPos
-                //og new
-                st.ScaleX += zoomFactor * factor;
-                st.ScaleY += zoomFactor * factor;
-                
                 tt.X = abosuluteX - relative.X * st.ScaleX;
                 tt.Y = abosuluteY - relative.Y * st.ScaleY;
             }
         }
 
-        private void EyeMoveDuringAction()
+        private void EyeMoveDuringAction(Point point)
         {
-            if (Image != null 
-                //&& 
-                //(Math.Abs(_previous.X - center.X) > 5 
-                //|| Math.Abs(_previous.Y - center.Y) > 5)
-                )
+            if (child != null)
             {
-                var tt = getTransform(Image);
-                Vector vector = center - new Point(_previous.X, _previous.Y);
+                var tt = getTransform(child);
+                Vector vector = center - point;
                 tt.X = vector.X;
                 tt.Y = vector.Y;
-                //start = new Point(_previous.X, _previous.Y);
-                //origin = new Point(tt.X, tt.Y);
-                //Vector vector = start - new Point(_previous.X, _previous.Y);
-                //tt.X = vector.X - origin.X;
-                //tt.Y = vector.Y - origin.Y;
-                //start = new Point(_previous.X, _previous.Y);
-
-            Debug.WriteLine(tt.X + " - " + tt.Y);
             }
         }
 
         
         private void ActionButtonDown(object sender, MouseButtonEventArgs eventArgs)
         {
-            if (Image != null)
+            if (child != null && _headPos.Z > 0)
             {
                 actionButtonDown = true;
 
                 _initialHeadPos.Z = _headPos.Z;
-                var tt = getTransform(Image);
 
-                center = new Point(tt.X / 2, tt.Y / 2);
-                //Image.CaptureMouse();
-                //ViewBox.Cursor = Cursors.Hand;
             }
         }
 
         //does nothing right now
         private void ActionButtonUp(object sender, MouseButtonEventArgs eventArgs)
         {
-            if (Image != null)
+            if (child != null)
             {
                 actionButtonDown = false;
             }
@@ -259,12 +238,8 @@ namespace MouseMode
             _rightGaze.X = gd.RightGazePoint2D.X * Width;
             _rightGaze.Y = gd.RightGazePoint2D.Y * Height;
 
-
-            //TODO denne line under er mulig feil, men takengang er å sette initialHeadPos til 3D.Z
-            //og bruker dette videre. akkurat nå bruker jeg men det funker kanskje ikke
-            _headPos.Z = gd.LeftEyePosition3D.Z/10;
-
-            if (_leftGaze.X < 0 && _rightGaze.X < 0 && _headPos.Z < 0) return;
+            
+            if ((_leftGaze.X < 0 && _rightGaze.X < 0 )|| gd.LeftEyePosition3D.Z < 0) return;
             if (_leftGaze.X > 0 && _rightGaze.X > 0)
             {
                 _current = new Point2D((_leftGaze.X + _rightGaze.X) / 2, (_leftGaze.Y + _rightGaze.Y) / 2);
@@ -282,21 +257,23 @@ namespace MouseMode
                 if (GazeHaveMoved(_current))
                 {
                     _previous = _current;
+                    var point = new Point(_current.X, _current.Y);
+                    EyeMoveDuringAction(point);
                 }
                 if (HeadHaveMoved(_initialHeadPos.Z))
                 {
-                    var zoomFactor = Math.Abs(_initialHeadPos.Z - _headPos.Z);
+                    var zoomFactor = _headPos.Z - _initialHeadPos.Z;
                     zoom_event(zoomFactor);
                 }
-                EyeMoveDuringAction();
                 InvalidateVisual();
             }
+            _headPos.Z = gd.LeftEyePosition3D.Z / 10;
         }
 
         private bool HeadHaveMoved(double initialPosition)
         {
-            //TODO forrandre 3cm til hva enn du mener er komfortabel nok til å telle som head movement
-            if (Math.Abs(initialPosition - _headPos.Z) > 3)
+            //TODO forrandre int til hva enn du mener er komfortabel nok til å telle som head movement
+            if (Math.Abs(_headPos.Z - initialPosition) > 5)
             {
                 return true;
             }
