@@ -1,0 +1,30 @@
+﻿<Window x:Class="MouseMode.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MouseMode"
+        mc:Ignorable="d"
+        Title="MousePrototype" Height="540" Width="960" WindowState="Maximized" Loaded="Window_Loaded" Closed="Window_Closed">
+    <Grid x:Name="Border">
+        <Viewbox x:Name="ViewBox" MouseLeftButtonDown="ActionButtonDown" MouseLeftButtonUp="ActionButtonUp"
+                 MouseRightButtonDown="reset"
+            Stretch="None" Margin="0,0,-1411,-792" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Image x:Name="Image" ClipToBounds="True" HorizontalAlignment="Center"
+               VerticalAlignment="Center" Source="res/Test.jpg" Stretch="None" >
+            </Image>
+        </Viewbox>
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="12,12,0,0" Name="_trackerCombo" VerticalAlignment="Top" Width="206" />
+        <Button Height="23" Margin="234,12,0,0" Name="_trackButton" VerticalAlignment="Top" HorizontalAlignment="Left" Width="99" Click="_trackButton_Click">Track</Button>
+
+    </Grid>
+    <!--<Border x:Name="border" MouseLeftButtonDown="actionButtonDown" MouseMove="eyeMoveDuringAction"
+            MouseLeftButtonUp="actionButtonUp" MouseRightButtonDown="reset">
+        <Image x:Name="image" Source="/res/Test.jpg" ClipToBounds="True">
+            <Image.RenderTransform>
+                <ScaleTransform ScaleX="2" ScaleY="2">
+                </ScaleTransform>
+            </Image.RenderTransform>
+        </Image>
+    </Border>-->
+</Window>

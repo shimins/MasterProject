@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Tobii.EyeTracking.IO;
 
+//using Tobii.EyeTracking.IO;
+
 namespace WPF
 {
     /// <summary>
@@ -41,6 +43,11 @@ namespace WPF
         private void EyeTracker_onClick(object sender, RoutedEventArgs e)
         {
             _tracker.Show();
+        }
+
+        private void checkBox_Checked(object sender, RoutedEventArgs e)
+        {
+            GlobalValue.MouseMode = true;
         }
     }
 }
