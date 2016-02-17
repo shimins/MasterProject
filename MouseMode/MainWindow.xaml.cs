@@ -38,7 +38,6 @@ namespace MouseMode
 
 
         private Point _current;
-        private Point _previous;
 
         private Point3D _initialHeadPos;
 
@@ -102,11 +101,12 @@ namespace MouseMode
             if (child != null)
             {
                 var st = getScaleTransform(child);
-                double zoom = zoomFactor > 0 ? -.01 : .01;
-                if (st.ScaleX < .2 || st.ScaleY < .2 || st.ScaleX > 5 || st.ScaleY > 5)
-                    return;
-                st.ScaleX += zoom;
-                st.ScaleY += zoom;
+                double zoom = zoomFactor > 0 ? -.005*st.ScaleX : .005*st.ScaleY;
+                if (st.ScaleX + zoom > .2 && st.ScaleY + zoom < 5)
+                {
+                    st.ScaleX += zoom;
+                    st.ScaleY += zoom;
+                }
             }
         }
 
@@ -115,8 +115,8 @@ namespace MouseMode
             if (child != null)
             {
                 var tt = getTransform(child);
-                tt.X -= (_previous.X - Width / 2) * 0.1;
-                tt.Y -= (_previous.Y - Height / 2) * 0.1;
+                tt.X -= (_current.X - Width/2)*0.05;
+                tt.Y -= (_current.Y - Height / 2) * 0.05;
             }
         }
 
@@ -224,16 +224,13 @@ namespace MouseMode
             _rightGaze.X = gd.RightGazePoint2D.X * Width;
             _rightGaze.Y = gd.RightGazePoint2D.Y * Height;
 
+            _headPos.Z = gd.LeftEyePosition3D.Z / 10;
+
             if ((_leftGaze.X < 0 && _rightGaze.X < 0 )|| gd.LeftEyePosition3D.Z < 0) return;
             if (!SetCurrentPoint(ref _current, _leftGaze, _rightGaze))
                 return;
-
-            _current = PointFromScreen(_current);
-
-
             if (actionButtonDown)
             {
-                _previous = _current;
                 EyeMoveDuringAction();
                 if (HeadHaveMoved(_initialHeadPos.Z))
                 {
@@ -241,27 +238,17 @@ namespace MouseMode
                     zoom_event(zoomFactor);
                 }
             }
-            _headPos.Z = gd.LeftEyePosition3D.Z / 10;
         }
 
         private bool HeadHaveMoved(double initialPosition)
         {
             //TODO forrandre int til hva enn du mener er komfortabel nok til å telle som head movement
-            if (Math.Abs(_headPos.Z - initialPosition) > 2)
+            if (Math.Abs(_headPos.Z - initialPosition) > 3)
             {
                 return true;
             }
             return false;
         }
-
-        //private bool GazeHaveMoved(Point currentPoint)
-        //{
-        //    if (Math.Abs(_previous.X - currentPoint.X) > 50 || Math.Abs(_previous.Y - currentPoint.Y) > 50)
-        //    {
-        //        return true;
-        //    }
-        //    return false;
-        //}
 
         private static bool SetCurrentPoint(ref Point currentPoint, Point leftGaze, Point rightGaze)
         {

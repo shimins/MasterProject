@@ -104,6 +104,7 @@
       <Link>tetio.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="res\Test2.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="res\Test.jpg" />

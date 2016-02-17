@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="MousePrototype" Height="540" Width="960" WindowState="Maximized" Loaded="Window_Loaded" Closed="Window_Closed">
     <Grid x:Name="Border">
-        <Viewbox x:Name="ViewBox" MouseLeftButtonDown="ActionButtonDown" MouseLeftButtonUp="ActionButtonUp"
-                 MouseRightButtonDown="reset"
+        <Viewbox x:Name="ViewBox" MouseLeftButtonDown="ActionButtonDown" MouseLeftButtonUp="ActionButtonUp" 
+                 MouseRightButtonDown="reset" 
             Stretch="None" Margin="0,0,-1411,-792" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Image x:Name="Image" ClipToBounds="True" HorizontalAlignment="Center"
                VerticalAlignment="Center" Source="res/Test.jpg" Stretch="None" >
