@@ -5,9 +5,9 @@
         Title="Swipe" Height="400" Width="600"  Background="Transparent" Loaded="Window_Loaded" Closed="Window_Closed">
 
     <Grid>
-        <!--<Grid.DataContext>-->
-            <!--<local:ViewModel />
-        </Grid.DataContext>-->
+        <Grid.DataContext>
+            <local:ViewModel />
+        </Grid.DataContext>
         <local:View x:Name="ImageContainer" ItemsSource="{Binding ViewItems}"
                            SelectedIndex="1">
             <local:View.ItemTemplate>
@@ -20,5 +20,6 @@
 
         <ComboBox Height="23" HorizontalAlignment="Left" Margin="12,12,0,0" Name="_trackerCombo" VerticalAlignment="Top" Width="206" />
         <Button Height="23" Margin="234,12,0,0" Name="_trackButton" VerticalAlignment="Top" HorizontalAlignment="Left" Width="99" Click="_trackButton_Click">Track</Button>
+        <CheckBox x:Name="enableActionButton" Content="Action button" HorizontalAlignment="Left" Margin="344,16,0,0" VerticalAlignment="Top" Height="18"/>
     </Grid>
 </Window>

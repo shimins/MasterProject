@@ -23,8 +23,6 @@ namespace MouseMode
     public partial class MainWindow : Window
     {
 
-        private Point origin;
-        private Point center;
         private UIElement child = null;
         private bool actionButtonDown;
 
@@ -33,12 +31,14 @@ namespace MouseMode
         private bool _tracking;
         private IEyeTracker _tracker;
 
-        private Point2D _leftGaze;
-        private Point2D _rightGaze;
+        private Point _leftGaze;
+        private Point _rightGaze;
         private Point3D _headPos;
 
-        private Point2D _current;
-        private Point2D _previous;
+
+
+        private Point _current;
+        private Point _previous;
 
         private Point3D _initialHeadPos;
 
@@ -57,7 +57,6 @@ namespace MouseMode
 
             _initialHeadPos = new Point3D(0,0,0);
             _headPos = new Point3D(0, 0, 0);
-            center = new Point(960, 600);
 
             child = Image;
             TransformGroup group = new TransformGroup();
@@ -103,38 +102,21 @@ namespace MouseMode
             if (child != null)
             {
                 var st = getScaleTransform(child);
-                var tt = getTransform(child);
-
-
-
                 double zoom = zoomFactor > 0 ? -.01 : .01;
-                if (st.ScaleX < .4 || st.ScaleY < .4)
+                if (st.ScaleX < .2 || st.ScaleY < .2 || st.ScaleX > 5 || st.ScaleY > 5)
                     return;
-
-
-                Point relative = new Point();
-
-                var abosuluteX = relative.X * st.ScaleX + tt.X;
-                var abosuluteY = relative.Y * st.ScaleY + tt.Y;
-
-                st.ScaleX += st.ScaleX*zoom;
-                st.ScaleY += st.ScaleY*zoom;
-
-                tt.X = abosuluteX - relative.X * st.ScaleX;
-                tt.Y = abosuluteY - relative.Y * st.ScaleY;
+                st.ScaleX += zoom;
+                st.ScaleY += zoom;
             }
         }
 
-        private void EyeMoveDuringAction(Point point)
+        private void EyeMoveDuringAction()
         {
             if (child != null)
             {
-                //Console.WriteLine(point);
-                //var tt = getTransform(child);
-                //Vector vector = point - center;
-                //tt.X += vector.X;
-                //tt.Y += vector.Y;
-                //origin = new Point(tt.X, tt.Y);
+                var tt = getTransform(child);
+                tt.X -= (_previous.X - Width / 2) * 0.1;
+                tt.Y -= (_previous.Y - Height / 2) * 0.1;
             }
         }
 
@@ -146,9 +128,6 @@ namespace MouseMode
                 actionButtonDown = true;
 
                 _initialHeadPos.Z = _headPos.Z;
-
-                //var tt = getTransform(child);
-                //origin = new Point(tt.X, tt.Y);
             }
         }
 
@@ -239,40 +218,28 @@ namespace MouseMode
             // Convert to centimeters
             var gd = e.GazeDataItem;
 
-            _leftGaze.X = gd.LeftGazePoint2D.X * Width;
+            _leftGaze.X = gd.LeftGazePoint2D.X* Width;
             _leftGaze.Y = gd.LeftGazePoint2D.Y * Height;
 
             _rightGaze.X = gd.RightGazePoint2D.X * Width;
             _rightGaze.Y = gd.RightGazePoint2D.Y * Height;
 
-            
             if ((_leftGaze.X < 0 && _rightGaze.X < 0 )|| gd.LeftEyePosition3D.Z < 0) return;
-            if (_leftGaze.X > 0 && _rightGaze.X > 0)
-            {
-                _current = new Point2D((_leftGaze.X + _rightGaze.X) / 2, (_leftGaze.Y + _rightGaze.Y) / 2);
-            }
-            else if (_rightGaze.X > 0)
-            {
-                _current = new Point2D(_rightGaze.X, _rightGaze.Y);
-            }
-            else if (_leftGaze.X > 0)
-            {
-                _current = new Point2D(_leftGaze.X, _leftGaze.Y);
-            }
+            if (!SetCurrentPoint(ref _current, _leftGaze, _rightGaze))
+                return;
+
+            _current = PointFromScreen(_current);
+
+
             if (actionButtonDown)
             {
-                if (GazeHaveMoved(_current))
-                {
-                    _previous = _current;
-                    var point = new Point(_current.X, _current.Y);
-                    EyeMoveDuringAction(point);
-                }
+                _previous = _current;
+                EyeMoveDuringAction();
                 if (HeadHaveMoved(_initialHeadPos.Z))
                 {
                     var zoomFactor = _headPos.Z - _initialHeadPos.Z;
                     zoom_event(zoomFactor);
                 }
-                InvalidateVisual();
             }
             _headPos.Z = gd.LeftEyePosition3D.Z / 10;
         }
@@ -280,21 +247,44 @@ namespace MouseMode
         private bool HeadHaveMoved(double initialPosition)
         {
             //TODO forrandre int til hva enn du mener er komfortabel nok til å telle som head movement
-            if (Math.Abs(_headPos.Z - initialPosition) > 5)
+            if (Math.Abs(_headPos.Z - initialPosition) > 2)
             {
                 return true;
             }
             return false;
         }
 
-        private bool GazeHaveMoved(Point2D currentPoint)
+        //private bool GazeHaveMoved(Point currentPoint)
+        //{
+        //    if (Math.Abs(_previous.X - currentPoint.X) > 50 || Math.Abs(_previous.Y - currentPoint.Y) > 50)
+        //    {
+        //        return true;
+        //    }
+        //    return false;
+        //}
+
+        private static bool SetCurrentPoint(ref Point currentPoint, Point leftGaze, Point rightGaze)
         {
-            if (Math.Abs(_previous.X - currentPoint.X) > 100 || Math.Abs(_previous.Y - currentPoint.Y) > 100)
+            if (leftGaze.X < 0 && rightGaze.X < 0)
+                return false;
+
+            if (leftGaze.X > 0 && rightGaze.X > 0)
             {
+                currentPoint = new Point((leftGaze.X + rightGaze.X) / 2, (leftGaze.Y + rightGaze.Y) / 2);
+                return true;
+            }
+
+            if (rightGaze.X > 0)
+            {
+                currentPoint = new Point(rightGaze.X, rightGaze.Y);
+                return true;
+            }
+            if (leftGaze.X > 0)
+            {
+                currentPoint = new Point(leftGaze.X, leftGaze.Y);
                 return true;
             }
             return false;
         }
-
     }
 }
