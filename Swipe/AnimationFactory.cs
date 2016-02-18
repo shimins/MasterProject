@@ -22,7 +22,7 @@ namespace Swipe
 
             EasingDoubleKeyFrame toFrame = new EasingDoubleKeyFrame(to);
             toFrame.EasingFunction = new QuadraticEase() { EasingMode = EasingMode.EaseInOut };
-            toFrame.KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(1000));
+            toFrame.KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(400));
 
             doubleAnimation.KeyFrames.Add(fromFrame);
             doubleAnimation.KeyFrames.Add(toFrame);

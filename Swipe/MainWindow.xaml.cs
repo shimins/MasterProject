@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 using Tobii.EyeTracking.IO;
 
@@ -29,10 +32,12 @@ namespace Swipe
 
             Library.Init();
 
-            _browser = new EyeTrackerBrowser();
+            _browser = new EyeTrackerBrowser(EventThreadingOptions.CallingThread);
             _browser.EyeTrackerFound += _browser_EyetrackerFound;
             _browser.EyeTrackerRemoved += _browser_EyetrackerRemoved;
             _browser.EyeTrackerUpdated += _browser_EyetrackerUpdated;
+
+            sw.Start();
         }
 
 
@@ -98,10 +103,8 @@ namespace Swipe
             }
         }
 
-        private int leftCount = 0;
-        private int rightCount = 0;
-
         private bool IsSwipeAllowed = true;
+        private Stopwatch sw = new Stopwatch();
 
         private void _tracker_GazeDataReceived(object sender, GazeDataEventArgs e)
         {
@@ -118,7 +121,7 @@ namespace Swipe
 
             _current = PointFromScreen(_current);
 
-            if (GazeHaveMoved(_current))
+            if (GazeHaveMoved(_current) && sw.ElapsedMilliseconds > 500)
             {
                 if (IsGazeLeftSide() && IsSwipeAllowed)
                 {
@@ -130,18 +133,12 @@ namespace Swipe
                     }
 
                     // SWIPE RIGHT ~>>~>>~>> (PREV)
-                    if (rightCount++ > 1)
-                    {
-                        Debug.WriteLine("Prev");
+                    Debug.WriteLine("Prev");
 
-                        rightCount = 0;
-                        leftCount = 0;
-                        IsSwipeAllowed = false;
+                    IsSwipeAllowed = false;
 
-                        ImageContainer.SelectedIndex--;
-                        //ImageContainer.RunSlideAnimation(-ActualWidth, _current.X);
-                        ImageContainer.RunSlideAnimation(ActualWidth);
-                    }
+                    ImageContainer.SelectedIndex--;
+                    ImageContainer.RunSlideAnimation(ActualWidth);
                 }
                 else if (IsGazeRightSide() && IsSwipeAllowed)
                 {
@@ -154,23 +151,17 @@ namespace Swipe
 
                     // SWIPE LEFT <<~<<~<<~ (NEXT)
                     Debug.WriteLine("Next");
-                    if (leftCount++ > 1)
-                    {
-                        rightCount = 0;
-                        leftCount = 0;
-                        IsSwipeAllowed = false;
+                    IsSwipeAllowed = false;
 
-                        ImageContainer.SelectedIndex++;
-                        //ImageContainer.RunSlideAnimation(ActualWidth, _previous.X);
-                        ImageContainer.RunSlideAnimation(-ActualWidth);
-                    }
+                    ImageContainer.SelectedIndex++;
+                    ImageContainer.RunSlideAnimation(-ActualWidth);
                 }
-                else
-                {
-                    // Gaze is not inside Left/Right window area
-                    IsSwipeAllowed = true;
-                }
+
+                IsSwipeAllowed = true;
                 _previous = _current;
+
+                Debug.WriteLine(sw.ElapsedMilliseconds);
+                sw.Restart();
             }
 
             //InvalidateVisual();
@@ -194,30 +185,54 @@ namespace Swipe
         //    drawingContext.DrawText(new FormattedText(currentPoint.ToString(), CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Calibri"), 15, Brushes.CornflowerBlue), new Point(currentPoint.X, currentPoint.Y - 15));
         //}
 
+        private bool IsActionButtonDown = false;
+
+        private void ActionButtonDown(object sender, MouseButtonEventArgs eventArgs)
+        {
+            if (EnableActionButton.IsChecked.HasValue && EnableActionButton.IsChecked.Value)
+                IsActionButtonDown = true;
+        }
+
+        private void ActionButtonUp(object sender, MouseButtonEventArgs eventArgs)
+        {
+            IsActionButtonDown = false;
+        }
+
         private bool GazeHaveMoved(Point currentPoint)
         {
             // For swipe events we only check for changes in X coordinates
-            if (Math.Abs(_previous.X - currentPoint.X) > 40)
+            if (Math.Abs(_previous.X - currentPoint.X) > 20 || Math.Abs(_previous.Y - currentPoint.Y) > 20)
                 return true;
             return false;
         }
 
-        private const int SwipeWidthArea = 80;
+        private const int SwipeWidthArea = 120;
 
         private bool IsGazeLeftSide()
         {
-            if (!(_current.X < SwipeWidthArea))
+            if (!(_current.X < SwipeWidthArea && _current.X >= 0))
                 return false;
-            Debug.WriteLine("Left Side Hit");
-            return true;
+
+            var middle = (Height / 2);
+            return _current.Y > middle - 100 && _current.Y < middle + 100;
         }
 
         private bool IsGazeRightSide()
         {
-            if (!(_current.X > Width - SwipeWidthArea))
+            if (!(_current.X > Width - SwipeWidthArea && _current.X <= Width))
                 return false;
-            Debug.WriteLine("Right Side Hit");
-            return true;
+
+            var middle = (Height / 2);
+            return _current.Y > middle - 100 && _current.Y < middle + 100;
         }
+
+        //private bool IsGazePassedMiddle()
+        //{
+        //    if (_current.X > _previous.X && _current.X > Width / 2)
+        //        return true;
+        //    if (_current.X < _previous.X && _current.X < Width / 2)
+        //        return true;
+        //    return false;
+        //}
     }
 }

@@ -25,6 +25,7 @@ namespace MouseMode
 
         private UIElement child = null;
         private bool actionButtonDown;
+        private bool zoomAction;
 
         private readonly EyeTrackerBrowser _browser;
 
@@ -35,10 +36,7 @@ namespace MouseMode
         private Point _rightGaze;
         private Point3D _headPos;
 
-
-
         private Point _current;
-
         private Point3D _initialHeadPos;
 
 
@@ -101,21 +99,25 @@ namespace MouseMode
             if (child != null)
             {
                 var st = getScaleTransform(child);
+                var tt = getTransform(child);
+
                 double zoom = zoomFactor > 0 ? -.005*st.ScaleX : .005*st.ScaleY;
                 if (st.ScaleX + zoom > .2 && st.ScaleY + zoom < 5)
                 {
                     st.ScaleX += zoom;
                     st.ScaleY += zoom;
+
                 }
             }
         }
 
         private void EyeMoveDuringAction()
         {
-            if (child != null)
+            if (child != null && !zoomAction)
+            //if (child != null)
             {
                 var tt = getTransform(child);
-                tt.X -= (_current.X - Width/2)*0.05;
+                tt.X -= (_current.X - Width / 2)*0.05;
                 tt.Y -= (_current.Y - Height / 2) * 0.05;
             }
         }
@@ -131,11 +133,11 @@ namespace MouseMode
             }
         }
 
-        //does nothing right now
         private void ActionButtonUp(object sender, MouseButtonEventArgs eventArgs)
         {
             if (child != null)
             {
+                zoomAction = false;
                 actionButtonDown = false;
             }
         }
@@ -224,7 +226,9 @@ namespace MouseMode
             _rightGaze.X = gd.RightGazePoint2D.X * Width;
             _rightGaze.Y = gd.RightGazePoint2D.Y * Height;
 
+
             _headPos.Z = gd.LeftEyePosition3D.Z / 10;
+
 
             if ((_leftGaze.X < 0 && _rightGaze.X < 0 )|| gd.LeftEyePosition3D.Z < 0) return;
             if (!SetCurrentPoint(ref _current, _leftGaze, _rightGaze))
@@ -245,6 +249,7 @@ namespace MouseMode
             //TODO forrandre int til hva enn du mener er komfortabel nok til å telle som head movement
             if (Math.Abs(_headPos.Z - initialPosition) > 3)
             {
+                zoomAction = true;
                 return true;
             }
             return false;
