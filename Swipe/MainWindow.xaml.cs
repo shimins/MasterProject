@@ -178,6 +178,11 @@ namespace Swipe
         //    drawingContext.DrawRectangle(Brushes.Coral, null, new Rect(leftPoint, new Size(length, ActualHeight)));
         //    drawingContext.DrawRectangle(Brushes.Coral, null, new Rect(rightPoint, new Size(length, ActualHeight)));
 
+
+
+        //    drawingContext.DrawRectangle(Brushes.Aqua, null, new Rect(leftPoint, new Size(length, ActualHeight)));
+        //    drawingContext.DrawRectangle(Brushes.Aqua, null, new Rect(rightPoint, new Size(length, ActualHeight)));
+
         //    var currentPoint = new Point((int)_current.X, (int)_current.Y);
 
         //    drawingContext.DrawEllipse(Brushes.Transparent, new Pen(Brushes.Red, 5), currentPoint, 125, 125);

@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MouseMode"
         mc:Ignorable="d"
-        Title="MousePrototype" Height="540" Width="960" WindowState="Maximized" Loaded="Window_Loaded" Closed="Window_Closed">
+        Title="MousePrototype" Height="1000" Width="1800" Loaded="Window_Loaded" Closed="Window_Closed">
     <Grid x:Name="Border">
         <Viewbox x:Name="ViewBox" MouseLeftButtonDown="ActionButtonDown" MouseLeftButtonUp="ActionButtonUp" 
                  MouseRightButtonDown="reset" 
-            Stretch="None" Margin="0,0,-1411,-792" HorizontalAlignment="Center" VerticalAlignment="Center">
+            Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Image x:Name="Image" ClipToBounds="True" HorizontalAlignment="Center"
                VerticalAlignment="Center" Source="res/Test.jpg" Stretch="None" >
             </Image>

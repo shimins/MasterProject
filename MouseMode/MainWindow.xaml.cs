@@ -43,7 +43,7 @@ namespace MouseMode
         public MainWindow()
         {
             InitializeComponent();
-            this.SizeToContent = SizeToContent.WidthAndHeight;
+            //this.SizeToContent = SizeToContent.WidthAndHeight;
 
             Library.Init();
 
@@ -62,7 +62,7 @@ namespace MouseMode
             TranslateTransform tt = new TranslateTransform();
             group.Children.Add(tt);
             child.RenderTransform = group;
-            child.RenderTransformOrigin = new Point(0.5, 0.5);
+            child.RenderTransformOrigin = new Point(0.0, 0.0);
         }
 
 
@@ -98,16 +98,27 @@ namespace MouseMode
         {
             if (child != null)
             {
+
+
+
                 var st = getScaleTransform(child);
                 var tt = getTransform(child);
 
-                double zoom = zoomFactor > 0 ? -.005*st.ScaleX : .005*st.ScaleY;
+                double zoom = zoomFactor > 0 ? -.005 * st.ScaleX : .005 * st.ScaleX;
                 if (st.ScaleX + zoom > .2 && st.ScaleY + zoom < 5)
-                {
-                    st.ScaleX += zoom;
-                    st.ScaleY += zoom;
+                    return;
 
-                }
+                Point relative = child.PointFromScreen(_current);
+
+
+                double abosuluteX = relative.X * st.ScaleX + tt.X;
+                double abosuluteY = relative.Y * st.ScaleY + tt.Y;
+
+                st.ScaleX += zoom;
+                st.ScaleY += zoom;
+
+                tt.X = abosuluteX - relative.X * st.ScaleX;
+                tt.Y = abosuluteY - relative.Y * st.ScaleY;
             }
         }
 
@@ -117,8 +128,8 @@ namespace MouseMode
             //if (child != null)
             {
                 var tt = getTransform(child);
-                tt.X -= (_current.X - Width / 2)*0.05;
-                tt.Y -= (_current.Y - Height / 2) * 0.05;
+                tt.X -= (_current.X -  Width / 2) * 0.01;
+                tt.Y -= (_current.Y - Height / 2) * 0.01;
             }
         }
 
