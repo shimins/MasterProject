@@ -121,7 +121,7 @@ namespace Swipe
 
             _current = PointFromScreen(_current);
 
-            if (GazeHaveMoved(_current) && sw.ElapsedMilliseconds > 500)
+            if (GazeHaveMoved(_current) && sw.ElapsedMilliseconds > 750)
             {
                 if (IsGazeLeftSide() && IsSwipeAllowed)
                 {
@@ -163,13 +163,13 @@ namespace Swipe
                 Debug.WriteLine(sw.ElapsedMilliseconds);
                 sw.Restart();
             }
-
-            //InvalidateVisual();
+            //if(IsGazeLeftSide() || IsGazeRightSide())
+            //    InvalidateVisual();
         }
 
         //protected override void OnRender(DrawingContext drawingContext)
         //{
-        //    const int length = 150;
+        //    const int length = 120;
         //    Point leftPoint = new Point(0, 0);
         //    Point rightPoint = new Point(ActualWidth - length, 0);
 
@@ -219,7 +219,7 @@ namespace Swipe
                 return false;
 
             var middle = (Height / 2);
-            return _current.Y > middle - 100 && _current.Y < middle + 100;
+            return _current.Y > middle - SwipeWidthArea && _current.Y < middle + SwipeWidthArea;
         }
 
         private bool IsGazeRightSide()
@@ -228,7 +228,7 @@ namespace Swipe
                 return false;
 
             var middle = (Height / 2);
-            return _current.Y > middle - 100 && _current.Y < middle + 100;
+            return _current.Y > middle - SwipeWidthArea && _current.Y < middle + SwipeWidthArea;
         }
 
         //private bool IsGazePassedMiddle()

@@ -99,7 +99,7 @@ namespace basic
                 //Point point = e.GetPosition(child);
                 Console.WriteLine(e.GetPosition(child));
                 //Console.WriteLine(panValue);
-                Console.WriteLine(child.PointFromScreen());
+                //Console.WriteLine(child.PointFromScreen());
 
                 Console.WriteLine(tt.X);
 

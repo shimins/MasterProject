@@ -100,25 +100,26 @@ namespace MouseMode
             {
 
 
-
                 var st = getScaleTransform(child);
                 var tt = getTransform(child);
 
-                double zoom = zoomFactor > 0 ? -.005 * st.ScaleX : .005 * st.ScaleX;
+                double zoom = zoomFactor > 0 ? -.01 * st.ScaleX : .01 * st.ScaleX;
+                Console.WriteLine("zoom");
+
                 if (st.ScaleX + zoom > .2 && st.ScaleY + zoom < 5)
-                    return;
+                {
+                    Point relative = child.PointFromScreen(_current);
 
-                Point relative = child.PointFromScreen(_current);
 
+                    double abosuluteX = relative.X * st.ScaleX + tt.X;
+                    double abosuluteY = relative.Y * st.ScaleY + tt.Y;
 
-                double abosuluteX = relative.X * st.ScaleX + tt.X;
-                double abosuluteY = relative.Y * st.ScaleY + tt.Y;
+                    st.ScaleX += zoom;
+                    st.ScaleY += zoom;
 
-                st.ScaleX += zoom;
-                st.ScaleY += zoom;
-
-                tt.X = abosuluteX - relative.X * st.ScaleX;
-                tt.Y = abosuluteY - relative.Y * st.ScaleY;
+                    tt.X = abosuluteX - relative.X * st.ScaleX;
+                    tt.Y = abosuluteY - relative.Y * st.ScaleY;
+                }
             }
         }
 
@@ -241,7 +242,7 @@ namespace MouseMode
             _headPos.Z = gd.LeftEyePosition3D.Z / 10;
 
 
-            if ((_leftGaze.X < 0 && _rightGaze.X < 0 )|| gd.LeftEyePosition3D.Z < 0) return;
+            if ((_leftGaze.X < 0 && _rightGaze.X < 0 )|| _headPos.Z < 0) return;
             if (!SetCurrentPoint(ref _current, _leftGaze, _rightGaze))
                 return;
             if (actionButtonDown)
