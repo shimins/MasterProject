@@ -25,7 +25,6 @@ namespace MouseMode
 
         private UIElement child = null;
         private bool actionButtonDown;
-        private bool zoomAction;
 
         private readonly EyeTrackerBrowser _browser;
 
@@ -106,7 +105,7 @@ namespace MouseMode
                 double zoom = zoomFactor > 0 ? -.01 * st.ScaleX : .01 * st.ScaleX;
                 Console.WriteLine("zoom");
 
-                if (st.ScaleX + zoom > .2 && st.ScaleY + zoom < 5)
+                if (st.ScaleX + zoom > .1 && st.ScaleY + zoom < 5)
                 {
                     Point relative = child.PointFromScreen(_current);
 
@@ -125,13 +124,12 @@ namespace MouseMode
 
         private void EyeMoveDuringAction()
         {
-            if (child != null && !zoomAction)
-            //if (child != null)
-            {
-                var tt = getTransform(child);
-                tt.X -= (_current.X -  Width / 2) * 0.01;
-                tt.Y -= (_current.Y - Height / 2) * 0.01;
-            }
+            if(child == null)return;
+            if(child.PointFromScreen(_current).X < 0 || child.PointFromScreen(_current).X > child.RenderSize.Width 
+                || child.PointFromScreen(_current).Y < 0 || child.PointFromScreen(_current).X > child.RenderSize.Width)return;
+            var tt = getTransform(child);
+            tt.X -= (_current.X -  Width / 2) * 0.01;
+            tt.Y -= (_current.Y - Height / 2) * 0.01;
         }
 
         
@@ -149,7 +147,6 @@ namespace MouseMode
         {
             if (child != null)
             {
-                zoomAction = false;
                 actionButtonDown = false;
             }
         }
@@ -245,23 +242,22 @@ namespace MouseMode
             if ((_leftGaze.X < 0 && _rightGaze.X < 0 )|| _headPos.Z < 0) return;
             if (!SetCurrentPoint(ref _current, _leftGaze, _rightGaze))
                 return;
-            if (actionButtonDown)
+            if ((_current.X > 1400 || _current.X < 500 || _current.Y > 700 || _current.Y < 500) && !actionButtonDown)
             {
                 EyeMoveDuringAction();
-                if (HeadHaveMoved(_initialHeadPos.Z))
-                {
-                    var zoomFactor = _headPos.Z - _initialHeadPos.Z;
-                    zoom_event(zoomFactor);
-                }
+            }
+            if (HeadHaveMoved(_initialHeadPos.Z) && actionButtonDown)
+            {
+                var zoomFactor = _headPos.Z - _initialHeadPos.Z;
+                zoom_event(zoomFactor);
             }
         }
 
         private bool HeadHaveMoved(double initialPosition)
         {
             //TODO forrandre int til hva enn du mener er komfortabel nok til å telle som head movement
-            if (Math.Abs(_headPos.Z - initialPosition) > 3)
+            if (Math.Abs(_headPos.Z - initialPosition) > 1)
             {
-                zoomAction = true;
                 return true;
             }
             return false;
@@ -271,7 +267,6 @@ namespace MouseMode
         {
             if (leftGaze.X < 0 && rightGaze.X < 0)
                 return false;
-
             if (leftGaze.X > 0 && rightGaze.X > 0)
             {
                 currentPoint = new Point((leftGaze.X + rightGaze.X) / 2, (leftGaze.Y + rightGaze.Y) / 2);
