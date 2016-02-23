@@ -20,12 +20,24 @@ namespace Swipe
             });
             ViewItems.Add(new ViewItem
             {
+                Image = "/Swipe;component/Images/kingfisher.jpg"
+            });
+            ViewItems.Add(new ViewItem
+            {
+                Image = "/Swipe;component/Images/underwater.jpg"
+            });
+            ViewItems.Add(new ViewItem
+            {
                 Image = "/Swipe;component/Images/park.jpg"
 
             });
             ViewItems.Add(new ViewItem
             {
                 Image = "/Swipe;component/Images/timesquare.jpg"
+            });
+            ViewItems.Add(new ViewItem
+            {
+                Image = "/Swipe;component/Images/bird.jpg"
             });
         }
     }

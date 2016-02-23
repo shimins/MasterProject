@@ -5,10 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:resx="clr-namespace:Scroll.Properties"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <ScrollViewer HorizontalAlignment="Left" Height="320" Margin="0,0,0,0" VerticalAlignment="Top" Width="515">
-            <TextBlock x:Name="textBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{x:Static resx:StaticText.TextString}" VerticalAlignment="Top"/>
-        </ScrollViewer>
+        Title="MainWindow" Height="664.333" Width="1220.333" Loaded="Window_Loaded" Closed="Window_Closed" WindowStartupLocation="CenterScreen">
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="159*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="154*"/>
+            <RowDefinition Height="153*"/>
+        </Grid.RowDefinitions>
+
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="841,12,0,0" Name="_trackerCombo" VerticalAlignment="Top" Width="206" />
+        <Button Grid.Row="0" Grid.Column="0" Height="23" Margin="1052,12,0,0" Name="_trackButton" VerticalAlignment="Top" HorizontalAlignment="Left" Width="99" Click="_trackButton_Click">Track</Button>
+        <WebBrowser x:Name = "Browser"  Source="http://www.nrk.no" Margin="1,40,-1,10" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2"
+                    Grid.Column="0" LoadCompleted="Browser_OnLoadCompleted"/>
+        <TextBox Grid.Row="0" Grid.Column="0" x:Name="textBlock" HorizontalAlignment="Left" Height="23" Margin="10,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="595" FontSize="16"/>
+        <Button Grid.Row="0" Grid.Column="0" x:Name="button" Content="Navigate" HorizontalAlignment="Left" Height="25" Margin="610,10,0,0" VerticalAlignment="Top" Width="99" Click="Button_OnClick"/>
     </Grid>
 </Window>

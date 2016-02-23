@@ -129,6 +129,9 @@
       <Link>tetio.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Images\bird.jpg" />
+    <Resource Include="Images\kingfisher.jpg" />
+    <Resource Include="Images\underwater.jpg" />
     <Resource Include="Images\orangutan.jpg" />
     <Resource Include="Images\park.jpg" />
     <Resource Include="Images\timesquare.jpg" />

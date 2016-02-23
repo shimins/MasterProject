@@ -36,7 +36,7 @@ namespace Scroll.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Scroll.Properties.StaticText", typeof(StaticText).Assembly);
@@ -51,7 +51,7 @@ namespace Scroll.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,8 @@ namespace Scroll.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Travelling alteration impression six all uncommonly. Chamber hearing inhabit joy highest private ask him our believe. Up nature valley do warmly. Entered of cordial do on no hearted. Yet agreed whence and unable limits. Use off him gay abilities concluded immediate allowance. 
-        ///
-        ///Was drawing natural fat respect husband. An as noisy an offer drawn blush place. These tried for way joy wrote witty. In mr began music weeks after at begin. Education no dejection so direction pretended household do to. Travelling [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to For all the agony it produced, adolescence would have a encouraging effect on Stallman&apos;s sense of individuality. At a time when most of his classmates were growing their hair out, Stallman preferred to keep his short. At a time when the whole teenage world was listening to rock and roll, Stallman preferred classical music. A devoted fan of science fiction, Mad magazine, and late-night TV, Stallman cultivated a distinctly off-the-wall personality that fed off the incomprehension of parents and peers alike.
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string TextString {
             get {
