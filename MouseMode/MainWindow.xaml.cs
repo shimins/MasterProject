@@ -23,7 +23,7 @@ namespace MouseMode
     public partial class MainWindow : Window
     {
 
-        private UIElement child = null;
+        private readonly UIElement child = null;
         private bool actionButtonDown;
 
         private readonly EyeTrackerBrowser _browser;

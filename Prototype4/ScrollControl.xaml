@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="Prototype4.ScrollControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Prototype4"
+             mc:Ignorable="d" 
+             d:DesignHeight="445" d:DesignWidth="442">
+    <Grid>
+        <TextBox x:Name="textBlock" HorizontalAlignment="Left" Height="444" TextWrapping="Wrap"
+                 VerticalAlignment="Top" Width="442" FontSize="16" TextBlock.LineHeight="25" 
+                 TextBlock.LineStackingStrategy="BlockLineHeight" >
+        </TextBox>
+    </Grid>
+</UserControl>

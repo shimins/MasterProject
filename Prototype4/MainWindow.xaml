@@ -1,0 +1,18 @@
+﻿<Window x:Class="Prototype4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Prototype4"
+        mc:Ignorable="d"
+        Title="Prototype 4" Height="798.118" Width="1493.562" WindowStartupLocation="CenterScreen" MouseLeftButtonDown="MainWindow_OnMouseLeftButtonDown" 
+        MouseLeftButtonUp="MainWindow_OnMouseLeftButtonUp" MouseRightButtonDown="MainWindow_OnMouseRightButtonDown"
+        Loaded="MainWindow_OnLoaded" Closed="MainWindow_OnClosed">
+    <Grid Name="grid" >
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="12,12,0,0" Name="_trackerCombo" VerticalAlignment="Top" Width="206" />
+        <Button Height="23" Margin="234,12,0,0" Name="_trackButton" VerticalAlignment="Top" HorizontalAlignment="Left" Width="99" Click="_trackButton_Click">Track</Button>
+        <local:ScrollControl x:Name="ScrollControl"  HorizontalAlignment="Left" Height="445" VerticalAlignment="Top" Width="442" Margin="0,326,0,0"/>
+        <Canvas Name="swipeCanvas" HorizontalAlignment="Left" Height="280" VerticalAlignment="Top" Width="442" Background="Red" Margin="0,41,0,0"/>
+        <local:MapControll x:Name="MapControll" HorizontalAlignment="Left" Height="771" Margin="447,0,0,0" VerticalAlignment="Top" Width="1039"></local:MapControll>
+    </Grid>
+</Window>
