@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using mshtml;
 using Tobii.EyeTracking.IO;
 
 namespace Scroll
@@ -31,7 +33,10 @@ namespace Scroll
         private Point _rightGaze;
 
         private Point _current;
+        private Point _previous;
 
+        [DllImport("User32.dll")]
+        private static extern bool SetCursorPos(int X, int Y);
 
 
         public MainWindow()
@@ -48,10 +53,11 @@ namespace Scroll
 
         private void ScrollAction(int scrollSpeed)
         {
-            var scrollFactor = _current.Y > Height/2 ? 5: -5;
+            var scrollFactor = _current.Y > Height/2 ? 1: -1;
 
             var html = Browser.Document as mshtml.HTMLDocument;
             html.parentWindow.scrollBy(0, scrollFactor * scrollSpeed);
+            //html.parentWindow.scrollBy(0, 100);
         }
 
 
@@ -78,6 +84,7 @@ namespace Scroll
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _browser.StartBrowsing();
+
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -119,17 +126,27 @@ namespace Scroll
                     _trackButton.Content = "Stop";
                     _tracking = true;
                 }
+            }
 
+            var doc = Browser.Document as mshtml.HTMLDocument;
+            if (doc != null)
+            {
+                IHTMLStyleSheet style = doc.createStyleSheet("", 0);
+                style.cssText = @"body { cursor: none; } a, > a, a:-webkit-any-link { cursor: none !important; } a:hover { cursor: none !important; }  ";
             }
         }
 
         private int ScrollSpeed()
         {
-            if (_current.Y > Height*0.9 || _current.Y < Height*0.1)
+            if (_current.Y > Height*0.75 || _current.Y < Height*0.25)
             {
-                return 2;
+                if (_current.Y > Height*0.9 || _current.Y < Height*0.10)
+                {
+                    return 10;
+                }
+                return 3;
             }
-            else return 1;
+            return 1;
         }
 
         private void _tracker_GazeDataReceived(object sender, GazeDataEventArgs e)
@@ -145,14 +162,37 @@ namespace Scroll
 
             if (!SetCurrentPoint(ref _current, _leftGaze, _rightGaze))
                 return;
-
             _current = PointFromScreen(_current);
 
-            if (_current.Y > Height*0.75 || _current.Y < Height * 0.25)
+            if (GazeHaveMoved(_current))
+            {
+                MoveCursor();
+            }
+            if (_current.Y > Height * 0.72 || _current.Y < Height * 0.28)
             {
                 var scrollSpeed = ScrollSpeed();
                 ScrollAction(scrollSpeed);
             }
+
+            _previous = _current;
+        }
+
+        private void MoveCursor()
+        {
+            if (Browser != null)
+            {
+                var point = PointToScreen(_current);
+                SetCursorPos(Convert.ToInt32(point.X), Convert.ToInt32(point.Y));
+                Console.WriteLine(_current);
+            }
+        }
+
+        private bool GazeHaveMoved(Point currentPoint)
+        {
+            // For swipe events we only check for changes in X coordinates
+            if (Math.Abs(_previous.X - currentPoint.X) > 20 || Math.Abs(_previous.Y - currentPoint.Y) > 20)
+                return true;
+            return false;
         }
 
         private static bool SetCurrentPoint(ref Point currentPoint, Point leftGaze, Point rightGaze)
@@ -191,6 +231,19 @@ namespace Scroll
             }
         }
 
+        private void Browser_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+        }
 
+        private void Browser_OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            //Browser.Cursor = Cursors.Arrow;
+        }
+
+        private void Browser_OnMouseMove(object sender, MouseEventArgs e)
+        {
+            var html = Browser.Document as mshtml.HTMLDocument;
+
+        }
     }
 }

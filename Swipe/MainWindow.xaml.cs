@@ -125,35 +125,35 @@ namespace Swipe
             {
                 if (IsGazeLeftSide() && IsSwipeAllowed)
                 {
-                    if (ImageContainer.SelectedIndex == 0)
-                    {
-                        Debug.WriteLine("Returning 1");
-                        _previous = _current;
-                        return;
-                    }
-
                     // SWIPE RIGHT ~>>~>>~>> (PREV)
                     Debug.WriteLine("Prev");
 
                     IsSwipeAllowed = false;
 
-                    ImageContainer.SelectedIndex--;
+                    if (ImageContainer.SelectedIndex == 0)
+                    {
+                        ImageContainer.SelectedIndex = ImageContainer.Items.Count - 1;
+                    }
+                    else
+                    {
+                        ImageContainer.SelectedIndex--;
+                    }
                     ImageContainer.RunSlideAnimation(ActualWidth);
                 }
                 else if (IsGazeRightSide() && IsSwipeAllowed)
                 {
-                    if (ImageContainer.SelectedIndex == ImageContainer.Items.Count - 1)
-                    {
-                        Debug.WriteLine("Returning 22");
-                        _previous = _current;
-                        return;
-                    }
-
                     // SWIPE LEFT <<~<<~<<~ (NEXT)
                     Debug.WriteLine("Next");
                     IsSwipeAllowed = false;
 
-                    ImageContainer.SelectedIndex++;
+                    if (ImageContainer.SelectedIndex == ImageContainer.Items.Count - 1)
+                    {
+                        ImageContainer.SelectedIndex = 0;
+                    }
+                    else
+                    {
+                        ImageContainer.SelectedIndex++;
+                    }
                     ImageContainer.RunSlideAnimation(-ActualWidth);
                 }
 
@@ -190,23 +190,10 @@ namespace Swipe
         //    drawingContext.DrawText(new FormattedText(currentPoint.ToString(), CultureInfo.CurrentCulture, FlowDirection.LeftToRight, new Typeface("Calibri"), 15, Brushes.CornflowerBlue), new Point(currentPoint.X, currentPoint.Y - 15));
         //}
 
-        private bool IsActionButtonDown = false;
-
-        private void ActionButtonDown(object sender, MouseButtonEventArgs eventArgs)
-        {
-            if (EnableActionButton.IsChecked.HasValue && EnableActionButton.IsChecked.Value)
-                IsActionButtonDown = true;
-        }
-
-        private void ActionButtonUp(object sender, MouseButtonEventArgs eventArgs)
-        {
-            IsActionButtonDown = false;
-        }
-
         private bool GazeHaveMoved(Point currentPoint)
         {
             // For swipe events we only check for changes in X coordinates
-            if (Math.Abs(_previous.X - currentPoint.X) > 20 || Math.Abs(_previous.Y - currentPoint.Y) > 20)
+            if (Math.Abs(_previous.X - currentPoint.X) > 10 || Math.Abs(_previous.Y - currentPoint.Y) > 10)
                 return true;
             return false;
         }

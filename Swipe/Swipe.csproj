@@ -129,12 +129,81 @@
       <Link>tetio.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Images\bird.jpg" />
-    <Resource Include="Images\kingfisher.jpg" />
-    <Resource Include="Images\underwater.jpg" />
-    <Resource Include="Images\orangutan.jpg" />
-    <Resource Include="Images\park.jpg" />
-    <Resource Include="Images\timesquare.jpg" />
+    <Content Include="Images\A\1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\A\10.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\A\11.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\A\12.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\A\13.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\A\14.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\A\15.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\A\2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\A\3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\A\4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\A\5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\A\6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\A\7.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\A\8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\A\9.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Images\C\1.jpg" />
+    <Resource Include="Images\C\10.jpg" />
+    <Resource Include="Images\C\11.jpg" />
+    <Resource Include="Images\C\12.jpg" />
+    <Resource Include="Images\C\13.jpg" />
+    <Resource Include="Images\C\14.jpg" />
+    <Resource Include="Images\C\15.jpg" />
+    <Resource Include="Images\C\2.jpg" />
+    <Resource Include="Images\C\3.jpg" />
+    <Resource Include="Images\C\4.jpg" />
+    <Resource Include="Images\C\5.jpg" />
+    <Resource Include="Images\C\6.jpg" />
+    <Resource Include="Images\C\7.jpg" />
+    <Resource Include="Images\C\8.jpg" />
+    <Resource Include="Images\C\9.jpg" />
+    <Resource Include="Images\B\1.jpg" />
+    <Resource Include="Images\B\10.jpg" />
+    <Resource Include="Images\B\11.jpg" />
+    <Resource Include="Images\B\12.jpg" />
+    <Resource Include="Images\B\13.jpg" />
+    <Resource Include="Images\B\14.jpg" />
+    <Resource Include="Images\B\15.jpg" />
+    <Resource Include="Images\B\2.jpg" />
+    <Resource Include="Images\B\3.jpg" />
+    <Resource Include="Images\B\4.jpg" />
+    <Resource Include="Images\B\5.jpg" />
+    <Resource Include="Images\B\6.jpg" />
+    <Resource Include="Images\B\7.jpg" />
+    <Resource Include="Images\B\8.jpg" />
+    <Resource Include="Images\B\9.jpg" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -148,6 +217,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

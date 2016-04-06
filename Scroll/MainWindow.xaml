@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:resx="clr-namespace:Scroll.Properties"
         mc:Ignorable="d"
-        Title="MainWindow" Height="664.333" Width="1220.333" Loaded="Window_Loaded" Closed="Window_Closed" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="1000" Width="1250" Loaded="Window_Loaded" Closed="Window_Closed" WindowStartupLocation="CenterScreen">
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
         <Grid.ColumnDefinitions>
@@ -17,10 +17,11 @@
             <RowDefinition Height="153*"/>
         </Grid.RowDefinitions>
 
-        <ComboBox Height="23" HorizontalAlignment="Left" Margin="841,12,0,0" Name="_trackerCombo" VerticalAlignment="Top" Width="206" />
-        <Button Grid.Row="0" Grid.Column="0" Height="23" Margin="1052,12,0,0" Name="_trackButton" VerticalAlignment="Top" HorizontalAlignment="Left" Width="99" Click="_trackButton_Click">Track</Button>
-        <WebBrowser x:Name = "Browser"  Source="http://www.nrk.no" Margin="1,40,-1,10" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2"
-                    Grid.Column="0" LoadCompleted="Browser_OnLoadCompleted"/>
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="741,12,0,0" Name="_trackerCombo" VerticalAlignment="Top" Width="206" />
+        <Button Grid.Row="0" Grid.Column="0" Height="23" Margin="963,12,0,0" Name="_trackButton" VerticalAlignment="Top" HorizontalAlignment="Left" Width="99" Click="_trackButton_Click">Track</Button>
+        <WebBrowser x:Name = "Browser"  Source="https://en.wikipedia.org/wiki/Cookie" Margin="1,40,-1,10" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2"
+                    Grid.Column="0" LoadCompleted="Browser_OnLoadCompleted" MouseEnter="Browser_OnMouseEnter" MouseLeave="Browser_OnMouseLeave" 
+                    MouseMove="Browser_OnMouseMove"/>
         <TextBox Grid.Row="0" Grid.Column="0" x:Name="textBlock" HorizontalAlignment="Left" Height="23" Margin="10,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="595" FontSize="16"/>
         <Button Grid.Row="0" Grid.Column="0" x:Name="button" Content="Navigate" HorizontalAlignment="Left" Height="25" Margin="610,10,0,0" VerticalAlignment="Top" Width="99" Click="Button_OnClick"/>
     </Grid>

@@ -113,7 +113,6 @@ namespace Swipe
                 return;
             }
 
-
             if ((int)e.NewValue >= 0 && (int)e.NewValue < this.Items.Count)
             {
                 double toValue = (int)e.OldValue < (int)e.NewValue ? -this.ActualWidth : this.ActualWidth;
@@ -134,8 +133,23 @@ namespace Swipe
             this.PART_Root.RenderTransform = new TranslateTransform();
 
             var currentItem = this.GetItemAt(selectedIndex);
-            var nextItem = this.GetItemAt(selectedIndex + 1);
-            var previousItem = this.GetItemAt(selectedIndex - 1);
+            object nextItem;
+            object previousItem;
+            if (selectedIndex == 0)
+            {
+                nextItem = this.GetItemAt(selectedIndex + 1);
+                previousItem = this.GetItemAt(Items.Count - 1);
+            }
+            else if (selectedIndex == Items.Count - 1)
+            {
+                nextItem = this.GetItemAt(0);
+                previousItem = this.GetItemAt(selectedIndex - 1);
+            }
+            else
+            {
+                nextItem = GetItemAt(selectedIndex + 1);
+                previousItem = GetItemAt(selectedIndex - 1);
+            }
 
             this.PART_CurrentItem.Content = currentItem;
             this.PART_NextItem.Content = nextItem;

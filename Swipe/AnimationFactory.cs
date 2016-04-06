@@ -17,11 +17,11 @@ namespace Swipe
             var doubleAnimation = new DoubleAnimationUsingKeyFrames();
 
             EasingDoubleKeyFrame fromFrame = new EasingDoubleKeyFrame(from);
-            fromFrame.EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseInOut };
+            fromFrame.EasingFunction = new ExponentialEase() { EasingMode = EasingMode.EaseIn };
             fromFrame.KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(0));
 
             EasingDoubleKeyFrame toFrame = new EasingDoubleKeyFrame(to);
-            toFrame.EasingFunction = new QuadraticEase() { EasingMode = EasingMode.EaseInOut };
+            toFrame.EasingFunction = new QuadraticEase() { EasingMode = EasingMode.EaseOut };
             toFrame.KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(600));
 
             doubleAnimation.KeyFrames.Add(fromFrame);

@@ -71,7 +71,7 @@
         <Setter Property="Width"
                 Value="50" />
         <Setter Property="Height"
-                Value="40" />
+                Value="50" />
     </Style>
     <Style TargetType="{x:Type local:View}">
         <Setter Property="Template">
@@ -97,15 +97,15 @@
                                   Visibility="Collapsed">
                                 <RepeatButton x:Name="PART_NextButton"
                                               FontFamily="Segoe UI Symbol"
-                                              Content=""
-                                              FontSize="18"
+                                              Content="▶"
+                                              FontSize="20"
                                               Style="{StaticResource NavigationButtonStyle}"
                                               Command="{x:Static local:View.NextCommand}"
                                               HorizontalAlignment="Right" />
                                 <RepeatButton x:Name="PART_PreviousButton"
                                               FontFamily="Segoe UI Symbol"
-                                              Content=""
-                                              FontSize="18"
+                                              Content="◀"
+                                              FontSize="20"
                                               Style="{StaticResource NavigationButtonStyle}"
                                               Command="{x:Static local:View.PreviousCommand}"
                                               HorizontalAlignment="Left" />
@@ -114,12 +114,6 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver"
-                                           Value="True" />
-                                <Condition Property="IsStylusOver"
-                                           Value="False" />
-                            </MultiTrigger.Conditions>
                             <Setter Property="Visibility"
                                     Value="Visible"
                                     TargetName="PART_ButtonPanel" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,32 +14,17 @@ namespace Swipe
         public ViewModel()
         {
             ViewItems = new List<ViewItem>();
-            ViewItems.Add(new ViewItem
-            {
-                Image = "/Swipe;component/Images/orangutan.jpg"
 
-            });
-            ViewItems.Add(new ViewItem
-            {
-                Image = "/Swipe;component/Images/kingfisher.jpg"
-            });
-            ViewItems.Add(new ViewItem
-            {
-                Image = "/Swipe;component/Images/underwater.jpg"
-            });
-            ViewItems.Add(new ViewItem
-            {
-                Image = "/Swipe;component/Images/park.jpg"
+            // A, B or C
+            const string imagePack = "B";
 
-            });
-            ViewItems.Add(new ViewItem
+            for (var i = 1; i <= 15; i++)
             {
-                Image = "/Swipe;component/Images/timesquare.jpg"
-            });
-            ViewItems.Add(new ViewItem
-            {
-                Image = "/Swipe;component/Images/bird.jpg"
-            });
+                ViewItems.Add(new ViewItem
+                {
+                    Image = "/Swipe;component/Images/" + imagePack + "/" + i + ".jpg"
+                });
+            }
         }
     }
 

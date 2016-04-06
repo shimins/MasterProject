@@ -220,7 +220,6 @@ namespace MouseMode
                     _trackButton.Content = "Stop";
                     _tracking = true;
                 }
-
             }
         }
 
@@ -242,7 +241,8 @@ namespace MouseMode
             if ((_leftGaze.X < 0 && _rightGaze.X < 0 )|| _headPos.Z < 0) return;
             if (!SetCurrentPoint(ref _current, _leftGaze, _rightGaze))
                 return;
-            if ((_current.X > 1400 || _current.X < 500 || _current.Y > 700 || _current.Y < 500) && !actionButtonDown)
+            //if ((_current.X > 1400 || _current.X < 500 || _current.Y > 700 || _current.Y < 500) && !actionButtonDown)
+            if ((_current.X > 1400 || _current.X < 500 || _current.Y > 700 || _current.Y < 500))
             {
                 EyeMoveDuringAction();
             }
