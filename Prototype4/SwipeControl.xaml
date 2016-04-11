@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="Prototype4.SwipeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:swipe="clr-namespace:Prototype4"
+             xmlns:swipe1="clr-namespace:Prototype4.Swipe"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="442">
+    <Grid>
+        <Grid.DataContext>
+            <swipe1:ViewModel />
+        </Grid.DataContext>
+        <swipe1:View x:Name="ImageContainer" ItemsSource="{Binding ViewItems}" SelectedIndex="1">
+            <swipe1:View.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding Image}"
+                           Stretch="Fill"/>
+                </DataTemplate>
+            </swipe1:View.ItemTemplate>
+        </swipe1:View>
+    </Grid>
+</UserControl>

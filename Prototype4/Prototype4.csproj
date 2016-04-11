@@ -65,9 +65,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GazeHelper.cs" />
     <Compile Include="ScrollControl.xaml.cs">
       <DependentUpon>ScrollControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SwipeControl.xaml.cs">
+      <DependentUpon>SwipeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Swipe\AnimationFactory.cs" />
+    <Compile Include="Swipe\View.cs" />
+    <Compile Include="Swipe\ViewModel.cs" />
+    <Compile Include="Swipe\ViewPanel.cs" />
+    <Compile Include="ZoneEnum.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -87,6 +96,14 @@
     <Page Include="ScrollControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SwipeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +141,82 @@
       <Link>tetio.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="res\text2.txt" />
+    <Resource Include="Swipe\Images\A\1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\10.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\11.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\12.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\13.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\14.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\15.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\7.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\9.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\C\9.jpg" />
+    <Resource Include="Swipe\Images\C\8.jpg" />
+    <Resource Include="Swipe\Images\C\7.jpg" />
+    <Resource Include="Swipe\Images\C\6.jpg" />
+    <Resource Include="Swipe\Images\C\5.jpg" />
+    <Resource Include="Swipe\Images\C\4.jpg" />
+    <Resource Include="Swipe\Images\C\3.jpg" />
+    <Resource Include="Swipe\Images\C\2.jpg" />
+    <Resource Include="Swipe\Images\C\15.jpg" />
+    <Resource Include="Swipe\Images\C\14.jpg" />
+    <Resource Include="Swipe\Images\C\13.jpg" />
+    <Resource Include="Swipe\Images\C\12.jpg" />
+    <Resource Include="Swipe\Images\C\11.jpg" />
+    <Resource Include="Swipe\Images\C\10.jpg" />
+    <Resource Include="Swipe\Images\C\1.jpg" />
+    <Resource Include="Swipe\Images\B\9.jpg" />
+    <Resource Include="Swipe\Images\B\8.jpg" />
+    <Resource Include="Swipe\Images\B\7.jpg" />
+    <Resource Include="Swipe\Images\B\6.jpg" />
+    <Resource Include="Swipe\Images\B\5.jpg" />
+    <Resource Include="Swipe\Images\B\4.jpg" />
+    <Resource Include="Swipe\Images\B\3.jpg" />
+    <Resource Include="Swipe\Images\B\2.jpg" />
+    <Resource Include="Swipe\Images\B\15.jpg" />
+    <Resource Include="Swipe\Images\B\14.jpg" />
+    <Resource Include="Swipe\Images\B\13.jpg" />
+    <Resource Include="Swipe\Images\B\12.jpg" />
+    <Resource Include="Swipe\Images\B\11.jpg" />
+    <Resource Include="Swipe\Images\B\10.jpg" />
+    <Resource Include="Swipe\Images\B\1.jpg" />
     <Resource Include="res\text1.txt" />
     <Resource Include="res\Test.jpg" />
   </ItemGroup>

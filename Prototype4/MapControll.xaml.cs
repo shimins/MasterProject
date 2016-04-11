@@ -1,26 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Prototype4
 {
     /// <summary>
     /// Interaction logic for MapControll.xaml
     /// </summary>
-    public partial class MapControll : UserControl
+    public partial class MapControll
     {
-        
+        public event EventHandler zoneHaveChanged;
+
+        private ZoneEnum zoneEnum;
+        private int currentZone = 4;
+
         public MapControll()
         {
             InitializeComponent();
@@ -32,11 +26,13 @@ namespace Prototype4
             group.Children.Add(tt);
             mapElement.RenderTransform = group;
             mapElement.RenderTransformOrigin = new Point(0.0, 0.0);
+
+            zoneEnum = new ZoneEnum();
         }
 
         public UIElement GetMapElement()
         {
-            return this.mapElement;
+            return mapElement;
         }
 
         private TranslateTransform getTransform(UIElement element)
@@ -51,21 +47,18 @@ namespace Prototype4
                 .Children.First(tr => tr is ScaleTransform);
         }
 
-        private void zoom_event(double zoomFactor, Point _current)
+        private void zoom_event(double zoomFactor, Point current)
         {
             if (mapElement != null)
             {
-
-
                 var st = getScaleTransform(mapElement);
                 var tt = getTransform(mapElement);
 
                 double zoom = zoomFactor > 0 ? -.01 * st.ScaleX : .01 * st.ScaleX;
-                Console.WriteLine("zoom");
 
                 if (st.ScaleX + zoom > .1 && st.ScaleY + zoom < 5)
                 {
-                    Point relative = mapElement.PointFromScreen(_current);
+                    Point relative = mapElement.PointFromScreen(current);
 
 
                     double abosuluteX = relative.X * st.ScaleX + tt.X;
@@ -76,22 +69,41 @@ namespace Prototype4
 
                     tt.X = abosuluteX - relative.X * st.ScaleX;
                     tt.Y = abosuluteY - relative.Y * st.ScaleY;
+                    checkZoneChange(mapElement.PointFromScreen(current));
                 }
             }
         }
 
-        private void EyeMoveDuringAction(Point _current)
+        private void EyeMoveDuringAction(Point current)
         {
             if (mapElement == null) return;
-            if (mapElement.PointFromScreen(_current).X < 0 || mapElement.PointFromScreen(_current).X > mapElement.RenderSize.Width
-                || mapElement.PointFromScreen(_current).Y < 0 || mapElement.PointFromScreen(_current).X > mapElement.RenderSize.Width)
+            if (mapElement.PointFromScreen(current).X < 0 || mapElement.PointFromScreen(current).X > mapElement.RenderSize.Width
+                || mapElement.PointFromScreen(current).Y < 0 || mapElement.PointFromScreen(current).X > mapElement.RenderSize.Width)
                 return;
             var tt = getTransform(mapElement);
-            tt.X -= (_current.X - (Width / 2 + 447)) * 0.025;
-            tt.Y -= (_current.Y - Height / 2) * 0.025;
+            tt.X -= (current.X - (Width / 2 + 447)) * 0.025;
+            tt.Y -= (current.Y - Height / 2) * 0.025;
+            checkZoneChange(mapElement.PointFromScreen(current));
         }
 
-        public void mapInteraction(bool zoomActionButtonDown, Point current, double zoomfactor)
+        private void checkZoneChange(Point current)
+        {
+            ZoneBorder zoneBorder = zoneEnum._zoneList.SingleOrDefault(x => x.IsInside(current));
+
+            if (zoneBorder != null && zoneEnum._zoneList.IndexOf(zoneBorder) != currentZone)
+            {
+                currentZone = zoneEnum._zoneList.IndexOf(zoneBorder);
+                EventHandler handler = zoneHaveChanged;
+                handler?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        public int getCurrentZone()
+        {
+            return currentZone;
+        }
+
+        public void MapInteraction(bool zoomActionButtonDown, Point current, double zoomfactor)
         {
             if (zoomActionButtonDown)
             {

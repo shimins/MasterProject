@@ -11,8 +11,10 @@
     <Grid Name="grid" >
         <ComboBox Height="23" HorizontalAlignment="Left" Margin="12,12,0,0" Name="_trackerCombo" VerticalAlignment="Top" Width="206" />
         <Button Height="23" Margin="234,12,0,0" Name="_trackButton" VerticalAlignment="Top" HorizontalAlignment="Left" Width="99" Click="_trackButton_Click">Track</Button>
+
+        <local:SwipeControl x:Name="SwipeControl"  HorizontalAlignment="Left" Height="280" VerticalAlignment="Top" Width="442" Margin="0,40,0,0"/>
         <local:ScrollControl x:Name="ScrollControl"  HorizontalAlignment="Left" Height="445" VerticalAlignment="Top" Width="442" Margin="0,326,0,0"/>
-        <Canvas Name="swipeCanvas" HorizontalAlignment="Left" Height="280" VerticalAlignment="Top" Width="442" Background="Red" Margin="0,41,0,0"/>
+
         <local:MapControll x:Name="MapControll" HorizontalAlignment="Left" Height="771" Margin="447,0,0,0" VerticalAlignment="Top" Width="1039"></local:MapControll>
     </Grid>
 </Window>

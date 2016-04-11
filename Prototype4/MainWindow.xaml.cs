@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Tobii.EyeTracking.IO;
 
 namespace Prototype4
@@ -19,10 +8,10 @@ namespace Prototype4
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        private bool zoomActionButtonDown;
-        private bool pauseButtonDown;
+        private bool _zoomActionButtonDown;
+        private bool _pauseButtonDown;
 
         private readonly EyeTrackerBrowser _browser;
 
@@ -36,6 +25,8 @@ namespace Prototype4
         private Point _current;
         private Point3D _initialHeadPos;
 
+        private ZoneEnum zoneEnum;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -47,15 +38,22 @@ namespace Prototype4
             _browser.EyeTrackerRemoved += _browser_EyetrackerRemoved;
             _browser.EyeTrackerUpdated += _browser_EyetrackerUpdated;
 
+            MapControll.zoneHaveChanged += MapControll_ZoneHaveChanged;
+
             _initialHeadPos = new Point3D(0, 0, 0);
             _headPos = new Point3D(0, 0, 0);
+        }
+
+        private void MapControll_ZoneHaveChanged(object sender, EventArgs e)
+        {
+            ScrollControl.zoneChanged(MapControll.getCurrentZone());
         }
 
         private void MainWindow_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (MapControll.GetMapElement() != null && _headPos.Z > 0)
             {
-                zoomActionButtonDown = true;
+                _zoomActionButtonDown = true;
                 _initialHeadPos.Z = _headPos.Z;
             }
         }
@@ -64,13 +62,13 @@ namespace Prototype4
         {
             if (MapControll.GetMapElement() != null)
             {
-                zoomActionButtonDown = false;
+                _zoomActionButtonDown = false;
             }
         }
 
         private void MainWindow_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            pauseButtonDown = !pauseButtonDown;
+            _pauseButtonDown = !_pauseButtonDown;
         }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
@@ -105,6 +103,7 @@ namespace Prototype4
             _trackerCombo.Items.Add(e.EyeTrackerInfo);
         }
 
+
         private void _trackButton_Click(object sender, RoutedEventArgs e)
         {
             if (_tracking)
@@ -137,53 +136,40 @@ namespace Prototype4
 
             var gd = e.GazeDataItem;
 
-            _leftGaze.X = gd.LeftGazePoint2D.X * Width;
-            _leftGaze.Y = gd.LeftGazePoint2D.Y * Height;
+            //_leftGaze.X = gd.LeftGazePoint2D.X * Width;
+            //_leftGaze.Y = gd.LeftGazePoint2D.Y * Height;
 
-            _rightGaze.X = gd.RightGazePoint2D.X * Width;
-            _rightGaze.Y = gd.RightGazePoint2D.Y * Height;
+            //_rightGaze.X = gd.RightGazePoint2D.X * Width;
+            //_rightGaze.Y = gd.RightGazePoint2D.Y * Height;
 
+            _leftGaze.X = gd.LeftGazePoint2D.X * 1920;
+            _leftGaze.Y = gd.LeftGazePoint2D.Y * 1200;
+
+            _rightGaze.X = gd.RightGazePoint2D.X * 1920;
+            _rightGaze.Y = gd.RightGazePoint2D.Y * 1200;
+
+            if (!GazeHelper.SetCurrentPoint(ref _current, _leftGaze, _rightGaze))
+                return;
+
+            _current = PointFromScreen(_current);
 
             _headPos.Z = gd.LeftEyePosition3D.Z / 10;
 
 
-
-            if ((_leftGaze.X < 0 && _rightGaze.X < 0) || _headPos.Z < 0) return;
-            if (!SetCurrentPoint(ref _current, _leftGaze, _rightGaze))
-                return;
-            if (!pauseButtonDown)
+            //if ((_leftGaze.X < 0 && _rightGaze.X < 0) || _headPos.Z < 0) return;
+            //if (!SetCurrentPoint(ref _current, _leftGaze, _rightGaze))
+            //    return;
+            if (!_pauseButtonDown)
             {
                 var zoomFactor = _headPos.Z - _initialHeadPos.Z;
-                MapControll.mapInteraction(zoomActionButtonDown, _current, zoomFactor);
+                MapControll.MapInteraction(_zoomActionButtonDown, _current, zoomFactor);
             }
             else
             {
-                ScrollControl.mapInteraction(_current);
+                ScrollControl.MapInteraction(_current);
+                SwipeControl.MapInteraction(_current);
             }
 
-        }
-
-        private static bool SetCurrentPoint(ref Point currentPoint, Point leftGaze, Point rightGaze)
-        {
-            if (leftGaze.X < 0 && rightGaze.X < 0)
-                return false;
-            if (leftGaze.X > 0 && rightGaze.X > 0)
-            {
-                currentPoint = new Point((leftGaze.X + rightGaze.X) / 2, (leftGaze.Y + rightGaze.Y) / 2);
-                return true;
-            }
-
-            if (rightGaze.X > 0)
-            {
-                currentPoint = new Point(rightGaze.X, rightGaze.Y);
-                return true;
-            }
-            if (leftGaze.X > 0)
-            {
-                currentPoint = new Point(leftGaze.X, leftGaze.Y);
-                return true;
-            }
-            return false;
         }
     }
 }
