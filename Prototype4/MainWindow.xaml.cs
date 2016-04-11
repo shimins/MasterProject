@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using Tobii.EyeTracking.IO;
 
 namespace Prototype4
@@ -153,6 +154,7 @@ namespace Prototype4
 
             _current = PointFromScreen(_current);
 
+
             _headPos.Z = gd.LeftEyePosition3D.Z / 10;
 
 
@@ -166,10 +168,15 @@ namespace Prototype4
             }
             else
             {
-                ScrollControl.MapInteraction(_current);
-                SwipeControl.MapInteraction(_current);
+                if (_current.X >= -50 && _current.Y >= 280 && _current.X <= 475 && _current.Y <= 800)
+                {
+                    ScrollControl.MapInteraction(_current);
+                }
+                else
+                {
+                    SwipeControl.MapInteraction(_current);
+                }
             }
-
         }
     }
 }

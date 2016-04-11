@@ -59,6 +59,7 @@ namespace Prototype4
                 if (st.ScaleX + zoom > .1 && st.ScaleY + zoom < 5)
                 {
                     Point relative = mapElement.PointFromScreen(current);
+                    relative.X += 447;
 
 
                     double abosuluteX = relative.X * st.ScaleX + tt.X;
@@ -69,7 +70,7 @@ namespace Prototype4
 
                     tt.X = abosuluteX - relative.X * st.ScaleX;
                     tt.Y = abosuluteY - relative.Y * st.ScaleY;
-                    checkZoneChange(mapElement.PointFromScreen(current));
+                    CheckZoneChange(mapElement.PointFromScreen(current));
                 }
             }
         }
@@ -83,10 +84,10 @@ namespace Prototype4
             var tt = getTransform(mapElement);
             tt.X -= (current.X - (Width / 2 + 447)) * 0.025;
             tt.Y -= (current.Y - Height / 2) * 0.025;
-            checkZoneChange(mapElement.PointFromScreen(current));
+            CheckZoneChange(mapElement.PointFromScreen(current));
         }
 
-        private void checkZoneChange(Point current)
+        private void CheckZoneChange(Point current)
         {
             ZoneBorder zoneBorder = zoneEnum._zoneList.SingleOrDefault(x => x.IsInside(current));
 
