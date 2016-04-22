@@ -6,21 +6,33 @@ namespace Prototype4.Swipe
     {
         public List<ViewItem> ViewItems { get; set; }
 
+        private static readonly string[] Folders = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
+
         public ViewModel()
         {
-            ViewItems = new List<ViewItem>();
+            ViewItems = new List<ViewItem>(5);
 
-            // A, B or C
-            const string imagePack = "B";
-
-            for (var i = 1; i <= 15; i++)
+            for (var i = 1; i <= 20; i++)
             {
                 ViewItems.Add(new ViewItem
                 {
-                    Image = "/Prototype4;component/Swipe/Images/" + imagePack + "/" + i + ".jpg"
+                    Image = "/Prototype4;component/Swipe/Images/A/" + i + ".jpg"
                 });
             }
         }
+
+        //public void SetImagePack(int index)
+        //{
+        //    var imagePack = Folders[index];
+
+        //    for (var i = 1; i <= 5; i++)
+        //    {
+        //        ViewItems[i-1] = new ViewItem
+        //        {
+        //            Image = "/Prototype4;component/Swipe/Images/" + imagePack + "/" + i + ".jpg"
+        //        };
+        //    }
+        //}
     }
 
     public class ViewItem

@@ -145,22 +145,22 @@
     <Resource Include="Swipe\Images\A\1.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Swipe\Images\A\10.jpg">
+    <Resource Include="Swipe\Images\E\1.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Swipe\Images\A\11.jpg">
+    <Resource Include="Swipe\Images\A\16.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Swipe\Images\A\12.jpg">
+    <Resource Include="Swipe\Images\A\17.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Swipe\Images\A\13.jpg">
+    <Resource Include="Swipe\Images\A\18.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Swipe\Images\A\14.jpg">
+    <Resource Include="Swipe\Images\A\19.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Swipe\Images\A\15.jpg">
+    <Resource Include="Swipe\Images\A\20.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Swipe\Images\A\2.jpg">
@@ -175,50 +175,115 @@
     <Resource Include="Swipe\Images\A\5.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Swipe\Images\A\6.jpg">
+    <Resource Include="Swipe\Images\E\2.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Swipe\Images\A\7.jpg">
+    <Resource Include="Swipe\Images\E\3.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Swipe\Images\A\8.jpg">
+    <Resource Include="Swipe\Images\E\4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\E\5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\I\5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\I\4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\I\3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\I\2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\15.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\14.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\13.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\12.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\H\5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\H\4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\H\3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\H\2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\H\1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\I\1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\11.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\G\5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\G\4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\G\3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\G\2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\10.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Swipe\Images\A\9.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Swipe\Images\C\9.jpg" />
-    <Resource Include="Swipe\Images\C\8.jpg" />
-    <Resource Include="Swipe\Images\C\7.jpg" />
-    <Resource Include="Swipe\Images\C\6.jpg" />
-    <Resource Include="Swipe\Images\C\5.jpg" />
-    <Resource Include="Swipe\Images\C\4.jpg" />
-    <Resource Include="Swipe\Images\C\3.jpg" />
-    <Resource Include="Swipe\Images\C\2.jpg" />
-    <Resource Include="Swipe\Images\C\15.jpg" />
-    <Resource Include="Swipe\Images\C\14.jpg" />
-    <Resource Include="Swipe\Images\C\13.jpg" />
-    <Resource Include="Swipe\Images\C\12.jpg" />
-    <Resource Include="Swipe\Images\C\11.jpg" />
-    <Resource Include="Swipe\Images\C\10.jpg" />
-    <Resource Include="Swipe\Images\C\1.jpg" />
-    <Resource Include="Swipe\Images\B\9.jpg" />
-    <Resource Include="Swipe\Images\B\8.jpg" />
-    <Resource Include="Swipe\Images\B\7.jpg" />
-    <Resource Include="Swipe\Images\B\6.jpg" />
-    <Resource Include="Swipe\Images\B\5.jpg" />
-    <Resource Include="Swipe\Images\B\4.jpg" />
-    <Resource Include="Swipe\Images\B\3.jpg" />
-    <Resource Include="Swipe\Images\B\2.jpg" />
-    <Resource Include="Swipe\Images\B\15.jpg" />
-    <Resource Include="Swipe\Images\B\14.jpg" />
-    <Resource Include="Swipe\Images\B\13.jpg" />
-    <Resource Include="Swipe\Images\B\12.jpg" />
-    <Resource Include="Swipe\Images\B\11.jpg" />
-    <Resource Include="Swipe\Images\B\10.jpg" />
-    <Resource Include="Swipe\Images\B\1.jpg" />
+    <Resource Include="Swipe\Images\A\8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\7.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\F\5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\F\4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\F\3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\F\2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\F\1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\G\1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Swipe\Images\A\6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="res\text1.txt" />
     <Resource Include="res\Test.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Swipe\Images\B\" />
+    <Folder Include="Swipe\Images\C\" />
+    <Folder Include="Swipe\Images\D\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

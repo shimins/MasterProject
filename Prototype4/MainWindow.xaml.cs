@@ -47,7 +47,7 @@ namespace Prototype4
 
         private void MapControll_ZoneHaveChanged(object sender, EventArgs e)
         {
-            ScrollControl.zoneChanged(MapControll.getCurrentZone());
+
         }
 
         private void MainWindow_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -70,6 +70,13 @@ namespace Prototype4
         private void MainWindow_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             _pauseButtonDown = !_pauseButtonDown;
+
+            if (_pauseButtonDown)
+            {
+                var zoneIndex = MapControll.getCurrentZone();
+                ScrollControl.zoneChanged(zoneIndex);
+                SwipeControl.HandleZoneChange(zoneIndex);
+            }
         }
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)

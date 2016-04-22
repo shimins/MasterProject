@@ -21,6 +21,13 @@ namespace Prototype4
             _sw.Start();
         }
 
+        public void HandleZoneChange(int zoneIndex)
+        {
+            var random = new Random(zoneIndex);
+            ImageContainer.SelectedIndex = random.Next(0, ImageContainer.Items.Count);
+            ImageContainer.RefreshViewPort(ImageContainer.SelectedIndex);
+        }
+
         public void MapInteraction(Point current)
         {
             _current = current;

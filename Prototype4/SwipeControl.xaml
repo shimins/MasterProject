@@ -9,7 +9,7 @@
              d:DesignHeight="250" d:DesignWidth="442">
     <Grid>
         <Grid.DataContext>
-            <swipe1:ViewModel />
+            <swipe1:ViewModel x:Name="ViewModelTest" />
         </Grid.DataContext>
         <swipe1:View x:Name="ImageContainer" ItemsSource="{Binding ViewItems}" SelectedIndex="1">
             <swipe1:View.ItemTemplate>

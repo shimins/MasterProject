@@ -120,7 +120,7 @@ namespace Prototype4.Swipe
             }
         }
 
-        private void RefreshViewPort(int selectedIndex)
+        public void RefreshViewPort(int selectedIndex)
         {
             if (!EnsureTemplateParts())
             {

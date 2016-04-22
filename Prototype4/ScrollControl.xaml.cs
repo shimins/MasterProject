@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 
@@ -40,16 +41,16 @@ namespace Prototype4
         private void CalculateScrollSpeed(int newScrollFactor, Point current)
         {
             var y = current.Y - 326;
-            if (y >= Height * 0.3 && y <= Height * 0.7)
+            if (y >= Height * 0.4 && y <= Height * 0.6)
             {
                 _scrollSpeed = 0;
                 return;
             }
-            if (y > Height * 0.2 && y < Height * 0.8)
+            if (y > Height * 0.3 && y < Height * 0.7)
             {
                 _scrollSpeed = 1;
             }
-            else if(y < Height * 0.1 && y > Height * 0.9)
+            else if(y < Height * 0.2 && y > Height * 0.8)
             {
                 _scrollSpeed = 2;
             }
@@ -61,6 +62,7 @@ namespace Prototype4
             {
                 _currentScrollFactor = newScrollFactor;
             }
+            Debug.WriteLine(_scrollSpeed);
         }
     }
 }
