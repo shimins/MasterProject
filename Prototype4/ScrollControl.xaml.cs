@@ -19,6 +19,7 @@ namespace Prototype4
         {
             InitializeComponent();
             textBlock.Text = File.ReadAllText("res/text4.txt");
+            Border.Visibility = Visibility.Hidden;;
         }
 
         public void zoneChanged(int i)
@@ -46,23 +47,34 @@ namespace Prototype4
                 _scrollSpeed = 0;
                 return;
             }
-            if (y > Height * 0.3 && y < Height * 0.7)
+            if (newScrollFactor * _currentScrollFactor > 0 && _scrollSpeed <= 3 && _scrollSpeed >= 1)
             {
-                _scrollSpeed = 1;
-            }
-            else if(y < Height * 0.2 && y > Height * 0.8)
-            {
-                _scrollSpeed = 2;
-            }
-            if (newScrollFactor * _currentScrollFactor > 0 && _scrollSpeed <= 5 && _scrollSpeed > 1)
-            {
-                _scrollSpeed += 0.25;
+                _scrollSpeed += 0.005;
             }
             if (newScrollFactor * _currentScrollFactor < 0)
             {
                 _currentScrollFactor = newScrollFactor;
+                if (y > Height * 0.3 && y < Height * 0.7)
+                {
+                    _scrollSpeed = 1;
+                }
+                else if (y < Height * 0.2 && y > Height * 0.8)
+                {
+                    _scrollSpeed = 2;
+                }
             }
-            Debug.WriteLine(_scrollSpeed);
+        }
+
+        public void setInFocus(bool focus)
+        {
+            if (focus)
+            {
+                Border.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                Border.Visibility = Visibility.Hidden;
+            }
         }
     }
 }

@@ -19,6 +19,7 @@ namespace Prototype4
         {
             InitializeComponent();
             _sw.Start();
+            Border.Visibility = Visibility.Hidden;
         }
 
         public void HandleZoneChange(int zoneIndex)
@@ -101,6 +102,18 @@ namespace Prototype4
 
             var middle = (Height / 2);
             return _current.Y > middle - SwipeWidthArea && _current.Y < middle + SwipeWidthArea;
+        }
+
+        public void setInFocus(bool focus)
+        {
+            if (focus)
+            {
+                Border.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                Border.Visibility = Visibility.Hidden;
+            }
         }
     }
 }

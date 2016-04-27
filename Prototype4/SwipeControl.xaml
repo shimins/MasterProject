@@ -19,5 +19,6 @@
                 </DataTemplate>
             </swipe1:View.ItemTemplate>
         </swipe1:View>
+        <Border x:Name="Border" BorderBrush="Red" BorderThickness="2"></Border>
     </Grid>
 </UserControl>

@@ -6,6 +6,11 @@ using Tobii.EyeTracking.IO;
 
 namespace Prototype4
 {
+
+    public enum WindowType
+    {
+        Map,Scroll,Swipe
+    }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -13,7 +18,7 @@ namespace Prototype4
     {
         private bool _zoomActionButtonDown;
         private bool _pauseButtonDown;
-
+        
         private readonly EyeTrackerBrowser _browser;
 
         private bool _tracking;
@@ -27,6 +32,8 @@ namespace Prototype4
         private Point3D _initialHeadPos;
 
         private ZoneEnum zoneEnum;
+
+        private WindowType windowType;
 
         public MainWindow()
         {
@@ -43,6 +50,8 @@ namespace Prototype4
 
             _initialHeadPos = new Point3D(0, 0, 0);
             _headPos = new Point3D(0, 0, 0);
+
+            windowType = WindowType.Map;
         }
 
         private void MapControll_ZoneHaveChanged(object sender, EventArgs e)
@@ -50,34 +59,34 @@ namespace Prototype4
 
         }
 
-        private void MainWindow_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (MapControll.GetMapElement() != null && _headPos.Z > 0)
-            {
-                _zoomActionButtonDown = true;
-                _initialHeadPos.Z = _headPos.Z;
-            }
-        }
+        //private void MainWindow_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (MapControll.GetMapElement() != null && _headPos.Z > 0)
+        //    {
+        //        _zoomActionButtonDown = true;
+        //        _initialHeadPos.Z = _headPos.Z;
+        //    }
+        //}
 
-        private void MainWindow_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            if (MapControll.GetMapElement() != null)
-            {
-                _zoomActionButtonDown = false;
-            }
-        }
+        //private void MainWindow_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    if (MapControll.GetMapElement() != null)
+        //    {
+        //        _zoomActionButtonDown = false;
+        //    }
+        //}
 
-        private void MainWindow_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            _pauseButtonDown = !_pauseButtonDown;
+        //private void MainWindow_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    _pauseButtonDown = !_pauseButtonDown;
 
-            if (_pauseButtonDown)
-            {
-                var zoneIndex = MapControll.getCurrentZone();
-                ScrollControl.zoneChanged(zoneIndex);
-                SwipeControl.HandleZoneChange(zoneIndex);
-            }
-        }
+        //    if (_pauseButtonDown)
+        //    {
+        //        var zoneIndex = MapControll.getCurrentZone();
+        //        ScrollControl.zoneChanged(zoneIndex);
+        //        SwipeControl.HandleZoneChange(zoneIndex);
+        //    }
+        //}
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
@@ -168,22 +177,83 @@ namespace Prototype4
             //if ((_leftGaze.X < 0 && _rightGaze.X < 0) || _headPos.Z < 0) return;
             //if (!SetCurrentPoint(ref _current, _leftGaze, _rightGaze))
             //    return;
-            if (!_pauseButtonDown)
+
+            if (windowType == WindowType.Map)
             {
                 var zoomFactor = _headPos.Z - _initialHeadPos.Z;
                 MapControll.MapInteraction(_zoomActionButtonDown, _current, zoomFactor);
             }
-            else
+            else if (windowType == WindowType.Swipe)
             {
-                if (_current.X >= -50 && _current.Y >= 280 && _current.X <= 475 && _current.Y <= 800)
+                SwipeControl.MapInteraction(_current);
+            }
+            else if (windowType == WindowType.Scroll)
+            {
+                ScrollControl.MapInteraction(_current);
+            }
+
+            //if (!_pauseButtonDown)
+            //{
+            //    var zoomFactor = _headPos.Z - _initialHeadPos.Z;
+            //    MapControll.MapInteraction(_zoomActionButtonDown, _current, zoomFactor);
+            //}
+            //else
+            //{
+            //    if (_current.X >= -50 && _current.Y >= 280 && _current.X <= 475 && _current.Y <= 800)
+            //    {
+            //        ScrollControl.MapInteraction(_current);
+            //    }
+            //    else
+            //    {
+            //        SwipeControl.MapInteraction(_current);
+            //    }
+            //}
+        }
+
+        private void MainWindow_OnKeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.X:
+                    if (windowType == WindowType.Map)
+                    {
+                        windowType = WindowType.Swipe;
+                        MapControll.setInFocus(false);
+                        var zoneIndex = MapControll.getCurrentZone();
+                        ScrollControl.zoneChanged(zoneIndex);
+                        SwipeControl.HandleZoneChange(zoneIndex);
+                        SwipeControl.setInFocus(true);
+                    }
+                    else if (windowType == WindowType.Swipe)
+                    {
+                        windowType = WindowType.Scroll;
+                        SwipeControl.setInFocus(false);
+                        ScrollControl.setInFocus(true);
+                    }
+                    else if(windowType == WindowType.Scroll)
+                    {
+                        windowType = WindowType.Map;
+                        ScrollControl.setInFocus(false);
+                        MapControll.setInFocus(true);
+                    }
+                    break;
+                case Key.Z:
+                    _zoomActionButtonDown = false;
+                    _initialHeadPos.Z = 0;
+                    break;
+            }
+        }
+
+        private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Z)
+            {
+                _zoomActionButtonDown = true;
+                if (_initialHeadPos.Z == 0)
                 {
-                    ScrollControl.MapInteraction(_current);
-                }
-                else
-                {
-                    SwipeControl.MapInteraction(_current);
+                    _initialHeadPos = _headPos;
                 }
             }
         }
-    }
+    };
 }

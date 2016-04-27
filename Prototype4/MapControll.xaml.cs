@@ -49,6 +49,7 @@ namespace Prototype4
 
         private void zoom_event(double zoomFactor, Point current)
         {
+            if(Math.Abs(zoomFactor) <= 3) return;
             if (mapElement != null)
             {
                 var st = getScaleTransform(mapElement);
@@ -81,10 +82,13 @@ namespace Prototype4
             if (mapElement.PointFromScreen(current).X < 0 || mapElement.PointFromScreen(current).X > mapElement.RenderSize.Width
                 || mapElement.PointFromScreen(current).Y < 0 || mapElement.PointFromScreen(current).X > mapElement.RenderSize.Width)
                 return;
-            var tt = getTransform(mapElement);
-            tt.X -= (current.X - (Width / 2 + 447)) * 0.025;
-            tt.Y -= (current.Y - Height / 2) * 0.025;
-            CheckZoneChange(mapElement.PointFromScreen(current));
+            if (Math.Abs(current.X- (Width / 2 + 447)) > 200 || Math.Abs(current.Y - (Height / 2)) > 200)
+            {
+                var tt = getTransform(mapElement);
+                tt.X -= (current.X - (Width / 2 + 447)) * 0.025;
+                tt.Y -= (current.Y - Height / 2) * 0.025;
+                CheckZoneChange(mapElement.PointFromScreen(current));
+            }
         }
 
         private void CheckZoneChange(Point current)
@@ -113,6 +117,19 @@ namespace Prototype4
             else
             {
                 EyeMoveDuringAction(current);
+            }
+        }
+
+        public void setInFocus(bool focus)
+        {
+            if (focus)
+            {
+                Border.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                Border.Visibility = Visibility.Hidden;
+
             }
         }
     }

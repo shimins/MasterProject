@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Prototype4"
         mc:Ignorable="d"
-        Title="Prototype 4" Height="798.118" Width="1493.562" WindowStartupLocation="CenterScreen" MouseLeftButtonDown="MainWindow_OnMouseLeftButtonDown" 
-        MouseLeftButtonUp="MainWindow_OnMouseLeftButtonUp" MouseRightButtonDown="MainWindow_OnMouseRightButtonDown"
+        Title="Prototype 4" Height="798.118" Width="1493.562" WindowStartupLocation="CenterScreen" KeyUp="MainWindow_OnKeyUp" KeyDown="MainWindow_OnKeyDown"
         Loaded="MainWindow_OnLoaded" Closed="MainWindow_OnClosed">
     <Grid Name="grid" >
         <ComboBox Height="23" HorizontalAlignment="Left" Margin="12,12,0,0" Name="_trackerCombo" VerticalAlignment="Top" Width="206" />

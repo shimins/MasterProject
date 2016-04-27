@@ -10,5 +10,6 @@
                  VerticalAlignment="Top" Width="442" FontSize="16" TextBlock.LineHeight="25" 
                  TextBlock.LineStackingStrategy="BlockLineHeight" >
         </TextBox>
+        <Border x:Name="Border" BorderBrush="Red" BorderThickness="2"></Border>
     </Grid>
 </UserControl>
