@@ -11,7 +11,7 @@
                  MouseRightButtonDown="reset" 
             Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Image x:Name="Image" ClipToBounds="True" HorizontalAlignment="Center"
-               VerticalAlignment="Center" Source="res/london.jpg" Stretch="None" >
+               VerticalAlignment="Center" Source="res/Test.jpg" Stretch="None" >
             </Image>
         </Viewbox>
         <ComboBox Height="23" HorizontalAlignment="Left" Margin="12,12,0,0" Name="_trackerCombo" VerticalAlignment="Top" Width="206" />
