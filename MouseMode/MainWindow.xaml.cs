@@ -91,8 +91,6 @@ namespace MouseMode
             }
         }
         
-
-        
         private void zoom_event(double zoomFactor)
         {
             if (child != null)
@@ -234,14 +232,11 @@ namespace MouseMode
             _rightGaze.X = gd.RightGazePoint2D.X * Width;
             _rightGaze.Y = gd.RightGazePoint2D.Y * Height;
 
-
             _headPos.Z = gd.LeftEyePosition3D.Z / 10;
-
 
             if ((_leftGaze.X < 0 && _rightGaze.X < 0 )|| _headPos.Z < 0) return;
             if (!SetCurrentPoint(ref _current, _leftGaze, _rightGaze))
                 return;
-            //if ((_current.X > 1400 || _current.X < 500 || _current.Y > 700 || _current.Y < 500) && !actionButtonDown)
             if ((_current.X > 1400 || _current.X < 500 || _current.Y > 700 || _current.Y < 500))
             {
                 EyeMoveDuringAction();
@@ -255,7 +250,6 @@ namespace MouseMode
 
         private bool HeadHaveMoved(double initialPosition)
         {
-            //TODO forrandre int til hva enn du mener er komfortabel nok til å telle som head movement
             if (Math.Abs(_headPos.Z - initialPosition) > 1)
             {
                 return true;

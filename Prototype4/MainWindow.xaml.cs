@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using Tobii.EyeTracking.IO;
 
 namespace Prototype4
@@ -46,12 +48,14 @@ namespace Prototype4
             _browser.EyeTrackerRemoved += _browser_EyetrackerRemoved;
             _browser.EyeTrackerUpdated += _browser_EyetrackerUpdated;
 
-            MapControll.zoneHaveChanged += MapControll_ZoneHaveChanged;
+            MapControll.ZoneHaveChanged += MapControll_ZoneHaveChanged;
 
             _initialHeadPos = new Point3D(0, 0, 0);
             _headPos = new Point3D(0, 0, 0);
 
             windowType = WindowType.Map;
+
+
         }
 
         private void MapControll_ZoneHaveChanged(object sender, EventArgs e)
@@ -173,41 +177,20 @@ namespace Prototype4
 
             _headPos.Z = gd.LeftEyePosition3D.Z / 10;
 
-
-            //if ((_leftGaze.X < 0 && _rightGaze.X < 0) || _headPos.Z < 0) return;
-            //if (!SetCurrentPoint(ref _current, _leftGaze, _rightGaze))
-            //    return;
-
-            if (windowType == WindowType.Map)
+            switch (windowType)
             {
-                var zoomFactor = _headPos.Z - _initialHeadPos.Z;
-                MapControll.MapInteraction(_zoomActionButtonDown, _current, zoomFactor);
-            }
-            else if (windowType == WindowType.Swipe)
-            {
-                SwipeControl.MapInteraction(_current);
-            }
-            else if (windowType == WindowType.Scroll)
-            {
-                ScrollControl.MapInteraction(_current);
-            }
+                case WindowType.Map:
+                    var zoomFactor = _headPos.Z - _initialHeadPos.Z;
+                    MapControll.MapInteraction(_zoomActionButtonDown, _current, zoomFactor);
+                    break;
+                case WindowType.Swipe:
 
-            //if (!_pauseButtonDown)
-            //{
-            //    var zoomFactor = _headPos.Z - _initialHeadPos.Z;
-            //    MapControll.MapInteraction(_zoomActionButtonDown, _current, zoomFactor);
-            //}
-            //else
-            //{
-            //    if (_current.X >= -50 && _current.Y >= 280 && _current.X <= 475 && _current.Y <= 800)
-            //    {
-            //        ScrollControl.MapInteraction(_current);
-            //    }
-            //    else
-            //    {
-            //        SwipeControl.MapInteraction(_current);
-            //    }
-            //}
+                    SwipeControl.MapInteraction(_current);
+                    break;
+                case WindowType.Scroll:
+                    ScrollControl.MapInteraction(_current);
+                    break;
+            }
         }
 
         private void MainWindow_OnKeyUp(object sender, KeyEventArgs e)
@@ -215,26 +198,26 @@ namespace Prototype4
             switch (e.Key)
             {
                 case Key.X:
-                    if (windowType == WindowType.Map)
+                    switch (windowType)
                     {
-                        windowType = WindowType.Swipe;
-                        MapControll.setInFocus(false);
-                        var zoneIndex = MapControll.getCurrentZone();
-                        ScrollControl.zoneChanged(zoneIndex);
-                        SwipeControl.HandleZoneChange(zoneIndex);
-                        SwipeControl.setInFocus(true);
-                    }
-                    else if (windowType == WindowType.Swipe)
-                    {
-                        windowType = WindowType.Scroll;
-                        SwipeControl.setInFocus(false);
-                        ScrollControl.setInFocus(true);
-                    }
-                    else if(windowType == WindowType.Scroll)
-                    {
-                        windowType = WindowType.Map;
-                        ScrollControl.setInFocus(false);
-                        MapControll.setInFocus(true);
+                        case WindowType.Map:
+                            windowType = WindowType.Swipe;
+                            MapControll.SetInFocus(false);
+                            var zoneIndex = MapControll.GetCurrentZone();
+                            ScrollControl.ZoneChanged(zoneIndex);
+                            SwipeControl.HandleZoneChange(zoneIndex);
+                            SwipeControl.SetInFocus();
+                            break;
+                        case WindowType.Swipe:
+                            windowType = WindowType.Scroll;
+                            SwipeControl.SetInFocus(false);
+                            ScrollControl.SetInFocus();
+                            break;
+                        case WindowType.Scroll:
+                            windowType = WindowType.Map;
+                            ScrollControl.SetInFocus(false);
+                            MapControll.SetInFocus();
+                            break;
                     }
                     break;
                 case Key.Z:

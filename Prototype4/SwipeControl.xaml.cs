@@ -24,16 +24,15 @@ namespace Prototype4
 
         public void HandleZoneChange(int zoneIndex)
         {
-            var random = new Random(zoneIndex);
-            ImageContainer.SelectedIndex = random.Next(0, ImageContainer.Items.Count);
-            ImageContainer.RefreshViewPort(ImageContainer.SelectedIndex);
+            ViewModelTest.SetImagePack(zoneIndex);
+            ImageContainer.RefreshViewPort(2);
         }
 
         public void MapInteraction(Point current)
         {
             _current = current;
 
-            if (GazeHaveMoved(_current) && _sw.ElapsedMilliseconds > 750)
+            if (GazeHaveMoved(_current) && _sw.ElapsedMilliseconds > 900)
             {
                 if (IsGazeLeftSide() && _isSwipeAllowed)
                 {
@@ -50,6 +49,9 @@ namespace Prototype4
                         ImageContainer.SelectedIndex--;
                     }
                     ImageContainer.RunSlideAnimation(ActualWidth);
+
+                    _isSwipeAllowed = true;
+                    _sw.Restart();
                 }
                 else if (IsGazeRightSide() && _isSwipeAllowed)
                 {
@@ -65,26 +67,21 @@ namespace Prototype4
                         ImageContainer.SelectedIndex++;
                     }
                     ImageContainer.RunSlideAnimation(-ActualWidth);
+
+                    _isSwipeAllowed = true;
+                    _sw.Restart();
                 }
 
-                _isSwipeAllowed = true;
                 _previous = _current;
-
-                _sw.Restart();
-                Debug.WriteLine("Restarting");
             }
         }
 
-
         private bool GazeHaveMoved(Point currentPoint)
         {
-            // For swipe events we only check for changes in X coordinates
-            if (Math.Abs(_previous.X - currentPoint.X) > 10 || Math.Abs(_previous.Y - currentPoint.Y) > 10)
-                return true;
-            return false;
+            return Math.Abs(_previous.X - currentPoint.X) > 15 || Math.Abs(_previous.Y - currentPoint.Y) > 25;
         }
 
-        private const int SwipeWidthArea = 120;
+        private const int SwipeWidthArea = 75;
 
         private bool IsGazeLeftSide()
         {
@@ -92,28 +89,21 @@ namespace Prototype4
                 return false;
 
             var middle = (Height / 2);
-            return _current.Y > middle - SwipeWidthArea && _current.Y < middle + SwipeWidthArea;
+            return _current.Y > middle - SwipeWidthArea && _current.Y < middle+SwipeWidthArea;
         }
-
+        
         private bool IsGazeRightSide()
         {
-            if (!(_current.X > Width - SwipeWidthArea && _current.X <= Width))
+            if (!(_current.X > Width-SwipeWidthArea && _current.X <= Width))
                 return false;
 
             var middle = (Height / 2);
-            return _current.Y > middle - SwipeWidthArea && _current.Y < middle + SwipeWidthArea;
+            return _current.Y > middle-SwipeWidthArea && _current.Y < middle+SwipeWidthArea;
         }
 
-        public void setInFocus(bool focus)
+        public void SetInFocus(bool focus = true)
         {
-            if (focus)
-            {
-                Border.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                Border.Visibility = Visibility.Hidden;
-            }
+            Border.Visibility = focus ? Visibility.Visible : Visibility.Hidden;
         }
     }
 }

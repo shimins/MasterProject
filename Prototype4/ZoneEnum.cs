@@ -11,16 +11,14 @@ namespace Prototype4
 {
     class ZoneEnum
     {
-        public List<ZoneBorder> _zoneList;
-        private ZoneBorder _zoneBorder;
-        private const double Constant = 8192/3;
+        public List<ZoneBorder> ZoneList;
 
         public ZoneEnum()
         {
-            _zoneList = new List<ZoneBorder>();
+            ZoneList = new List<ZoneBorder>();
             for (var i = 0; i < 9; i++)
             {
-                _zoneList.Add(_zoneBorder = new ZoneBorder(i));
+                ZoneList.Add(new ZoneBorder(i));
             }
         }
     }
@@ -29,29 +27,29 @@ namespace Prototype4
     {
         public double BorderX;
         public double BorderY;
-        private const double Constant = 8192/3;
+        private const double Constant = 2730;
 
         public ZoneBorder(int i)
         {
             if (((i + 1) % 3) != 0)
             {
-                BorderX = 8192 / 3 * ((i + 1) % 3);
+                BorderX = Constant * ((i + 1) % 3);
             }
             else
             {
-                BorderX = 8192;
+                BorderX = Constant * 3;
             }
             if (i < 3)
             {
-                BorderY = 8192 / 3;
+                BorderY = Constant;
             }
             else if (i >= 3 && i < 6)
             {
-                BorderY = 8192 / 3 * 2;
+                BorderY = Constant * 2;
             }
             else
             {
-                BorderY = 8192;
+                BorderY = Constant * 3;
             }
         }
 

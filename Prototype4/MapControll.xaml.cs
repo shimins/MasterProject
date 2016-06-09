@@ -10,24 +10,27 @@ namespace Prototype4
     /// </summary>
     public partial class MapControll
     {
-        public event EventHandler zoneHaveChanged;
+        public event EventHandler ZoneHaveChanged;
 
-        private ZoneEnum zoneEnum;
-        private int currentZone = 4;
+        private readonly ZoneEnum _zoneEnum;
+        private int _currentZone = 4;
 
         public MapControll()
         {
             InitializeComponent();
 
-            TransformGroup group = new TransformGroup();
-            ScaleTransform st = new ScaleTransform();
+            var group = new TransformGroup();
+
+            var st = new ScaleTransform();
             group.Children.Add(st);
-            TranslateTransform tt = new TranslateTransform();
+
+            var tt = new TranslateTransform();
             group.Children.Add(tt);
+
             mapElement.RenderTransform = group;
             mapElement.RenderTransformOrigin = new Point(0.0, 0.0);
 
-            zoneEnum = new ZoneEnum();
+            _zoneEnum = new ZoneEnum();
         }
 
         public UIElement GetMapElement()
@@ -35,13 +38,13 @@ namespace Prototype4
             return mapElement;
         }
 
-        private TranslateTransform getTransform(UIElement element)
+        private static TranslateTransform GetTransform(UIElement element)
         {
             return (TranslateTransform)((TransformGroup)element.RenderTransform)
                 .Children.First(tr => tr is TranslateTransform);
         }
 
-        private ScaleTransform getScaleTransform(UIElement element)
+        private static ScaleTransform GetScaleTransform(UIElement element)
         {
             return (ScaleTransform)((TransformGroup)element.RenderTransform)
                 .Children.First(tr => tr is ScaleTransform);
@@ -52,8 +55,8 @@ namespace Prototype4
             if(Math.Abs(zoomFactor) <= 3) return;
             if (mapElement != null)
             {
-                var st = getScaleTransform(mapElement);
-                var tt = getTransform(mapElement);
+                var st = GetScaleTransform(mapElement);
+                var tt = GetTransform(mapElement);
 
                 double zoom = zoomFactor > 0 ? -.01 * st.ScaleX : .01 * st.ScaleX;
 
@@ -61,7 +64,6 @@ namespace Prototype4
                 {
                     Point relative = mapElement.PointFromScreen(current);
                     relative.X += 447;
-
 
                     double abosuluteX = relative.X * st.ScaleX + tt.X;
                     double abosuluteY = relative.Y * st.ScaleY + tt.Y;
@@ -82,9 +84,9 @@ namespace Prototype4
             if (mapElement.PointFromScreen(current).X < 0 || mapElement.PointFromScreen(current).X > mapElement.RenderSize.Width
                 || mapElement.PointFromScreen(current).Y < 0 || mapElement.PointFromScreen(current).X > mapElement.RenderSize.Width)
                 return;
-            if (Math.Abs(current.X- (Width / 2 + 447)) > 200 || Math.Abs(current.Y - (Height / 2)) > 200)
+            if (Math.Abs(current.X - (Width / 2 + 447)) > 250 || Math.Abs(current.Y - (Height / 2)) > 250)
             {
-                var tt = getTransform(mapElement);
+                var tt = GetTransform(mapElement);
                 tt.X -= (current.X - (Width / 2 + 447)) * 0.025;
                 tt.Y -= (current.Y - Height / 2) * 0.025;
                 CheckZoneChange(mapElement.PointFromScreen(current));
@@ -93,44 +95,31 @@ namespace Prototype4
 
         private void CheckZoneChange(Point current)
         {
-            ZoneBorder zoneBorder = zoneEnum._zoneList.SingleOrDefault(x => x.IsInside(current));
+            var zoneBorder = _zoneEnum.ZoneList.SingleOrDefault(x => x.IsInside(current));
 
-            if (zoneBorder != null && zoneEnum._zoneList.IndexOf(zoneBorder) != currentZone)
+            if (zoneBorder != null && _zoneEnum.ZoneList.IndexOf(zoneBorder) != _currentZone)
             {
-                currentZone = zoneEnum._zoneList.IndexOf(zoneBorder);
-                EventHandler handler = zoneHaveChanged;
-                handler?.Invoke(this, EventArgs.Empty);
+                _currentZone = _zoneEnum.ZoneList.IndexOf(zoneBorder);
+                ZoneHaveChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        public int getCurrentZone()
+        public int GetCurrentZone()
         {
-            return currentZone;
+            return _currentZone;
         }
 
         public void MapInteraction(bool zoomActionButtonDown, Point current, double zoomfactor)
         {
             if (zoomActionButtonDown)
-            {
                 zoom_event(zoomfactor, current);
-            }
             else
-            {
                 EyeMoveDuringAction(current);
-            }
         }
 
-        public void setInFocus(bool focus)
+        public void SetInFocus(bool focus = true)
         {
-            if (focus)
-            {
-                Border.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                Border.Visibility = Visibility.Hidden;
-
-            }
+            Border.Visibility = focus ? Visibility.Visible : Visibility.Hidden;
         }
     }
 }

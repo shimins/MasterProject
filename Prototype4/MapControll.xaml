@@ -10,7 +10,7 @@
         <Viewbox x:Name="ViewBox" 
             Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Image x:Name="mapElement" ClipToBounds="True" HorizontalAlignment="Center"
-               VerticalAlignment="Center" Source="res/Test.jpg" Stretch="None" >
+               VerticalAlignment="Center" Source="res/gta-zone.jpg" Stretch="None" >
             </Image>
         </Viewbox>
         <Border x:Name="Border" BorderBrush="Red" BorderThickness="2"></Border>

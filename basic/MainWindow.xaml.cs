@@ -63,10 +63,6 @@ namespace basic
 
                 tt.X += moveX;
                 tt.Y += moveY;
-
-
-
-
             }
         }
 
@@ -94,8 +90,6 @@ namespace basic
                 if (!(e.Delta > 0) && (st.ScaleX < .2 || st.ScaleY < .2))
                     return;
 
-
-
                 //Point point = e.GetPosition(child);
                 Console.WriteLine(e.GetPosition(child));
                 //Console.WriteLine(panValue);
@@ -108,11 +102,8 @@ namespace basic
                 double abosuluteX = panValue.X * st.ScaleX + tt.X;
                 double abosuluteY = panValue.Y * st.ScaleY + tt.Y;
 
-
                 st.ScaleX += zoom;
                 st.ScaleY += zoom;
-
-
 
                 tt.X = abosuluteX - panValue.X * st.ScaleX;
                 tt.Y = abosuluteY - panValue.Y * st.ScaleY;

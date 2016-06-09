@@ -243,7 +243,6 @@ namespace Scroll
         private void Browser_OnMouseMove(object sender, MouseEventArgs e)
         {
             var html = Browser.Document as mshtml.HTMLDocument;
-
         }
     }
 }

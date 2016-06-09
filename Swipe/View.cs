@@ -10,13 +10,13 @@ namespace Swipe
     public class View : Selector
     {
         #region Private Fields
-        private ContentControl PART_CurrentItem;
-        private ContentControl PART_PreviousItem;
-        private ContentControl PART_NextItem;
-        private FrameworkElement PART_Root;
-        private FrameworkElement PART_Container;
-        private double fromValue = 0.0;
-        private double elasticFactor = 1.0;
+        private ContentControl _currentItem;
+        private ContentControl _previousItem;
+        private ContentControl _nextItem;
+        private FrameworkElement _root;
+        private FrameworkElement _container;
+        private double _fromValue;
+        private double _elasticFactor = 1.0;
         #endregion
 
         #region Constructor
@@ -28,122 +28,122 @@ namespace Swipe
 
         public View()
         {
-            this.CommandBindings.Add(new CommandBinding(NextCommand, this.OnNextExecuted, this.OnNextCanExecute));
-            this.CommandBindings.Add(new CommandBinding(PreviousCommand, this.OnPreviousExecuted, this.OnPreviousCanExecute));
+            CommandBindings.Add(new CommandBinding(NextCommand, OnNextExecuted, OnNextCanExecute));
+            CommandBindings.Add(new CommandBinding(PreviousCommand, OnPreviousExecuted, OnPreviousCanExecute));
         }
         #endregion
 
         #region Private methods
         private void OnRootManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
         {
-            this.fromValue = e.TotalManipulation.Translation.X;
-            if (this.fromValue > 0)
+            _fromValue = e.TotalManipulation.Translation.X;
+            if (_fromValue > 0)
             {
-                if (this.SelectedIndex > 0)
+                if (SelectedIndex > 0)
                 {
-                    this.SelectedIndex -= 1;
+                    SelectedIndex -= 1;
                 }
             }
             else
             {
-                if (this.SelectedIndex < this.Items.Count - 1)
+                if (SelectedIndex < Items.Count - 1)
                 {
-                    this.SelectedIndex += 1;
+                    SelectedIndex += 1;
                 }
             }
 
-            if (this.elasticFactor < 1)
+            if (_elasticFactor < 1)
             {
-                this.RunSlideAnimation(0, ((MatrixTransform)this.PART_Root.RenderTransform).Matrix.OffsetX);
+                RunSlideAnimation(0, ((MatrixTransform)_root.RenderTransform).Matrix.OffsetX);
             }
-            this.elasticFactor = 1.0;
+            _elasticFactor = 1.0;
         }
 
         private void OnRootManipulationDelta(object sender, ManipulationDeltaEventArgs e)
         {
-            if (!(this.PART_Root.RenderTransform is MatrixTransform))
+            if (!(_root.RenderTransform is MatrixTransform))
             {
-                this.PART_Root.RenderTransform = new MatrixTransform();
+                _root.RenderTransform = new MatrixTransform();
             }
 
-            Matrix matrix = ((MatrixTransform)this.PART_Root.RenderTransform).Matrix;
+            Matrix matrix = ((MatrixTransform)_root.RenderTransform).Matrix;
             var delta = e.DeltaManipulation;
 
-            if ((this.SelectedIndex == 0 && delta.Translation.X > 0 && this.elasticFactor > 0)
-                || (this.SelectedIndex == this.Items.Count - 1 && delta.Translation.X < 0 && this.elasticFactor > 0))
+            if ((SelectedIndex == 0 && delta.Translation.X > 0 && _elasticFactor > 0)
+                || (SelectedIndex == Items.Count - 1 && delta.Translation.X < 0 && _elasticFactor > 0))
             {
-                this.elasticFactor -= 0.05;
+                _elasticFactor -= 0.05;
             }
 
-            matrix.Translate(delta.Translation.X * elasticFactor, 0);
-            this.PART_Root.RenderTransform = new MatrixTransform(matrix);
+            matrix.Translate(delta.Translation.X * _elasticFactor, 0);
+            _root.RenderTransform = new MatrixTransform(matrix);
 
             e.Handled = true;
         }
 
         private void OnRootManipulationStarting(object sender, ManipulationStartingEventArgs e)
         {
-            e.ManipulationContainer = this.PART_Container;
+            e.ManipulationContainer = _container;
             e.Handled = true;
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            this.RefreshViewPort(this.SelectedIndex);
+            RefreshViewPort(SelectedIndex);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (this.SelectedIndex >= 0)
+            if (SelectedIndex >= 0)
             {
-                this.RefreshViewPort(this.SelectedIndex);
+                RefreshViewPort(SelectedIndex);
             }
         }
         private static void OnSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as View;
 
-            control.OnSelectedIndexChanged(e);
+            control?.OnSelectedIndexChanged(e);
         }
 
         private void OnSelectedIndexChanged(DependencyPropertyChangedEventArgs e)
         {
-            if (!this.EnsureTemplateParts())
+            if (!EnsureTemplateParts())
             {
                 return;
             }
 
-            if ((int)e.NewValue >= 0 && (int)e.NewValue < this.Items.Count)
+            if ((int)e.NewValue >= 0 && (int)e.NewValue < Items.Count)
             {
-                double toValue = (int)e.OldValue < (int)e.NewValue ? -this.ActualWidth : this.ActualWidth;
+                double toValue = (int)e.OldValue < (int)e.NewValue ? -ActualWidth : ActualWidth;
                 //Debug.WriteLine(toValue + " - vs - " + fromValue);
-                this.RunSlideAnimation(toValue, fromValue);
+                RunSlideAnimation(toValue, _fromValue);
             }
         }
 
         private void RefreshViewPort(int selectedIndex)
         {
-            if (!this.EnsureTemplateParts())
+            if (!EnsureTemplateParts())
             {
                 return;
             }
 
-            Canvas.SetLeft(this.PART_PreviousItem, -this.ActualWidth);
-            Canvas.SetLeft(this.PART_NextItem, this.ActualWidth);
-            this.PART_Root.RenderTransform = new TranslateTransform();
+            Canvas.SetLeft(_previousItem, -ActualWidth);
+            Canvas.SetLeft(_nextItem, ActualWidth);
+            _root.RenderTransform = new TranslateTransform();
 
-            var currentItem = this.GetItemAt(selectedIndex);
+            var currentItem = GetItemAt(selectedIndex);
             object nextItem;
             object previousItem;
             if (selectedIndex == 0)
             {
-                nextItem = this.GetItemAt(selectedIndex + 1);
-                previousItem = this.GetItemAt(Items.Count - 1);
+                nextItem = GetItemAt(selectedIndex + 1);
+                previousItem = GetItemAt(Items.Count - 1);
             }
             else if (selectedIndex == Items.Count - 1)
             {
-                nextItem = this.GetItemAt(0);
-                previousItem = this.GetItemAt(selectedIndex - 1);
+                nextItem = GetItemAt(0);
+                previousItem = GetItemAt(selectedIndex - 1);
             }
             else
             {
@@ -151,63 +151,63 @@ namespace Swipe
                 previousItem = GetItemAt(selectedIndex - 1);
             }
 
-            this.PART_CurrentItem.Content = currentItem;
-            this.PART_NextItem.Content = nextItem;
-            this.PART_PreviousItem.Content = previousItem;
+            _currentItem.Content = currentItem;
+            _nextItem.Content = nextItem;
+            _previousItem.Content = previousItem;
         }
 
         public void RunSlideAnimation(double toValue, double fromValue = 0)
         {
-            if (!(this.PART_Root.RenderTransform is TranslateTransform))
+            if (!(_root.RenderTransform is TranslateTransform))
             {
-                this.PART_Root.RenderTransform = new TranslateTransform();
+                _root.RenderTransform = new TranslateTransform();
             }
 
-            var story = AnimationFactory.Instance.GetAnimation(this.PART_Root, toValue, fromValue);
+            var story = AnimationFactory.Instance.GetAnimation(_root, toValue, fromValue);
             story.Completed += (s, e) =>
             {
                 //Debug.WriteLine(toValue + " -|- " + fromValue);
-                this.RefreshViewPort(this.SelectedIndex);
+                RefreshViewPort(SelectedIndex);
             };
             story.Begin();
         }
 
         private object GetItemAt(int index)
         {
-            if (index < 0 || index >= this.Items.Count)
+            if (index < 0 || index >= Items.Count)
             {
                 return null;
             }
 
-            return this.Items[index];
+            return Items[index];
         }
 
         private bool EnsureTemplateParts()
         {
-            return this.PART_CurrentItem != null &&
-                this.PART_NextItem != null &&
-                this.PART_PreviousItem != null &&
-                this.PART_Root != null;
+            return _currentItem != null &&
+                _nextItem != null &&
+                _previousItem != null &&
+                _root != null;
         }
 
         private void OnPreviousCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = this.SelectedIndex > 0;
+            e.CanExecute = SelectedIndex > 0;
         }
 
         private void OnPreviousExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            this.SelectedIndex -= 1;
+            SelectedIndex -= 1;
         }
 
         private void OnNextCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = this.SelectedIndex < (this.Items.Count - 1);
+            e.CanExecute = SelectedIndex < (Items.Count - 1);
         }
 
         private void OnNextExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            this.SelectedIndex += 1;
+            SelectedIndex += 1;
         }
         #endregion
 
@@ -223,17 +223,20 @@ namespace Swipe
         {
             base.OnApplyTemplate();
 
-            this.PART_PreviousItem = this.GetTemplateChild("PART_PreviousItem") as ContentControl;
-            this.PART_NextItem = this.GetTemplateChild("PART_NextItem") as ContentControl;
-            this.PART_CurrentItem = this.GetTemplateChild("PART_CurrentItem") as ContentControl;
-            this.PART_Root = this.GetTemplateChild("PART_Root") as FrameworkElement;
-            this.PART_Container = this.GetTemplateChild("PART_Container") as FrameworkElement;
+            _previousItem = GetTemplateChild("_previousItem") as ContentControl;
+            _nextItem = GetTemplateChild("_nextItem") as ContentControl;
+            _currentItem = GetTemplateChild("CurrentItem") as ContentControl;
+            _root = GetTemplateChild("_root") as FrameworkElement;
+            _container = GetTemplateChild("_container") as FrameworkElement;
 
-            this.Loaded += this.OnLoaded;
-            this.SizeChanged += this.OnSizeChanged;
-            this.PART_Root.ManipulationStarting += this.OnRootManipulationStarting;
-            this.PART_Root.ManipulationDelta += this.OnRootManipulationDelta;
-            this.PART_Root.ManipulationCompleted += this.OnRootManipulationCompleted;
+            Loaded += OnLoaded;
+            SizeChanged += OnSizeChanged;
+            if (_root != null)
+            {
+                _root.ManipulationStarting += OnRootManipulationStarting;
+                _root.ManipulationDelta += OnRootManipulationDelta;
+                _root.ManipulationCompleted += OnRootManipulationCompleted;
+            }
         }
         #endregion
     }

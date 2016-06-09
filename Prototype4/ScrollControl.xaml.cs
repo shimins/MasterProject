@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 
 namespace Prototype4
@@ -14,7 +12,6 @@ namespace Prototype4
         private double _currentPosition;
         private int _currentScrollFactor = 1;
 
-
         public ScrollControl()
         {
             InitializeComponent();
@@ -22,7 +19,7 @@ namespace Prototype4
             Border.Visibility = Visibility.Hidden;;
         }
 
-        public void zoneChanged(int i)
+        public void ZoneChanged(int i)
         {
             textBlock.Text = File.ReadAllText("res/text" + i +".txt");
         }
@@ -30,24 +27,27 @@ namespace Prototype4
         public void MapInteraction(Point current)
         {
             var scrollFactor = (current.Y - 326) > Height / 2 ? 1 : -1;
-            CalculateScrollSpeed(scrollFactor, current);
+            //var scrollFactor = t.Y > Height / 2 ? 1 : -1;
+            SetScrollSpeed(scrollFactor, current);
             _currentPosition += _scrollSpeed * _currentScrollFactor;
             if (_currentPosition >= 0)
             {
                 textBlock.ScrollToVerticalOffset(_currentPosition);
             }
-            else _currentPosition = 0;
+            else
+                _currentPosition = 0;
         }
 
-        private void CalculateScrollSpeed(int newScrollFactor, Point current)
+        private void SetScrollSpeed(int newScrollFactor, Point current)
         {
             var y = current.Y - 326;
+            //var y = current.Y;
             if (y >= Height * 0.4 && y <= Height * 0.6)
             {
                 _scrollSpeed = 0;
                 return;
             }
-            if (newScrollFactor * _currentScrollFactor > 0 && _scrollSpeed <= 3 && _scrollSpeed >= 1)
+            if (newScrollFactor * _currentScrollFactor > 0 && _scrollSpeed <= 3)
             {
                 _scrollSpeed += 0.005;
             }
@@ -55,26 +55,17 @@ namespace Prototype4
             {
                 _currentScrollFactor = newScrollFactor;
                 if (y > Height * 0.3 && y < Height * 0.7)
-                {
                     _scrollSpeed = 1;
-                }
                 else if (y < Height * 0.2 && y > Height * 0.8)
-                {
                     _scrollSpeed = 2;
-                }
+                else
+                    _scrollSpeed = 3;
             }
         }
 
-        public void setInFocus(bool focus)
+        public void SetInFocus(bool focus = true)
         {
-            if (focus)
-            {
-                Border.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                Border.Visibility = Visibility.Hidden;
-            }
+            Border.Visibility = focus ? Visibility.Visible : Visibility.Hidden;
         }
     }
 }
